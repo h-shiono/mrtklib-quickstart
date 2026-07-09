@@ -1,0 +1,19 @@
+---
+title: "概念"
+lang: ja
+---
+
+<!-- The roles of MADOCA-PPP / raw / CON (OS-independent, the thick chapter). -->
+
+## MADOCA-PPP とは
+
+TODO: MADOCA-PPP とは何か、なぜ重要か。
+
+## 2 つのデータ系統：raw と CON
+
+TODO: 生観測 (raw) 系統と補正 (CON) 系統の違い、
+コンテナが両方の COM ポートを必要とする理由。
+
+## 収束の仕組み
+
+TODO:「収束カーブ」章につながる概念説明。

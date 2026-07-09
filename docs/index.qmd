@@ -1,0 +1,19 @@
+---
+title: "mrtklib-quickstart"
+---
+
+MADOCA-PPP を体験するための起動キットのドキュメントです。
+Documentation for the quickstart kit to experience MADOCA-PPP.
+
+## 言語を選択 / Choose a language
+
+- 🇯🇵 [日本語](ja/00-overview.qmd)
+- 🇬🇧 [English](en/00-overview.qmd)
+
+## 受講者の方へ / For participants
+
+まず動かしたい方は、お使いの OS のスクリプトを実行してください。
+詳細は上の言語別ドキュメントの「Run」章を参照してください。
+
+- Windows: `scripts/windows/start.bat`
+- macOS: `scripts/macos/start.command`

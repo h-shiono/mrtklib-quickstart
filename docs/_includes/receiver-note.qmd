@@ -1,0 +1,16 @@
+::: {.callout-note}
+## 受信機について / About the receiver
+
+本手順は **Septentrio mosaic-G5** を対象としています。
+This procedure targets the **Septentrio mosaic-G5** receiver.
+
+<!--
+  Central place for notes shared across languages and OSes.
+  Include it from each qmd like this:
+
+    {{< include ../_includes/receiver-note.qmd >}}
+
+  TODO: add supported models, firmware requirements, and the two COM
+        streams (raw / CON).
+-->
+:::

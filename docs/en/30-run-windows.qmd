@@ -1,0 +1,18 @@
+---
+title: "Run (Windows)"
+lang: en
+---
+
+<!-- Windows: how to run start.bat, getting past SmartScreen. -->
+
+## Run `start.bat`
+
+TODO: Double-click `scripts/windows/start.bat`, approve the UAC prompt.
+
+## Getting past SmartScreen
+
+TODO: Screenshot + "More info → Run anyway" steps.
+
+## What happens
+
+TODO: Describe the steps the script performs and expected output.

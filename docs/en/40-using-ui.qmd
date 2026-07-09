@@ -1,0 +1,15 @@
+---
+title: "Using the UI"
+lang: en
+---
+
+<!-- Reading the convergence curve (OS-independent, the educational core). -->
+
+## Reading the convergence curve
+
+TODO: How to interpret the convergence curve — axes, what "converged" means,
+typical timescale.
+
+## What to look for
+
+TODO: Good vs. bad convergence, common patterns.

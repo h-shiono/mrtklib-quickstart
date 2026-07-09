@@ -1,0 +1,22 @@
+---
+title: "Overview"
+lang: en
+---
+
+<!-- What we do and the big picture (OS-independent). -->
+
+## What is this?
+
+TODO: One-paragraph summary of what the participant will accomplish
+(experience MADOCA-PPP convergence via mrtklib-docker-ui).
+
+## The big picture
+
+TODO: Diagram of the flow — receiver (mosaic-G5) → USB → container → UI.
+
+{{< include ../_includes/receiver-note.qmd >}}
+
+## Where to go next
+
+- Concepts → [Concepts](10-concepts.qmd)
+- Just run it → [Install](20-install.qmd), then your OS's Run chapter.

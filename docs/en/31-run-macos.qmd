@@ -1,0 +1,18 @@
+---
+title: "Run (macOS)"
+lang: en
+---
+
+<!-- macOS: how to run start.command. -->
+
+## Run `start.command`
+
+TODO: Double-click `scripts/macos/start.command`.
+
+## Execute permission & Gatekeeper
+
+TODO: `chmod +x`, right-click → Open, or removing the quarantine attribute.
+
+## What happens
+
+TODO: Describe the steps the script performs and expected output.

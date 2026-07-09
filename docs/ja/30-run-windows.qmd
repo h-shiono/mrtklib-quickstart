@@ -1,0 +1,18 @@
+---
+title: "起動（Windows）"
+lang: ja
+---
+
+<!-- Windows: how to run start.bat, getting past SmartScreen. -->
+
+## `start.bat` を実行
+
+TODO: `scripts/windows/start.bat` をダブルクリックし、UAC を承認する。
+
+## SmartScreen の突破
+
+TODO: スクリーンショット付きで「詳細情報 → 実行」の手順。
+
+## 何が起きるか
+
+TODO: スクリプトが行う処理と期待される出力の説明。

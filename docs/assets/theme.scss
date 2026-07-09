@@ -1,0 +1,12 @@
+/*-- scss:defaults --*/
+// Shared look for PDF and HTML.
+// TODO: finalize brand colors, fonts, etc.
+
+$primary: #2c6fbb;
+$body-font-family: "Helvetica Neue", "Hiragino Sans", "Noto Sans JP", sans-serif;
+
+/*-- scss:rules --*/
+// Add shared styles for figures (e.g. the convergence curve) here.
+figure.figure {
+  margin-block: 1.5rem;
+}

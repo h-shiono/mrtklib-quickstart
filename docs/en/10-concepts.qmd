@@ -1,0 +1,19 @@
+---
+title: "Concepts"
+lang: en
+---
+
+<!-- The roles of MADOCA-PPP / raw / CON (OS-independent, the thick chapter). -->
+
+## MADOCA-PPP
+
+TODO: What MADOCA-PPP is and why it matters.
+
+## The two data streams: raw and CON
+
+TODO: Explain the raw observation stream vs. the correction (CON) stream,
+and why the container needs both COM ports.
+
+## How convergence works
+
+TODO: Conceptual explanation that sets up the "convergence curve" chapter.

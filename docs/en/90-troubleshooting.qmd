@@ -1,0 +1,18 @@
+---
+title: "Troubleshooting"
+lang: en
+---
+
+<!-- USB not visible, etc. — organized by symptom, with OS-specific subsections. -->
+
+## USB device not detected
+
+TODO: symptom-based steps (Windows / macOS subsections).
+
+## Container fails to start
+
+TODO.
+
+## UI does not open in the browser
+
+TODO.

@@ -1,0 +1,25 @@
+# Quarto
+/docs/.quarto/
+/docs/_site/
+/docs/_book/
+/docs/**/*.html
+!/docs/**/index.html
+*_files/
+
+# Rendered outputs
+*.pdf
+!docs/assets/**/*.pdf
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Logs / temp
+*.log
+tmp/

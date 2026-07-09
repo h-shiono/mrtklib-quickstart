@@ -1,0 +1,14 @@
+---
+title: "UI の使い方"
+lang: ja
+---
+
+<!-- Reading the convergence curve (OS-independent, the educational core). -->
+
+## 収束カーブの見方
+
+TODO: 収束カーブの読み方 — 軸の意味、「収束した」とは何か、目安の時間。
+
+## 注目すべき点
+
+TODO: 良い収束 / 悪い収束、よくあるパターン。

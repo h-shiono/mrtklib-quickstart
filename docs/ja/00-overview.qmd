@@ -1,0 +1,22 @@
+---
+title: "概要"
+lang: ja
+---
+
+<!-- What we do and the big picture (OS-independent). -->
+
+## これは何？
+
+TODO: 受講者が達成することの一段落サマリ
+（mrtklib-docker-ui を通じて MADOCA-PPP の収束を体験する）。
+
+## 全体像
+
+TODO: フロー図 — 受信機 (mosaic-G5) → USB → コンテナ → UI。
+
+{{< include ../_includes/receiver-note.qmd >}}
+
+## 次に読むもの
+
+- 仕組みを知る → [概念](10-concepts.qmd)
+- とにかく動かす → [インストール](20-install.qmd) → OS 別の「起動」章へ。

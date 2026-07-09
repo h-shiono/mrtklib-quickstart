@@ -1,0 +1,39 @@
+name: release-pdf
+
+# On tag push, render PDFs (ja / en) with Quarto and attach them to the Release.
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write   # required to upload to the Release
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      # Japanese PDF needs LaTeX (lualatex).
+      - name: Install TinyTeX
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          tinytex: true
+
+      # TODO: emit ja / en as separate PDFs. Needs profiles or per-language render.
+      - name: Render PDF
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          path: docs
+          to: pdf
+
+      - name: Attach PDFs to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            docs/_site/**/*.pdf

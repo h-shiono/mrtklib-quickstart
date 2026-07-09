@@ -1,0 +1,18 @@
+---
+title: "トラブルシューティング"
+lang: ja
+---
+
+<!-- USB not visible, etc. - organized by symptom, with OS-specific subsections. -->
+
+## USB デバイスが認識されない
+
+TODO: 症状別の手順（Windows / macOS の小節）。
+
+## コンテナが起動しない
+
+TODO。
+
+## ブラウザで UI が開かない
+
+TODO。

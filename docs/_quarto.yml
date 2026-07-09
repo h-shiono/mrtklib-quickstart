@@ -1,0 +1,60 @@
+project:
+  type: website
+  output-dir: _site
+
+# ---------------------------------------------------------------------------
+#  mrtklib-quickstart documentation
+#  Generate HTML (website) and PDF from a single Quarto source.
+#  Bilingual (en/ ja/). Body text is primarily OS-independent; OS-specific
+#  content is contained within each section.
+# ---------------------------------------------------------------------------
+
+website:
+  title: "mrtklib-quickstart"
+  favicon: assets/img/favicon.png
+  navbar:
+    left:
+      - text: "Overview"
+        file: en/00-overview.qmd
+      - text: "概要 (JA)"
+        file: ja/00-overview.qmd
+    right:
+      - icon: github
+        href: https://github.com/h-shiono/mrtklib-docker-ui
+  sidebar:
+    - id: en
+      title: "English"
+      contents:
+        - en/00-overview.qmd
+        - en/10-concepts.qmd
+        - en/20-install.qmd
+        - en/30-run-windows.qmd
+        - en/31-run-macos.qmd
+        - en/40-using-ui.qmd
+        - en/90-troubleshooting.qmd
+    - id: ja
+      title: "日本語"
+      contents:
+        - ja/00-overview.qmd
+        - ja/10-concepts.qmd
+        - ja/20-install.qmd
+        - ja/30-run-windows.qmd
+        - ja/31-run-macos.qmd
+        - ja/40-using-ui.qmd
+        - ja/90-troubleshooting.qmd
+
+format:
+  html:
+    theme:
+      - cosmo
+      - assets/theme.scss
+    toc: true
+    number-sections: true
+  pdf:
+    documentclass: scrreprt
+    toc: true
+    number-sections: true
+    # Engine for Japanese PDF. The CI must provide a TeX environment.
+    pdf-engine: lualatex
+
+lang: en

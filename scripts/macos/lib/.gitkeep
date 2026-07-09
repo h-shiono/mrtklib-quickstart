@@ -1,0 +1,9 @@
+# Directory for the macOS core logic.
+#
+# The USB path differs from Windows, so the contents are a separate impl.
+# Expected files (add as .sh when implementing):
+#   - common.sh            : shared utilities, idempotent checks, error -> next step
+#   - configure-receiver.sh: send config commands to the receiver over serial
+#   - run-container.sh      : docker run (passing devices) -> open the browser
+#
+# Once real files are added, this .gitkeep may be removed.
