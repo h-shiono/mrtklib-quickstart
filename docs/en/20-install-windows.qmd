@@ -1,0 +1,18 @@
+---
+title: "Install (Windows)"
+lang: en
+---
+
+<!-- Installing Docker Desktop and prerequisites on Windows. -->
+
+## Docker Desktop
+
+TODO: Docker Desktop for Windows install steps.
+
+## WSL2
+
+TODO: enable WSL2 and set it as the Docker Desktop backend.
+
+## usbipd-win
+
+TODO: install usbipd-win (needed to attach the receiver's USB to WSL).

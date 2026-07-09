@@ -19,4 +19,6 @@ TODO: フロー図 — 受信機 (mosaic-G5) → USB → コンテナ → UI。
 ## 次に読むもの
 
 - 仕組みを知る → [概念](10-concepts.qmd)
-- とにかく動かす → [インストール](20-install.qmd) → OS 別の「起動」章へ。
+- とにかく動かす → OS 別のインストール
+  （[Windows](20-install-windows.qmd) / [macOS](20-install-macos.qmd) / [Linux](20-install-linux.qmd)）
+  → OS 別の「起動」章へ。

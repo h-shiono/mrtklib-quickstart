@@ -1,0 +1,15 @@
+---
+title: "インストール（macOS）"
+lang: ja
+---
+
+<!-- Installing Docker Desktop and prerequisites on macOS. -->
+
+## Docker Desktop
+
+TODO: Docker Desktop for Mac の導入手順（Apple Silicon / Intel の注意）。
+
+## デバイスの受け渡し
+
+TODO: macOS で USB / シリアルデバイスがコンテナに届く仕組みの注意点
+（Windows と異なり usbipd はない）。

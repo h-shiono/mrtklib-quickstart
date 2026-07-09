@@ -27,7 +27,9 @@ website:
       contents:
         - en/00-overview.qmd
         - en/10-concepts.qmd
-        - en/20-install.qmd
+        - en/20-install-windows.qmd
+        - en/20-install-macos.qmd
+        - en/20-install-linux.qmd
         - en/30-run-windows.qmd
         - en/31-run-macos.qmd
         - en/40-using-ui.qmd
@@ -37,7 +39,9 @@ website:
       contents:
         - ja/00-overview.qmd
         - ja/10-concepts.qmd
-        - ja/20-install.qmd
+        - ja/20-install-windows.qmd
+        - ja/20-install-macos.qmd
+        - ja/20-install-linux.qmd
         - ja/30-run-windows.qmd
         - ja/31-run-macos.qmd
         - ja/40-using-ui.qmd

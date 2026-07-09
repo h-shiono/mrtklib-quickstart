@@ -1,0 +1,15 @@
+---
+title: "Install (macOS)"
+lang: en
+---
+
+<!-- Installing Docker Desktop and prerequisites on macOS. -->
+
+## Docker Desktop
+
+TODO: Docker Desktop for Mac install steps (Apple Silicon / Intel notes).
+
+## Device passthrough
+
+TODO: notes on how USB / serial devices reach the container on macOS
+(differs from Windows; no usbipd).
