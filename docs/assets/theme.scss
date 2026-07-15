@@ -10,3 +10,14 @@ $body-font-family: "Helvetica Neue", "Hiragino Sans", "Noto Sans JP", sans-serif
 figure.figure {
   margin-block: 1.5rem;
 }
+
+// Constrain in-body screenshots to a consistent width and center them.
+// HTML output only (PDF width must be set via per-image {width=...}).
+// Scoped to the main content column so the navbar logo / sidebar are unaffected.
+// To opt an image out, give it a class and override, e.g. ![](x.png){.full-width}.
+main img:not(.full-width) {
+  max-width: 70%;
+  height: auto;
+  display: block;
+  margin-inline: auto;
+}

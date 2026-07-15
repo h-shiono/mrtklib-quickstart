@@ -7,12 +7,80 @@ lang: ja
 
 ## Docker Desktop
 
-TODO: Docker Desktop for Windows の導入手順。
+### Docker Desktop のダウンロード
+
+[https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/) より、`Docker Desktop for Windows - AMD64` をダウンロードします。
+
+![](../assets/img/01-docker-desktop-download.png)
+
+### Docker Desktop のインストール
+
+ダウンロードした `Docker Desktop Installer` を実行します。
+
+![](../assets/img/02-win-install-docker-desktop.png)
+
+必要に応じて、 `All-users installation` か `Per-user installation` を選択します。
+Desktop にショートカットを作成する場合は `Add shortcut to desktop` にチェックを入れます。
+
+`All-users installation` を選択した場合、管理者権限を要求されます。
+画面に「このアプリがデバイスに変更を加えることを許可しますか？」と表示されるので、「はい」を選択します。
+
+インストールが完了すると、以下の画面が表示されるので、`Close and restart` をクリックして PC を再起動します。
+
+![](../assets/img/03-win-install-docker-desktop-complete.png)
+
+### Docker Desktop の初回起動
+
+再起動後、Docker Desktop を起動します。
+初回起動時にサービス利用規約の同意を求められるので、内容を確認して「Accept」をクリックします。
+
+![](../assets/img/04-win-docker-subscription-service-agreement.png)
+
+Docker Desktop が起動すると、`Welcome to Docker` 画面が表示されます。
+今回は `Skip` をクリックし、スキップします。
+
+![](../assets/img/05-win-welcome-to-docker.png)
+
+以上にて、Docker Desktop のインストールは完了です。
 
 ## WSL2
 
-TODO: WSL2 を有効化し、Docker Desktop のバックエンドに設定する。
+次に、Windows Subsystem for Linux 2 (WSL2) を有効化します。
 
-## usbipd-win
+### PowerShell を管理者権限で起動
 
-TODO: usbipd-win の導入（受信機の USB を WSL へ attach するのに必要）。
+Windows のスタートメニューから `PowerShell` を検索し、右クリックして「管理者として実行」をクリックします。
+
+![](../assets/img/06-win-power-shell-run-as-admin.png)
+
+画面に「このアプリがデバイスに変更を加えることを許可しますか？」と表示されるので、「はい」を選択します。
+
+### WSL2 のインストール
+
+以下のコマンドを入力して、コンピューターを再起動します。
+
+```ps
+wsl --install --no-distribution
+```
+
+このコマンドにより、WSL 機能が有効になります。
+
+::: {.callout-note}
+Docker Desktop のバックエンドとして WSL2 を使用する場合、ディストリビューションのインストールは不要です。
+:::
+
+以上にて、WSL2 の有効化は完了です。
+
+## usbipd-win のインストール
+
+Windows パッケージ マネージャー (winget) を使用して usbipd-win をインストールします。
+
+```ps
+winget install --interactive --exact dorssel.usbipd-win
+```
+
+::: {.callout-note}
+`--interactive` を省略すると、コンピューターが直ちに再起動する可能性があります。
+:::
+
+以上にて、usbipd-win の導入は完了です。
