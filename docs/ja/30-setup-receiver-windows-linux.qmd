@@ -7,7 +7,7 @@ lang: ja
 
 ## 受信機の接続
 
-::: {.callout-note}
+::: {.callout-caution}
 先に「RxTools」のインストールを完了させてから本章をお読みください。
 :::
 
@@ -66,8 +66,12 @@ MADOCA-PPP の利用には、`QZSRawL6E` が必要になります。
 
 `Communication` > `Output Settings` > `SBF Output...` を開きます。
 
-- `Stream 1` の `Ports` を `COM1` に設定し、`SBF Messages` の `Support` にチェックを入れます。
+- `Stream 1` の `Ports` を `USB1` に設定し、`SBF Messages` の `Support` にチェックを入れます。
 - `Interval` を `1 sec` に設定します。
+
+::: {.callout-important}
+出力先は必ず `USB1` を選択してください。`COM1` は物理シリアルポートのため、USB 経由でコンテナに SBF が届きません。
+:::
 
 ![](../assets/img/14-win-rxcontrol-sbf-output.png)
 
