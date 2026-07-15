@@ -5,14 +5,94 @@ lang: ja
 
 <!-- Windows: how to run start.bat, getting past SmartScreen. -->
 
-## `start.bat` を実行
+## mrtklib-quickstart のダウンロード
 
-TODO: `scripts/windows/start.bat` をダブルクリックし、UAC を承認する。
+[https://github.com/h-shiono/mrtklib-quickstart](https://github.com/h-shiono/mrtklib-quickstart) にアクセスし、`<> Code` > `Download ZIP` で `mrtklib-quickstart` をダウンロードしてください。
+ダウンロード後、`mrtklib-quickstart-main.zip` を任意のフォルダに解凍・展開してください。
 
-## SmartScreen の突破
+::: {.callout-note}
+git が使える方は、`git clone` でリポジトリをクローンする方法でも問題ありません。
+```bash
+git clone git@github.com:h-shiono/mrtklib-quickstart.git
+```
+:::
 
-TODO: スクリーンショット付きで「詳細情報 → 実行」の手順。
+## バッチファイルの実行
 
-## 何が起きるか
+`scripts/windows/start.bat` をダブルクリックして実行します。
+実行すると以下のようなセキュリティの警告が表示されますので、「実行」をクリックして実行します。
 
-TODO: スクリプトが行う処理と期待される出力の説明。
+![](../assets/img/16-win-exec-batch-warning.png)
+
+::: {.callout-note}
+バッチファイルは次の処理を行います。
+
+1. **前提条件の確認**: MRTKLIB とその Web UI を動かすための前提条件が揃っているかを確認します。
+2. **受信機の設定**: mosaic-G5 に QZS L6 信号受信および、Raw データ出力の設定を行います。
+3. **USB のアタッチ**: Docker コンテナで USB 機器を使用するには、usbipd を使って Windows から WSL2 へUSBをアタッチし、さらにそれをDockerコンテナへデバイスマウント（パススルー）する必要があります。
+4. **Docker コンテナの起動**: `mrtklib-docker-ui` を Docker Hub から取得、起動します。
+5. **Web ブラウザの起動**: Web ブラウザを起動し、MRTKLIB Console を表示します。
+:::
+
+実行後、再度同じセキュリティの警告が表示されますので、再び「実行」クリックします。
+
+続いて画面に「このアプリがデバイスに変更を加えることを許可しますか？」と表示されるので、「はい」を選択します。
+
+### 受信機の設定
+
+`[OK]` が表示されていることを確認します。
+
+```ps
+==> Configuring the receiver over COM                                                                                   [OK] Using receiver COM port COM9                                                                                       [OK]   setSignalTracking,+QZSL6                                                                                         [OK]   setSatelliteTracking,all                                                                                         [OK]   setDataInOut,USB1, ,+SBF
+[OK]   setSBFOutput,Stream1,USB1,Support,sec1
+[OK]   exeCopyConfigFile,Current,Boot
+[OK] Receiver configured and saved to boot configuration
+```
+
+### USB のアタッチ
+
+`[OK]` が表示されていることを確認します。
+
+```ps
+==> Attaching the USB device (mosaic-G5) to WSL
+[OK] Found mosaic-G5 at BusId 1-4
+==> Binding BusId 1-4 (usbipd bind)
+usbipd: info: Device with busid '1-4' was already shared.
+==> Attaching BusId 1-4 to WSL (usbipd attach --wsl)
+usbipd: info: Using WSL distribution 'Ubuntu' to attach; the device will be available in all WSL 2 distributions.
+usbipd: info: Detected networking mode 'nat'.
+usbipd: info: Using IP address 172.24.80.1 to reach the host.
+[OK] mosaic-G5 attached to WSL (BusId 1-4); both COM ports are now available in WSL
+```
+
+### Docker コンテナの起動
+
+`[OK]` が表示されていることを確認します。
+
+```ps
+==> Starting the mrtklib-docker-ui container
+==> Detecting the SBF serial port in WSL
+  /dev/ttyACM0: 4096 bytes, SBF sync '$@' x24
+  /dev/ttyACM1: 0 bytes, SBF sync '$@' x0
+[OK] SBF stream detected on /dev/ttyACM0
+[OK] Passing device(s): /dev/ttyACM0, /dev/ttyACM1
+```
+
+### Web ブラウザの起動
+
+`[OK]` が表示されていることを確認します。
+
+```ps
+==> docker run (hatognss/mrtklib-docker-ui:0.3.0-alpha)
+==> Waiting for the web UI at http://localhost:8080
+[OK] Web UI is up; opening http://localhost:8080
+```
+
+![](../assets/img/17-win-exec-batch-result.png)
+**start.bat 実行画面**
+
+`[OK] Web UI is up; opening http://localhost:8080` が表示された後、Web ブラウザが起動して MRTKLIB Console の画面が表示されます。
+
+![](../assets/img/18-win-mrtklib-console.png)
+
+以上にて、MRTKLIB と Web UI の起動が完了しました。

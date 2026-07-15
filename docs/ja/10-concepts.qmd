@@ -7,7 +7,29 @@ lang: ja
 
 ## MADOCA-PPP とは
 
-MADOCA-PPP は、準天頂衛星システム（QZSS）の L6 信号から配信される補正情報の一つです。
+MADOCA-PPP (Multi-GNSS Advanced Orbit and Clock Augmentation - Precise Point Positioning) は、準天頂衛星システム（QZSS）の L6 信号から配信される補正情報の一つです。
+仰角10度以上の QZS が1機以上、仰角10度以上の補強対象衛星が20機以上見える範囲で利用可能です。
+
+![](../assets/img/madoca-ppp-service-area.jpg)
+**MADOCA-PPP サービス範囲[^1]**
+
+[^1]: 高精度測位補強サービス（MADOCA-PPP）, QSS, https://qzss.go.jp/technical/system/madoca.html, 2026-07-15 アクセス 
+
+MADOCA-PPP の補正情報を用いることで、精密単独測位（Precise Point Positioning）を行うことができ、センチメーター級の測位精度が得られます。
+サービスは L6E 信号から配信され、衛星の軌道・クロック・バイアス補正が含まれています。
+補強対象となる GNSS は、GPS, GLONASS, Galileo, BeiDou, QZSS です。
+用いるアルゴリズムにもよりますが、数十センチ～センチメータ級の精度が得られるまで30分程度要します。
+
+2025年より、準天頂衛星の7機体制の整備がはじまりました。
+これに伴い、QZS6, QZS7 の L6D 信号から広域電離圏補正情報が配信されることになりました。
+従来の L6D 信号と併せて用いることで、収束時間を10分程度まで縮めることが可能になりました。
+
+![](../assets/img/madoca-ppp-service-area-iono.jpg)
+**MADOCA-PPP 広域電離層情報 サービス範囲[^2]**
+
+本ガイドを通して、この MADOCA-PPP 広域電離圏補正サービスを体験していただきます。
+
+[^2]: MADOCA-PPP広域電離層情報カバーエリアの更新, 高橋賢, https://s-taka.org/madoca-ionosphere-update/, 2026-07-15 アクセス
 
 ## 2 つのデータ系統：raw と CON
 

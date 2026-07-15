@@ -18,7 +18,7 @@ $ErrorActionPreference = 'Stop'
 . "$PSScriptRoot\common.ps1"
 
 # --- Configuration ----------------------------------------------------------
-$Image         = 'hatognss/mrtklib-docker-ui:0.1.0-alpha'   # alt: ghcr.io/h-shiono/mrtklib-docker-ui:0.1.0-alpha
+$Image         = 'hatognss/mrtklib-docker-ui:0.3.0-alpha'   # alt: ghcr.io/h-shiono/mrtklib-docker-ui:0.3.0-alpha
 $ContainerName = 'mrtklib-web-ui'
 $HostPort      = 8080
 $ContainerPort = 8000
@@ -53,7 +53,17 @@ if (-not (Test-Path -LiteralPath $detectWin)) {
 # scripts live on the WSL filesystem. Strip CRs so bash does not choke if the
 # file was checked out with CRLF.
 $detectText = (Get-Content -Raw -LiteralPath $detectWin) -replace "`r", ""
-$sbfDevice  = ($detectText | wsl bash -s -- 3 | Out-String).Trim()
+$detectText = $detectText.TrimStart([char]0xFEFF)   # drop any leading BOM
+# Pipe to WSL as UTF-8 *without* a BOM. If $OutputEncoding is UTF-8-with-BOM
+# (common on some consoles), the BOM prepended to stdin stops '#' from starting
+# a comment, so bash tries to execute the script's first line (the shebang).
+$prevEncoding   = $OutputEncoding
+$OutputEncoding = New-Object System.Text.UTF8Encoding $false
+try {
+    $sbfDevice = ($detectText | wsl bash -s -- 3 | Out-String).Trim()
+} finally {
+    $OutputEncoding = $prevEncoding
+}
 if ($LASTEXITCODE -ne 0 -or -not $sbfDevice) {
     Fail-With-Hint "No SBF stream detected on the receiver's ports" `
                    "Run usb-attach, and set the receiver's SBF output to USB1 (see receiver setup)"

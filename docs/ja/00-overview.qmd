@@ -29,9 +29,19 @@ lang: ja
 
 ## 全体像
 
+下図は本ガイドの全体像を示したものです。
+フルバンド GNSS アンテナと mosaic-G5 にて GPS, GLONASS, Galileo, BeiDou, QZSS の信号を受信し、その Raw データを Docker 上の MRTKLIB で PPP 測位し、Web UI を通して結果を表示します。
+
 ```{mermaid}
 flowchart LR
-  ant[GNSS Antenna] --> rcv[mosaic-G5 P3]
+
+  gps((GPS)) -.-> ant(GNSS Antenna)
+  glo((GLO)) -.-> ant
+  gal((GAL)) -.-> ant
+  bds((BDS)) -.-> ant
+  qzs((QZS)) -.-> ant
+
+  ant -- RF --> rcv(mosaic-G5 P3)
   rcv -- "USB Serial</br>(SBF)" --> container["MRTKLIB Engine"]
 
   subgraph Host
@@ -43,9 +53,9 @@ flowchart LR
   ui -.- user((User))
 ```
 
-## 次に読むもの
+## 次のステップ
 
 - 仕組みを知る → [コンセプト](10-concepts.qmd)
 - とにかく動かす → OS 別のインストール
-  （[Windows](20-install-windows.qmd) / [macOS](20-install-macos.qmd) / [Linux](20-install-linux.qmd)）
+  （[Windows](20-install-windows.qmd) / [macOS](21-install-macos.qmd) / [Linux](22-install-linux.qmd)）
   → OS 別の「起動」章へ。
