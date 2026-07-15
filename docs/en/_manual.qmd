@@ -36,21 +36,29 @@ lang: en
 
 {{< include 22-install-linux.qmd >}}
 
+# Receiver Setup (Windows, Linux)
+
+{{< include 30-setup-receiver-windows-linux.qmd >}}
+
+# Receiver Setup (macOS)
+
+{{< include 31-setup-receiver-macos.qmd >}}
+
 # Run (Windows)
 
-{{< include 30-run-windows.qmd >}}
+{{< include 40-run-windows.qmd >}}
 
 # Run (macOS)
 
-{{< include 31-run-macos.qmd >}}
+{{< include 41-run-macos.qmd >}}
 
 # Run (Linux)
 
-{{< include 32-run-linux.qmd >}}
+{{< include 42-run-linux.qmd >}}
 
 # Using the UI
 
-{{< include 40-using-ui.qmd >}}
+{{< include 50-using-ui.qmd >}}
 
 # Troubleshooting
 

@@ -1,0 +1,79 @@
+---
+title: "受信機の設定（Windows, Linux）"
+lang: ja
+---
+
+<!-- 一旦 Windows のみに絞って書く -->
+
+## 受信機の接続
+
+::: {.callout-note}
+先に「RxTools」のインストールを完了させてから本章をお読みください。
+:::
+
+USB ケーブルを使用して、受信機を Windows または Linux の PC に接続します。
+正常に接続されると、受信機の PWR LED が赤色に点灯します。
+
+## 受信機の設定
+
+### RxControl の起動
+
+`RxControl` を起動します。
+
+初回起動時は、`Connection Setup` ダイアログが表示されます。
+`Serial Connection` > `Create New...` を選択し、`Next >` をクリックします。
+
+![](../assets/img/09-win-rxcontrol-select-connection.png)
+
+`Serial Port` に接続した受信機の COM ポートが2つ表示されますので、`Port 2` を選択します。
+`Connection Name` に任意の名前を設定し、`Finish` をクリックします。
+
+![](../assets/img/10-win-rxcontrol-connection-setup.png)
+
+正常に接続されると、`RxControl` のメイン画面が表示されます。
+
+![](../assets/img/11-win-rxcontrol.png)
+
+### 受信衛星・信号の設定
+
+`Navigation` > `Advanced User Settings` > `Tracking...` を開きます。
+
+`Satellite Tracking` タブで、`All` を入れます。
+
+![](../assets/img/12-win-rxcontrol-satellite-tracking.png)
+
+::: {.callout-note}
+MADOCA-PPP では、`GPS`, `GLONASS`, `Galileo`, `BDS`, `QZSS` をサポートしています。
+:::
+
+次に、`Signal Tracking` タブで、`QZSL6` にチェックを入れます。
+
+![](../assets/img/13-win-rxcontrol-signal-tracking.png)
+
+::: {.callout-note}
+MADOCA-PPP の利用には、`QZSRawL6E` が必要になります。
+今回は技術実証中の広域電離圏補正を使った PPP-AR/Iono 測位を行うため、`QZSRawL6D` も併せて必要になります。
+:::
+
+最後に、`Apply` > `OK` をクリックして設定を反映します。
+
+### SBF 出力の設定
+
+`Communication` > `Output Settings` > `SBF Output...` を開きます。
+
+- `Stream 1` の `Ports` を `COM1` に設定し、`SBF Messages` の `Support` にチェックを入れます。
+- `Interval` を `1 sec` に設定します。
+
+![](../assets/img/14-win-rxcontrol-sbf-output.png)
+
+最後に、`Apply` > `OK` をクリックして設定を反映します。
+
+### 受信機設定の保存
+
+`File` > `Copy Configuration` を開きます。
+
+`Source` に `Current`、`Target` に `Boot` をそれぞれ設定し、`Apply` > `OK` をクリックして設定を反映します。
+
+![](../assets/img/15-win-rxcontrol-copy-configuration.png)
+
+以上にて、受信機の設定は完了です。

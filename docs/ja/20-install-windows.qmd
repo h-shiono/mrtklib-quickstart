@@ -84,3 +84,33 @@ winget install --interactive --exact dorssel.usbipd-win
 :::
 
 以上にて、usbipd-win の導入は完了です。
+
+## RxTools のインストール
+
+### RxTools のダウンロード
+
+[https://www.septentrio.com/en/products/gps-gnss-receiver-software/rxtools#resources](https://www.septentrio.com/en/products/gps-gnss-receiver-software/rxtools#resources) より、`RxTools v26.1.0 Installer (Windows 64-bit)` をダウンロードします。
+
+::: {.callout-note}
+ダウンロードの際に、以下の情報を入力する必要があります。
+
+メールアドレス、氏名、国、所属、産業
+:::
+
+### RxTools のインストール
+
+ダウンロードした `RxTools v26.1.0 Installer (Windows 64-bit)` を実行し、インストーラの指示に従ってインストールを進めます。
+
+「コンポーネントの選択」画面では、全てにチェックを入れたままにして、「次へ」をクリックします。
+
+![](../assets/img/07-win-rxtools-install-component.png)
+
+進んでいくと、「インストールの準備ができました」と表示されるので、「インストール」をクリックします。
+
+画面に「このアプリがデバイスに変更を加えることを許可しますか？」と表示されるので、「はい」を選択します。
+
+インストールが進むと以下のポップアップが表示されるので、「OK」をクリックします。
+
+![](../assets/img/08-win-rxtools-install-usb-driver.png)
+
+以上にて、RxTools のインストールは完了です。

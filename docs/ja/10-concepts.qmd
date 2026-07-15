@@ -7,7 +7,7 @@ lang: ja
 
 ## MADOCA-PPP とは
 
-TODO: MADOCA-PPP とは何か、なぜ重要か。
+MADOCA-PPP は、準天頂衛星システム（QZSS）の L6 信号から配信される補正情報の一つです。
 
 ## 2 つのデータ系統：raw と CON
 

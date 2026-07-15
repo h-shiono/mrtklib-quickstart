@@ -35,21 +35,29 @@ lang: ja
 
 {{< include 22-install-linux.qmd >}}
 
+# 受信機の設定（Windows, Linux）
+
+{{< include 30-setup-receiver-windows-linux.qmd >}}
+
+# 受信機の設定（macOS）
+
+{{< include 31-setup-receiver-macos.qmd >}}
+
 # 起動（Windows）
 
-{{< include 30-run-windows.qmd >}}
+{{< include 40-run-windows.qmd >}}
 
 # 起動（macOS）
 
-{{< include 31-run-macos.qmd >}}
+{{< include 41-run-macos.qmd >}}
 
 # 起動（Linux）
 
-{{< include 32-run-linux.qmd >}}
+{{< include 42-run-linux.qmd >}}
 
 # UI の使い方
 
-{{< include 40-using-ui.qmd >}}
+{{< include 50-using-ui.qmd >}}
 
 # トラブルシューティング
 
