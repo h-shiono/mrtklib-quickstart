@@ -25,7 +25,7 @@ lang: ja
 | 項目 | 設定値 |
 | --- | --- |
 | Type | Serial |
-| Path | ttyACM0 |
+| Path | ttyACM*（※検出されたパス） |
 | Format | Septentrio SBF |
 
 ![](../assets/img/mrtklib-rover-setup.png)
@@ -42,3 +42,18 @@ lang: ja
 ![](../assets/img/mrtklib-madoca-ppp.png)
 
 広域電離圏補正により、条件が良ければ数分で FIX 解が得られます。
+
+## 以上で MADOCA-PPP の体験は完了です 🎉 {.unnumbered}
+
+以上で本ガイドの説明は終了です。
+さらに学びたい方は、以下のリンクを参考にしてください。
+
+- [みちびき Web](https://qzss.go.jp/index.html)
+- [Septentrio mosaic-G5 P3](https://www.septentrio.com/ja/products/gnss-receivers/gnss-receiver-modules/mosaic-G5-P3)
+- [MRTKLIB](https://github.com/h-shiono/MRTKLIB)
+- [mrtklib-docker-ui](https://github.com/h-shiono/mrtklib-docker-ui)
+- [Zenn (hato.GNSS)](https://zenn.dev/hatognss)
+
+## うまくいかない場合 {.unnumbered}
+
+- [トラブルシューティング](90-troubleshooting.qmd)

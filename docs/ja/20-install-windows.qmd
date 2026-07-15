@@ -113,4 +113,17 @@ winget install --interactive --exact dorssel.usbipd-win
 
 ![](../assets/img/windows/rxtools-install-usb-driver.png)
 
+::: {.callout-note}
+RxTools のインストーラは受信機設定ツール以外に USB Driver を含んでいます。
+このドライバによって USB シリアルとして認識させることができるようになります。
+
+ドライバは受信機を USB 接続した際に自動でインストールされます。
+:::
+
 以上にて、RxTools のインストールは完了です。
+
+
+## 次のステップ
+
+- [起動（Windows）](30-run-windows.qmd) へ
+- うまくいかない場合 → [トラブルシューティング](90-troubleshooting.qmd)

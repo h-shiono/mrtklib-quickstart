@@ -17,12 +17,34 @@ git clone git@github.com:h-shiono/mrtklib-quickstart.git
 ```
 :::
 
-## バッチファイルの実行
+## MRTKLIB の起動
+
+### 実行前チェック
+
+実行前に必ず以下を確認してください。
+
+1. **受信機とアンテナを接続**
+2. **受信機を USB 接続**
+3. **Docker Desktop の起動**
+
+::: {.callout-note}
+Docker Desktop が起動しているかを確認するには、タスクバーの `^` から隠れているインジケーターを表示します。
+🐋のアイコンにカーソルを重ね、`Docker Desktop Running` と表示されれば Docker Desktop は起動中です。
+:::
+
+### バッチファイルの実行
 
 `scripts/windows/start.bat` をダブルクリックして実行します。
 実行すると以下のようなセキュリティの警告が表示されますので、「実行」をクリックして実行します。
 
 ![](../assets/img/windows/exec-batch-warning.png)
+
+::: {.callout-note}
+環境によっては、代わりに「**WindowsによってPCが保護されました**」という画面（Microsoft Defender SmartScreen）が表示される場合があります。
+その場合は「**詳細情報**」をクリックすると「**実行**」ボタンが現れるので、それをクリックして続行してください。
+
+`start.bat` は本ガイドが提供するスクリプトです。中身は `scripts/windows/` 以下で確認できます。
+:::
 
 ::: {.callout-note}
 バッチファイルは次の処理を行います。
@@ -34,7 +56,7 @@ git clone git@github.com:h-shiono/mrtklib-quickstart.git
 5. **Web ブラウザの起動**: Web ブラウザを起動し、MRTKLIB Console を表示します。
 :::
 
-実行後、再度同じセキュリティの警告が表示されますので、再び「実行」クリックします。
+実行後、再度同じセキュリティの警告が表示されますので、再び「実行」をクリックします。
 
 続いて画面に「このアプリがデバイスに変更を加えることを許可しますか？」と表示されるので、「はい」を選択します。
 
@@ -104,3 +126,8 @@ usbipd: info: Using IP address 172.24.80.1 to reach the host.
 ![](../assets/img/mrtklib-console.png)
 
 以上にて、MRTKLIB と Web UI の起動が完了しました。
+
+## 次のステップ
+
+- [UI の使い方](50-using-ui.qmd) へ
+- うまくいかない場合 → [トラブルシューティング](90-troubleshooting.qmd)

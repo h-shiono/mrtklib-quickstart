@@ -59,4 +59,5 @@ flowchart LR
 - とにかく動かしたい
   - はじめて起動する → OS 別のインストール
   （[Windows](20-install-windows.qmd) / [macOS](21-install-macos.qmd) / [Linux](22-install-linux.qmd)）
-  - 2回目以降 → OS 別の「起動」章へ。
+  - 2回目以降 → OS 別の起動
+  （[Windows](30-run-windows.qmd) / [macOS](31-run-macos.qmd) / [Linux](32-run-linux.qmd)）
