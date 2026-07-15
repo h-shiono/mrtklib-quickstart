@@ -8,16 +8,19 @@ This guide explains how to start the Docker container for operating MRTKLIB via 
 
 ::: {.callout-note}
 本ガイドでは、Septentrio 社の mosaic-G5 受信機を使用することを前提としています。
+
 This guide assumes that you are using the **Septentrio mosaic-G5** receiver.
 :::
 
 右上の 🌐 から言語を選べます。
-/ Use 🌐 at the top-right to choose a language.
+
+Use 🌐 at the top-right to choose a language.
 
 ## クイックスタートガイド / Quick-start guide
 
 初期設定済みの Docker コンテナを使って、MRTKLIB を GUI で操作するまでの手順を順を追って解説します。はじめての方・手順を確認しながら進めたい方はこちら。
-/ A step-by-step guide to operating MRTKLIB via its GUI using a preconfigured Docker container. Start here if this is your first time.
+
+A step-by-step guide to operating MRTKLIB via its GUI using a preconfigured Docker container. Start here if this is your first time.
 
 ::: {.grid .qs-tiles}
 ::: {.g-col-12 .g-col-md-6}
