@@ -4,6 +4,8 @@
 /docs/_book/
 /docs/**/*.html
 !/docs/**/index.html
+# assets/*.html are source includes (fonts, navbar switcher), not rendered output
+!/docs/assets/**/*.html
 *_files/
 
 # Rendered outputs

@@ -55,6 +55,8 @@ format:
       - assets/theme.scss
     toc: true
     number-sections: true
+    # Loads the web fonts used by the refined theme (HTML only).
+    include-in-header: assets/head.html
     # Injects the navbar language switcher (HTML only).
     include-after-body: assets/lang-switch.html
   pdf:

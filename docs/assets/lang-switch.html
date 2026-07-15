@@ -1,0 +1,60 @@
+<!--
+  Navbar language switcher (HTML output only).
+
+  Quarto has no built-in i18n toggle, so this injects a link into the
+  right side of the navbar at runtime.
+
+  Behaviour:
+    - On a /ja/* page  -> single link to the same page under /en/  (and vice versa)
+    - On the top page  -> two links to each language's Overview (entry points)
+
+  Relies on the parallel file layout: every ja/<name> has an en/<name>.
+-->
+<script>
+(function () {
+  function makeItem(label, href) {
+    var li = document.createElement("li");
+    li.className = "nav-item";
+    var a = document.createElement("a");
+    a.className = "nav-link";
+    a.href = href;
+    a.textContent = "🌎 " + label; // 🌎 + label
+    li.appendChild(a);
+    return li;
+  }
+
+  function init() {
+    // The right-aligned navbar list (falls back to any navbar list).
+    var navRight =
+      document.querySelector(".navbar-nav.ms-auto") ||
+      document.querySelector(".navbar .navbar-nav");
+    if (!navRight) return;
+
+    var path = window.location.pathname;
+    var hash = window.location.hash || "";
+    var items = [];
+
+    if (path.indexOf("/ja/") !== -1) {
+      items.push({ label: "English", href: path.replace("/ja/", "/en/") + hash });
+    } else if (path.indexOf("/en/") !== -1) {
+      items.push({ label: "日本語", href: path.replace("/en/", "/ja/") + hash });
+    } else {
+      // Top page: no current language, so offer both entry points.
+      var base = path.replace(/[^/]*$/, ""); // strip filename, keep trailing dir
+      items.push({ label: "日本語", href: base + "ja/00-overview.html" });
+      items.push({ label: "English", href: base + "en/00-overview.html" });
+    }
+
+    // Insert before the first existing right item (e.g. the GitHub icon).
+    items.reverse().forEach(function (it) {
+      navRight.insertBefore(makeItem(it.label, it.href), navRight.firstChild);
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>

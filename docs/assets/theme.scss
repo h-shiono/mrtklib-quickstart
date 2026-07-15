@@ -1,12 +1,182 @@
 /*-- scss:defaults --*/
-// Shared look for PDF and HTML.
-// TODO: finalize brand colors, fonts, etc.
+// =============================================================
+//  mrtklib-quickstart — refined Quarto theme
+//  Teal / green accent · Noto Sans JP · high readability
+//  Fonts are loaded via assets/head.html (Google Fonts).
+// =============================================================
 
-$primary: #2c6fbb;
-$body-font-family: "Helvetica Neue", "Hiragino Sans", "Noto Sans JP", sans-serif;
+// ---- Fonts ---------------------------------------------------
+$font-family-sans-serif: "Noto Sans JP", system-ui, -apple-system, "Segoe UI", sans-serif !default;
+$font-family-monospace:  "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace !default;
+
+// ---- Palette -------------------------------------------------
+$teal-700: #0f766e;   // primary accent
+$teal-600: #0d9488;
+$teal-050: #eefbf8;   // pale accent wash
+$note-bg:  #f4fbf9;
+$note-head:#eaf7f4;
+$note-bd:  #cceee8;
+
+$ink:      #0f2b28;   // headings
+$body:     #2b3640;   // JP body
+$muted:    #6a747c;   // EN body / secondary
+$faint:    #9aa4ab;   // labels
+$line:     #e8ebee;   // hairlines
+$surface:  #ffffff;
+$surface-2:#f7f9fa;
+
+// ---- Bootstrap overrides ------------------------------------
+$primary:        $teal-700;
+$body-color:     $body;
+$body-bg:        $surface;
+$link-color:     $teal-700;
+$link-hover-color: darken($teal-700, 8%);
+$border-color:   $line;
+$border-radius:  0.625rem;
+
+$line-height-base: 1.85;
+$headings-font-weight: 700;
+$headings-color: $ink;
+
+// Navbar
+$navbar-bg: rgba(255,255,255,0.92);
+$navbar-fg: $muted;
+
+// Code
+$code-color: $teal-700;
+$code-bg:    #f2f4f5;
+
+// Callouts
+$callout-color-note: $teal-700;
 
 /*-- scss:rules --*/
-// Add shared styles for figures (e.g. the convergence curve) here.
+// =============================================================
+
+// ---- Base type / rhythm -------------------------------------
+body {
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.005em;
+}
+::selection { background: rgba(15,118,110,0.16); }
+
+h1, h2, h3 { letter-spacing: -0.012em; text-wrap: balance; }
+h1.title { line-height: 1.25; margin-bottom: 1.4rem; }
+h2 {
+  padding-top: 0.4rem;
+  margin-top: 2.6rem;
+  border: 0;
+}
+// Numbered section markers echo the mock ("01", "02")
+h2 .header-section-number { color: $teal-700; font-weight: 600; margin-right: 0.35em; }
+
+p { max-width: 46rem; text-wrap: pretty; }
+
+// English paragraph directly following Japanese reads as a quiet
+// echo: same family, slightly smaller & lighter. Add lang="en" to the
+// English blocks (Quarto/Pandoc emits this automatically when set).
+:lang(en) { color: $muted; }
+
+// ---- Navbar --------------------------------------------------
+.navbar {
+  border-bottom: 1px solid $line;
+  backdrop-filter: saturate(1.4) blur(8px);
+  min-height: 60px;
+}
+.navbar-brand { font-weight: 700; color: $ink !important; letter-spacing: -0.01em; }
+.navbar .nav-link {
+  border-radius: 8px;
+  padding: 7px 12px !important;
+  font-weight: 500;
+  transition: background .15s, color .15s;
+  &:hover { background: $teal-050; color: $teal-700; }
+  &.active { background: $teal-050; color: $teal-700; }
+}
+
+// ---- Links ---------------------------------------------------
+a { text-underline-offset: 2px; }
+a:hover { text-decoration-color: rgba(15,118,110,0.4); }
+
+// ---- Callouts (Note / Warning / etc.) ------------------------
+.callout {
+  border: 1px solid $note-bd;
+  border-left: 3px solid $teal-700;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: none;
+}
+.callout.callout-style-default .callout-header {
+  background: $note-head;
+  border-bottom: 1px solid $note-bd;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.callout-note { border-left-color: $teal-700; }
+.callout-body p { margin-bottom: 0.4rem; }
+
+// ---- Code ----------------------------------------------------
+div.sourceCode, pre {
+  border-radius: 12px;
+  border: 1px solid $line;
+}
+pre.sourceCode {
+  background: #0f1e1c;
+  padding: 1rem 1.15rem;
+  code, code span { color: #d6e6e2; line-height: 1.75; }
+}
+code:not(.sourceCode) {
+  background: $code-bg;
+  color: $teal-700;
+  padding: 2px 6px;
+  border-radius: 5px;
+}
+
+// ---- Table of contents (On this page) ------------------------
+#TOC, .toc-active {
+  .toc-section-number { display: none; }
+}
+nav[role="doc-toc"] > ul {
+  border-left: 2px solid $line;
+  padding-left: 0;
+  li a {
+    display: block;
+    padding: 6px 0 6px 16px;
+    margin-left: -2px;
+    border-left: 2px solid transparent;
+    color: $muted;
+    line-height: 1.5;
+    text-decoration: none;
+    &:hover { color: $teal-700; }
+  }
+  li a.active {
+    color: $teal-700;
+    font-weight: 600;
+    border-left-color: $teal-700;
+  }
+}
+nav[role="doc-toc"] > h2, .sidebar-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $faint;
+}
+
+// ---- Cards (language chooser etc.) ---------------------------
+.card {
+  border: 1px solid #e4e8ea;
+  border-radius: 14px;
+  transition: border-color .15s, box-shadow .15s, transform .15s;
+  &:hover {
+    border-color: $teal-700;
+    box-shadow: 0 8px 24px -12px rgba(15,118,110,0.35);
+    transform: translateY(-2px);
+  }
+}
+
+// ---- Project-specific carry-overs ---------------------------
+// Kept from the original theme: functional rules that the refined
+// design does not otherwise cover.
+
 figure.figure {
   margin-block: 1.5rem;
 }
@@ -20,14 +190,4 @@ main img:not(.full-width) {
   height: auto;
   display: block;
   margin-inline: auto;
-}
-
-// Quick-start language tiles on the landing page: give the cards a subtle
-// hover lift so they read as clickable tiles (paired with .stretched-link).
-.qs-tiles .card {
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
-.qs-tiles .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
