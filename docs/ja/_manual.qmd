@@ -1,0 +1,56 @@
+---
+title: "mrtklib-quickstart（日本語版）"
+lang: ja
+---
+
+<!--
+  受講者配布用の通し PDF（日本語）。ja/*.qmd の全章を1つに集約する。
+  先頭が `_` なので website(HTML) の自動ビルドからは除外される。
+  PDF は明示的にレンダーする（タイトルは子 frontmatter に勝つよう -M で上書き）:
+
+    quarto render ja/_manual.qmd --to pdf -M "title=mrtklib-quickstart（日本語版）"
+
+  詳細・両言語一括ビルドは docs/build-pdf.sh を参照。
+  章見出し (#) はここで明示する（include では子の title は本文見出しにならないため）。
+  画像パス ../assets は ja/ 基準なので、この集約ファイルも ja/ 内に置くこと。
+-->
+
+# 概要
+
+{{< include 00-overview.qmd >}}
+
+# 概念
+
+{{< include 10-concepts.qmd >}}
+
+# インストール（Windows）
+
+{{< include 20-install-windows.qmd >}}
+
+# インストール（macOS）
+
+{{< include 21-install-macos.qmd >}}
+
+# インストール（Linux）
+
+{{< include 22-install-linux.qmd >}}
+
+# 起動（Windows）
+
+{{< include 30-run-windows.qmd >}}
+
+# 起動（macOS）
+
+{{< include 31-run-macos.qmd >}}
+
+# 起動（Linux）
+
+{{< include 32-run-linux.qmd >}}
+
+# UI の使い方
+
+{{< include 40-using-ui.qmd >}}
+
+# トラブルシューティング
+
+{{< include 90-troubleshooting.qmd >}}

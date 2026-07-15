@@ -1,0 +1,57 @@
+---
+title: "mrtklib-quickstart (English)"
+lang: en
+---
+
+<!--
+  Participant-facing single PDF (English). Aggregates every en/*.qmd chapter.
+  The leading `_` excludes it from the website (HTML) build.
+  Render the PDF explicitly (override the title so child front matter does not win):
+
+    quarto render en/_manual.qmd --to pdf -M "title=mrtklib-quickstart (English)"
+
+  See docs/build-pdf.sh to build both languages at once.
+  Chapter headings (#) are declared here (an include does not turn a child's
+  title into a body heading). Keep this file inside en/ so the child image
+  paths (../assets) resolve correctly.
+-->
+
+# Overview
+
+{{< include 00-overview.qmd >}}
+
+# Concepts
+
+{{< include 10-concepts.qmd >}}
+
+# Install (Windows)
+
+{{< include 20-install-windows.qmd >}}
+
+# Install (macOS)
+
+{{< include 21-install-macos.qmd >}}
+
+# Install (Linux)
+
+{{< include 22-install-linux.qmd >}}
+
+# Run (Windows)
+
+{{< include 30-run-windows.qmd >}}
+
+# Run (macOS)
+
+{{< include 31-run-macos.qmd >}}
+
+# Run (Linux)
+
+{{< include 32-run-linux.qmd >}}
+
+# Using the UI
+
+{{< include 40-using-ui.qmd >}}
+
+# Troubleshooting
+
+{{< include 90-troubleshooting.qmd >}}

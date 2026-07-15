@@ -1,0 +1,18 @@
+---
+title: "起動（Linux）"
+lang: ja
+---
+
+<!-- Linux: how to run start.sh. -->
+
+## `start.sh` を実行
+
+TODO: `scripts/linux/start.sh` を実行する。
+
+## 実行権限と Gatekeeper
+
+TODO: `chmod +x`、右クリック→開く、または検疫属性の削除。
+
+## 何が起きるか
+
+TODO: スクリプトが行う処理と期待される出力の説明。

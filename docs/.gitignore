@@ -1,0 +1,7 @@
+/.quarto/
+
+# Per-language PDF build output
+/_dist/
+
+# Quarto PDF intermediates (left behind by failed/partial renders)
+*.tex

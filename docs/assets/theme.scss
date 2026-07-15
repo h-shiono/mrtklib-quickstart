@@ -21,3 +21,13 @@ main img:not(.full-width) {
   display: block;
   margin-inline: auto;
 }
+
+// Quick-start language tiles on the landing page: give the cards a subtle
+// hover lift so they read as clickable tiles (paired with .stretched-link).
+.qs-tiles .card {
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.qs-tiles .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}

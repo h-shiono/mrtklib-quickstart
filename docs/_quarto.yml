@@ -13,11 +13,8 @@ website:
   title: "mrtklib-quickstart"
   favicon: assets/img/favicon.png
   navbar:
-    left:
-      - text: "Overview"
-        file: en/00-overview.qmd
-      - text: "概要 (JA)"
-        file: ja/00-overview.qmd
+    # A runtime language switcher is injected into the right side by
+    # assets/lang-switch.html (see format.html.include-after-body).
     right:
       - icon: github
         href: https://github.com/h-shiono/mrtklib-docker-ui
@@ -28,10 +25,11 @@ website:
         - en/00-overview.qmd
         - en/10-concepts.qmd
         - en/20-install-windows.qmd
-        - en/20-install-macos.qmd
-        - en/20-install-linux.qmd
+        - en/21-install-macos.qmd
+        - en/22-install-linux.qmd
         - en/30-run-windows.qmd
         - en/31-run-macos.qmd
+        - en/32-run-linux.qmd
         - en/40-using-ui.qmd
         - en/90-troubleshooting.qmd
     - id: ja
@@ -40,10 +38,11 @@ website:
         - ja/00-overview.qmd
         - ja/10-concepts.qmd
         - ja/20-install-windows.qmd
-        - ja/20-install-macos.qmd
-        - ja/20-install-linux.qmd
+        - ja/21-install-macos.qmd
+        - ja/22-install-linux.qmd
         - ja/30-run-windows.qmd
         - ja/31-run-macos.qmd
+        - ja/32-run-linux.qmd
         - ja/40-using-ui.qmd
         - ja/90-troubleshooting.qmd
 
@@ -54,6 +53,8 @@ format:
       - assets/theme.scss
     toc: true
     number-sections: true
+    # Injects the navbar language switcher (HTML only).
+    include-after-body: assets/lang-switch.html
   pdf:
     documentclass: scrreprt
     toc: true

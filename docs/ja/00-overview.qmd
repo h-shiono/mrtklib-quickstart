@@ -5,20 +5,47 @@ lang: ja
 
 <!-- What we do and the big picture (OS-independent). -->
 
-## これは何？
+## 本ガイドの目的
 
-TODO: 受講者が達成することの一段落サマリ
-（mrtklib-docker-ui を通じて MADOCA-PPP の収束を体験する）。
+本ガイドでは、Septentrio mosaic-G5 受信機と MRTKLIB を使って、MADOCA-PPP による Real-time PPP 測位を体験することを目的としています。
+
+## 始める前に
+
+### 実行環境の確認
+
+本ガイドでは、以下の環境での動作を確認しています。
+
+- Windows 11 25H2 (AMD64)
+- MacOS Tahoe 26.5.2 (Apple Silicon)
+- Ubuntu 24.04 (AMD64)
+
+### 受信機・アンテナ・ケーブルの準備
+
+本ガイドでは、以下の受信機・アンテナ・ケーブルを使用することを前提としています。
+
+- 受信機: Septentrio mosaic-G5 P3 evaluation kit
+- アンテナ: フルバンド GNSS アンテナ (例: ヨコオ YOZ-52728)
+- USB ケーブル: 受信機をホスト PC に接続するための USB ケーブル
 
 ## 全体像
 
-TODO: フロー図 — 受信機 (mosaic-G5) → USB → コンテナ → UI。
+```{mermaid}
+flowchart LR
+  ant[GNSS Antenna] --> rcv[mosaic-G5 P3]
+  rcv -- "USB Serial</br>(SBF)" --> container["MRTKLIB Engine"]
 
-{{< include ../_includes/receiver-note.qmd >}}
+  subgraph Host
+    subgraph Docker
+      container <--> ui[Web UI]
+    end
+  end
+
+  ui -.- user((User))
+```
 
 ## 次に読むもの
 
-- 仕組みを知る → [概念](10-concepts.qmd)
+- 仕組みを知る → [コンセプト](10-concepts.qmd)
 - とにかく動かす → OS 別のインストール
   （[Windows](20-install-windows.qmd) / [macOS](20-install-macos.qmd) / [Linux](20-install-linux.qmd)）
   → OS 別の「起動」章へ。

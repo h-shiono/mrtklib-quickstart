@@ -14,8 +14,6 @@ TODO: One-paragraph summary of what the participant will accomplish
 
 TODO: Diagram of the flow — receiver (mosaic-G5) → USB → container → UI.
 
-{{< include ../_includes/receiver-note.qmd >}}
-
 ## Where to go next
 
 - Concepts → [Concepts](10-concepts.qmd)
