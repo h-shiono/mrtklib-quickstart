@@ -1,41 +1,20 @@
 ---
-title: "付録：受信機の手動設定"
+title: "受信機の設定（Windows, Linux）"
 lang: ja
 ---
 
-<!-- Appendix: manual receiver configuration via RxControl.
-     The start script configures the receiver automatically; this chapter is
-     for understanding what it does and for manual fallback / verification.
-     Consolidates the former Windows/Linux and macOS receiver-setup chapters. -->
+<!-- 一旦 Windows のみに絞って書く -->
 
-::: {.callout-note}
-起動スクリプト（`start.bat`）は、本章の設定を**自動で行います**。本章は、**その仕組みを理解したい場合**や、**自動設定がうまくいかず手動で設定・確認したい場合**のための参照です。
-:::
-
-## なぜこの設定が必要か
-
-MADOCA-PPP による測位は、「**①受信機が測った生の観測データ**」と「**②QZSS L6 から届く補正情報**」を突き合わせて計算します。この計算を行うのはコンテナ内の MRTKLIB エンジンなので、受信機には**両方を SBF 形式で出力させる**必要があります。以下の設定は、そのための最小構成です。
-
-| 設定 | なぜ必要か |
-|---|---|
-| **QZSL6 信号を追尾** | L6 補正を復号するため。`QZSRawL6E`（MADOCA-PPP：軌道・クロック・バイアス補正）と `QZSRawL6D`（広域電離圏補正）が得られます |
-| **全星座を追尾（All）** | 補強対象の GPS / GLONASS / Galileo / BeiDou / QZSS の観測量を確保するため |
-| **SBF を `USB1` に出力** | コンテナは USB シリアル経由で SBF を読みます。`COM1` は物理シリアルで USB には出ないため `USB1` を選びます |
-| **`Support` メッセージ群** | 生観測（`MeasEpoch`）・各種 Nav・`QZSRawL6D/E` をまとめて含み、これ一つで PPP に必要な入力が揃うため |
-| **`Boot` に保存** | 電源を入れ直しても設定が残るようにするため |
-
-以下は、上記を RxControl の GUI で手動設定する手順です（Windows / Linux 共通、画面は Windows）。
-
-## 受信機の接続（Windows, Linux）
+## 受信機の接続
 
 ::: {.callout-caution}
-先に「RxTools」のインストールを完了させてから本節をお読みください。
+先に「RxTools」のインストールを完了させてから本章をお読みください。
 :::
 
 USB ケーブルを使用して、受信機を Windows または Linux の PC に接続します。
 正常に接続されると、受信機の PWR LED が赤色に点灯します。
 
-## 受信機の設定（Windows, Linux）
+## 受信機の設定
 
 ::: {.callout-note}
 RxControl では、ダイアログによってポートの呼び方が異なります（接続設定では `Port 2`、SBF 出力設定では `COM1` のように表記が揺れます）。これは Septentrio のツール側の仕様です。混乱しやすいので、各手順ではスクリーンショットに示されたポートをそのまま選択してください。
@@ -107,7 +86,3 @@ MADOCA-PPP の利用には、`QZSRawL6E` が必要になります。
 ![](../assets/img/windows/rxcontrol-copy-configuration.png)
 
 以上にて、受信機の設定は完了です。
-
-## 受信機の設定（macOS）
-
-TBD

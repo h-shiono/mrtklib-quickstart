@@ -56,6 +56,7 @@ flowchart LR
 ## 次のステップ
 
 - 仕組みを知る → [コンセプト](10-concepts.qmd)
-- とにかく動かす → OS 別のインストール
+- とにかく動かしたい
+  - はじめて起動する → OS 別のインストール
   （[Windows](20-install-windows.qmd) / [macOS](21-install-macos.qmd) / [Linux](22-install-linux.qmd)）
-  → OS 別の「起動」章へ。
+  - 2回目以降 → OS 別の「起動」章へ。

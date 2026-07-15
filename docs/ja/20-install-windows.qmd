@@ -11,13 +11,13 @@ lang: ja
 
 [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/) より、`Docker Desktop for Windows - AMD64` をダウンロードします。
 
-![](../assets/img/01-docker-desktop-download.png)
+![](../assets/img/docker-desktop-download.png)
 
 ### Docker Desktop のインストール
 
 ダウンロードした `Docker Desktop Installer` を実行します。
 
-![](../assets/img/02-win-install-docker-desktop.png)
+![](../assets/img/windows/install-docker-desktop.png)
 
 必要に応じて、 `All-users installation` か `Per-user installation` を選択します。
 Desktop にショートカットを作成する場合は `Add shortcut to desktop` にチェックを入れます。
@@ -27,19 +27,19 @@ Desktop にショートカットを作成する場合は `Add shortcut to deskto
 
 インストールが完了すると、以下の画面が表示されるので、`Close and restart` をクリックして PC を再起動します。
 
-![](../assets/img/03-win-install-docker-desktop-complete.png)
+![](../assets/img/windows/install-docker-desktop-complete.png)
 
 ### Docker Desktop の初回起動
 
 再起動後、Docker Desktop を起動します。
 初回起動時にサービス利用規約の同意を求められるので、内容を確認して「Accept」をクリックします。
 
-![](../assets/img/04-win-docker-subscription-service-agreement.png)
+![](../assets/img/windows/docker-subscription-service-agreement.png)
 
 Docker Desktop が起動すると、`Welcome to Docker` 画面が表示されます。
 今回は `Skip` をクリックし、スキップします。
 
-![](../assets/img/05-win-welcome-to-docker.png)
+![](../assets/img/windows/welcome-to-docker.png)
 
 以上にて、Docker Desktop のインストールは完了です。
 
@@ -51,7 +51,7 @@ Docker Desktop が起動すると、`Welcome to Docker` 画面が表示されま
 
 Windows のスタートメニューから `PowerShell` を検索し、右クリックして「管理者として実行」をクリックします。
 
-![](../assets/img/06-win-power-shell-run-as-admin.png)
+![](../assets/img/windows/power-shell-run-as-admin.png)
 
 画面に「このアプリがデバイスに変更を加えることを許可しますか？」と表示されるので、「はい」を選択します。
 
@@ -85,7 +85,7 @@ winget install --interactive --exact dorssel.usbipd-win
 
 以上にて、usbipd-win の導入は完了です。
 
-## RxTools のインストール
+## RxTools
 
 ### RxTools のダウンロード
 
@@ -103,7 +103,7 @@ winget install --interactive --exact dorssel.usbipd-win
 
 「コンポーネントの選択」画面では、全てにチェックを入れたままにして、「次へ」をクリックします。
 
-![](../assets/img/07-win-rxtools-install-component.png)
+![](../assets/img/windows/rxtools-install-component.png)
 
 進んでいくと、「インストールの準備ができました」と表示されるので、「インストール」をクリックします。
 
@@ -111,6 +111,6 @@ winget install --interactive --exact dorssel.usbipd-win
 
 インストールが進むと以下のポップアップが表示されるので、「OK」をクリックします。
 
-![](../assets/img/08-win-rxtools-install-usb-driver.png)
+![](../assets/img/windows/rxtools-install-usb-driver.png)
 
 以上にて、RxTools のインストールは完了です。

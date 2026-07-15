@@ -5,10 +5,40 @@ lang: ja
 
 <!-- Reading the convergence curve (OS-independent, the educational core). -->
 
-## 収束カーブの見方
+## Real-time PPP 測位処理の実行
 
-TODO: 収束カーブの読み方 — 軸の意味、「収束した」とは何か、目安の時間。
+### 設定ファイルの読み込み
 
-## 注目すべき点
+栞のアイコンをクリックすると、Preset が開きます。
 
-TODO: 良い収束 / 悪い収束、よくあるパターン。
+`QZSS MADOCA (BUILT-IN)` と書かれた Preset をダウンロードします。
+`Load preset will overwrite current settings. Continue?` と聞かれるので、`Load` をクリックして読み込みます。
+
+![](../assets/img/mrtklib-preset.png)
+
+読み込みに成功すると `Preset loaded "QZSS MADOCA (PPP-Kinematic)" loaded` と表示されます。
+
+### ローバの設定
+
+`Input Streams` > `Rover` に、次の値を設定します。
+
+| 項目 | 設定値 |
+| --- | --- |
+| Type | Serial |
+| Path | ttyACM0 |
+| Format | Septentrio SBF |
+
+![](../assets/img/mrtklib-rover-setup.png)
+
+::: {.callout-note}
+ここで設定する `Path` は、バッチファイル実行時に `[OK] SBF stream detected on /dev/ttyACM*` と表示された方のパスを記載します（Docker コンテナの起動 参照）。
+:::
+
+### 測位処理の実行
+
+`Start` をクリックして測位処理を開始します。
+初回実行時は、航法データの取得が必要なため測位がはじまるまで少し時間がかかります。
+
+![](../assets/img/mrtklib-madoca-ppp.png)
+
+広域電離圏補正により、条件が良ければ数分で FIX 解が得られます。

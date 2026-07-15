@@ -78,10 +78,6 @@ usbipd: info: Using IP address 172.24.80.1 to reach the host.
 [OK] Passing device(s): /dev/ttyACM0, /dev/ttyACM1
 ```
 
-::: {.callout-note}
-`[OK] SBF stream detected on /dev/ttyACM*` で書かれたパス（`ttyACM0` もしくは `ttyACM1`）は後ほど UI 設定時に使用します。
-:::
-
 ### Web ブラウザの起動
 
 `[OK]` が表示されていることを確認します。
@@ -92,11 +88,11 @@ usbipd: info: Using IP address 172.24.80.1 to reach the host.
 [OK] Web UI is up; opening http://localhost:8080
 ```
 
-![](../assets/img/windows/exec-batch.png)
+![](../assets/img/windows/exec-batch-result.png)
 **start.bat 実行画面**
 
 `[OK] Web UI is up; opening http://localhost:8080` が表示された後、Web ブラウザが起動して MRTKLIB Console の画面が表示されます。
 
-![](../assets/img/mrtklib-console.png)
+![](../assets/img/windows/mrtklib-console.png)
 
 以上にて、MRTKLIB と Web UI の起動が完了しました。
