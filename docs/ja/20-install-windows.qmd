@@ -94,7 +94,7 @@ winget install --interactive --exact dorssel.usbipd-win
 ::: {.callout-note}
 ダウンロードの際に、以下の情報を入力する必要があります。
 
-メールアドレス、氏名、国、所属、産業
+メールアドレス、氏名、国、所属、業種
 :::
 
 ### RxTools のインストール
