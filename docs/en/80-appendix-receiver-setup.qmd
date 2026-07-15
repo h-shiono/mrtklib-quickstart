@@ -1,0 +1,10 @@
+---
+title: "Appendix: Receiver Setup"
+lang: en
+---
+
+<!-- TODO: translate from ja/80-appendix-receiver-setup.qmd.
+     Manual receiver configuration (RxControl). The start script does this
+     automatically; this appendix is for understanding / manual fallback. -->
+
+TBD

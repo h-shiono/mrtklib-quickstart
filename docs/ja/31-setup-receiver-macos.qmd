@@ -1,6 +1,0 @@
----
-title: "受信機の設定（macOS）"
-lang: ja
----
-
-## TBD

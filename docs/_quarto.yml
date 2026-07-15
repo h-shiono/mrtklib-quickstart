@@ -27,12 +27,11 @@ website:
         - en/20-install-windows.qmd
         - en/21-install-macos.qmd
         - en/22-install-linux.qmd
-        - en/30-setup-receiver-windows-linux.qmd
-        - en/31-setup-receiver-macos.qmd
-        - en/40-run-windows.qmd
-        - en/41-run-macos.qmd
-        - en/42-run-linux.qmd
+        - en/30-run-windows.qmd
+        - en/31-run-macos.qmd
+        - en/32-run-linux.qmd
         - en/50-using-ui.qmd
+        - en/80-appendix-receiver-setup.qmd
         - en/90-troubleshooting.qmd
     - id: ja
       title: "日本語"
@@ -42,12 +41,11 @@ website:
         - ja/20-install-windows.qmd
         - ja/21-install-macos.qmd
         - ja/22-install-linux.qmd
-        - ja/30-setup-receiver-windows-linux.qmd
-        - ja/31-setup-receiver-macos.qmd
-        - ja/40-run-windows.qmd
-        - ja/41-run-macos.qmd
-        - ja/42-run-linux.qmd
+        - ja/30-run-windows.qmd
+        - ja/31-run-macos.qmd
+        - ja/32-run-linux.qmd
         - ja/50-using-ui.qmd
+        - ja/80-appendix-receiver-setup.qmd
         - ja/90-troubleshooting.qmd
 
 format:
