@@ -43,7 +43,11 @@ git clone git@github.com:h-shiono/mrtklib-quickstart.git
 `[OK]` が表示されていることを確認します。
 
 ```ps
-==> Configuring the receiver over COM                                                                                   [OK] Using receiver COM port COM9                                                                                       [OK]   setSignalTracking,+QZSL6                                                                                         [OK]   setSatelliteTracking,all                                                                                         [OK]   setDataInOut,USB1, ,+SBF
+==> Configuring the receiver over COM
+[OK] Using receiver COM port COM9
+[OK]   setSignalTracking,+QZSL6
+[OK]   setSatelliteTracking,all
+[OK]   setDataInOut,USB1, ,+SBF
 [OK]   setSBFOutput,Stream1,USB1,Support,sec1
 [OK]   exeCopyConfigFile,Current,Boot
 [OK] Receiver configured and saved to boot configuration

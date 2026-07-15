@@ -16,7 +16,7 @@ lang: ja
 本ガイドでは、以下の環境での動作を確認しています。
 
 - Windows 11 25H2 (AMD64)
-- MacOS Tahoe 26.5.2 (Apple Silicon)
+- macOS Tahoe 26.5.2 (Apple Silicon)
 - Ubuntu 24.04 (AMD64)
 
 ### 受信機・アンテナ・ケーブルの準備
@@ -42,7 +42,7 @@ flowchart LR
   qzs((QZS)) -.-> ant
 
   ant -- RF --> rcv(mosaic-G5 P3)
-  rcv -- "USB Serial</br>(SBF)" --> container["MRTKLIB Engine"]
+  rcv -- "USB Serial<br/>(SBF)" --> container["MRTKLIB Engine"]
 
   subgraph Host
     subgraph Docker

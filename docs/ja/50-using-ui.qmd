@@ -16,7 +16,7 @@ lang: ja
 
 ![](../assets/img/mrtklib-preset.png)
 
-読み込みに成功すると `Preset loaded "QZSS MADOCA (PPP-Kinematic)" loaded` と表示されます。
+読み込みに成功すると `"QZSS MADOCA (PPP-Kinematic)" loaded` と表示されます。
 
 ### ローバの設定
 

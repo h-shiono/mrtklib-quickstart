@@ -46,8 +46,6 @@ PPP は 2 種類のデータを突き合わせて計算します。
 
 ## 次のステップ
 
-- 仕組みを知る → [コンセプト](10-concepts.qmd)
-- とにかく動かしたい
-  - はじめて起動する → OS 別のインストール
-  （[Windows](20-install-windows.qmd) / [macOS](21-install-macos.qmd) / [Linux](22-install-linux.qmd)）
-  - 2回目以降 → OS 別の「起動」章へ。
+- はじめて起動する → OS 別のインストール
+（[Windows](20-install-windows.qmd) / [macOS](21-install-macos.qmd) / [Linux](22-install-linux.qmd)）
+- 2回目以降 → OS 別の「起動」章へ。

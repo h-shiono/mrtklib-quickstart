@@ -5,14 +5,8 @@ lang: ja
 
 <!-- USB not visible, etc. - organized by symptom, with OS-specific subsections. -->
 
-## USB デバイスが認識されない
-
-TODO: 症状別の手順（Windows / macOS の小節）。
-
-## コンテナが起動しない
-
-TODO。
-
-## ブラウザで UI が開かない
-
-TODO。
+## USB が見えない（RxTools ドライバ未導入 / 受信機未接続 / attach 前）
+## SBF が来ない（出力先が COM1 で USB1 でない）
+## Docker Desktop が起動していない
+## ポート 8080 使用中
+## SmartScreen でブロック
