@@ -44,6 +44,18 @@ lang: ja
 
 広域電離圏補正により、条件が良ければ数分で FIX 解が得られます。
 
+### Chart の切り替え {#sec-run-ppp-chart}
+
+`Chart` は `2D` / `Map` / `Sky/SNR` / `Time series` をクリックで表示・非表示することが可能です。
+
+![](../assets/img/mrtklib-madoca-ppp-chart.png)
+
+### 測位パラメータの確認 {#sec-run-ppp-processing-config}
+
+`Processing Configuration` の各項目をクリックすると、測位パラメータの詳細を確認することが可能です。
+
+![](../assets/img/mrtklib-madoca-ppp-positioning-mode.png)
+
 ## 以上で MADOCA-PPP の体験は完了です 🎉 {.unnumbered}
 
 体験を終えるときは、[終了処理（Windows）](60-stop-windows.qmd) を行いコンテナの停止と USB のデタッチを行ってください。
@@ -52,9 +64,14 @@ lang: ja
 
 - [みちびき Web](https://qzss.go.jp/index.html)
 - [Septentrio mosaic-G5 P3](https://www.septentrio.com/ja/products/gnss-receivers/gnss-receiver-modules/mosaic-G5-P3)
-- [MRTKLIB](https://github.com/h-shiono/MRTKLIB)
-- [mrtklib-docker-ui](https://github.com/h-shiono/mrtklib-docker-ui)
-- [Zenn (hato.GNSS)](https://zenn.dev/hatognss)
+    - 評価キット
+        - 🇯🇵: [※トラ技4周波コンパス&RTK小型モジュール](https://shop.cqpub.co.jp/hanbai/books/I/I100556.html)
+        - 🇬🇧: [mosaic-go G5 P3 GNSS module receiver evaluation kit](https://shop.septentrio.com/en/shop/mosaic-go-g5-p3-gnss-module-receiver-evaluation-kit)
+- MRTKLIB:
+    - [MRTKLIB](https://github.com/h-shiono/MRTKLIB)
+    - [mrtklib-docker-ui](https://github.com/h-shiono/mrtklib-docker-ui)
+    - [mrtklib-quickstart](https://github.com/h-shiono/mrtklib-quickstart)
+    - [Zenn (hato.GNSS)](https://zenn.dev/hatognss)（MRTKLIB メンテナの技術記事）
 
 ## うまくいかない場合 {.unnumbered}
 

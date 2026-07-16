@@ -208,3 +208,9 @@ main img:not(.full-width) {
   display: block;
   margin-inline: auto;
 }
+
+// 
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
