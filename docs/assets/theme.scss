@@ -45,6 +45,8 @@ $navbar-fg: $muted;
 // Code
 $code-color: $teal-700;
 $code-bg:    #f2f4f5;
+$code-surface: #0f1e1c;   // dark surface behind highlighted blocks
+$code-fg:      #d6e6e2;
 
 // Callouts
 $callout-color-note: $teal-700;
@@ -114,14 +116,29 @@ a:hover { text-decoration-color: rgba(15,118,110,0.4); }
 .callout-body p { margin-bottom: 0.4rem; }
 
 // ---- Code ----------------------------------------------------
-div.sourceCode, pre {
+// Quarto pins pre.sourceCode to `overflow: visible !important`, which makes
+// div.sourceCode the horizontal scroll container. The surface therefore has
+// to sit on the div: a background on the pre only paints the unscrolled
+// viewport width, so wide output (docker ps, long paths) scrolls off the
+// dark surface partway through the block.
+div.sourceCode {
+  background: $code-surface;
   border-radius: 12px;
   border: 1px solid $line;
 }
+// Stays viewport-width: .code-copy-button anchors to this box's right edge,
+// so widening it to the content would strand the button past the scroll.
 pre.sourceCode {
-  background: #0f1e1c;
+  background: transparent;
+  border: 0;
   padding: 1rem 1.15rem;
-  code, code span { color: #d6e6e2; line-height: 1.75; }
+  code, code span { color: $code-fg; line-height: 1.75; }
+}
+// Plain <pre> (unhighlighted output) scrolls on itself, so it keeps its own
+// surface rather than delegating to a wrapper.
+pre:not(.sourceCode) {
+  border-radius: 12px;
+  border: 1px solid $line;
 }
 code:not(.sourceCode) {
   background: $code-bg;
