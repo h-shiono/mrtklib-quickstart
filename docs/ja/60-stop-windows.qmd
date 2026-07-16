@@ -9,7 +9,7 @@ lang: ja
 これにより、MRTKLIB と Web UI を動かしていたコンテナが停止し、ポートが解放されます。
 また、受信機の制御が Windows 側に戻り RxControl などで再び使えるようになります。
 
-## stop.bat の実行
+## stop.bat の実行 {#sec-win-stop-batch}
 
 `scripts/windows/stop.bat` をダブルクリックして実行します。
 `start.bat` とは逆に、次の処理を行います。
@@ -33,15 +33,15 @@ Docker Desktop と WSL は起動したままなので、次回もそのまま `s
 
 以上にて、終了処理は完了です。
 
-## 手動で行う場合
+## 手動で行う場合 {#sec-win-stop-manual}
 
 `stop.bat` を使わず、手動で片付けることもできます。
 
-### コンテナの停止
+### コンテナの停止 {#sec-win-stop-manual-container}
 
 Docker Desktop を開き、`Containers` から `mrtklib-web-ui` を停止（Stop）・削除（Delete）します。
 
-### USB のデタッチ
+### USB のデタッチ {#sec-win-stop-manual-usb-detach}
 
 `scripts\windows\detach.bat` を実行すると、受信機の制御が Windows 側へ戻ります。
 

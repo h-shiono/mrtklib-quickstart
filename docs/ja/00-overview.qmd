@@ -5,13 +5,13 @@ lang: ja
 
 <!-- What we do and the big picture (OS-independent). -->
 
-## 本ガイドの目的
+## 本ガイドの目的 {#sec-purpose}
 
 本ガイドでは、Septentrio mosaic-G5 受信機と MRTKLIB を使って、MADOCA-PPP による Real-time PPP 測位を体験することを目的としています。
 
-## 始める前に
+## 始める前に {#sec-prerequisites}
 
-### 実行環境の確認
+### 実行環境の確認 {#sec-prerequisites-environment}
 
 本ガイドでは、以下の環境での動作を確認しています。
 
@@ -19,7 +19,7 @@ lang: ja
 - macOS Tahoe 26.5.2 (Apple Silicon)
 - Ubuntu 24.04 (AMD64)
 
-### 受信機・アンテナ・ケーブルの準備
+### 受信機・アンテナ・ケーブルの準備 {#sec-prerequisites-hardware}
 
 本ガイドでは、以下の受信機・アンテナ・ケーブルを使用することを前提としています。
 
@@ -27,12 +27,15 @@ lang: ja
 - アンテナ: フルバンド GNSS アンテナ (例: ヨコオ YOZ-52728)
 - USB ケーブル: 受信機をホスト PC に接続するための USB ケーブル
 
-## 全体像
+## 全体像 {#sec-big-picture}
 
 下図は本ガイドの全体像を示したものです。
 フルバンド GNSS アンテナと mosaic-G5 にて GPS, GLONASS, Galileo, BeiDou, QZSS の信号を受信し、その Raw データを Docker 上の MRTKLIB で PPP 測位し、Web UI を通して結果を表示します。
 
 ```{mermaid}
+%%| label: fig-big-picture
+%%| fig-cap: 本ガイドの全体像
+
 flowchart LR
 
   gps((GPS)) -.-> ant(GNSS Antenna)

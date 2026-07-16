@@ -5,9 +5,9 @@ lang: ja
 
 <!-- Reading the convergence curve (OS-independent, the educational core). -->
 
-## Real-time PPP 測位処理の実行
+## Real-time PPP 測位処理の実行 {#sec-run-ppp}
 
-### 設定ファイルの読み込み
+### 設定ファイルの読み込み {#sec-run-ppp-load-preset}
 
 栞のアイコンをクリックすると、Preset が開きます。
 
@@ -18,7 +18,7 @@ lang: ja
 
 読み込みに成功すると `"QZSS MADOCA (PPP-Kinematic)" loaded` と表示されます。
 
-### ローバの設定
+### ローバの設定 {#sec-run-ppp-configure-rover}
 
 `Input Streams` > `Rover` に、次の値を設定します。
 
@@ -27,6 +27,7 @@ lang: ja
 | Type | Serial |
 | Path | ttyACM*（※検出されたパス） |
 | Format | Septentrio SBF |
+: ローバの設定 {#tbl-setup-rover}
 
 ![](../assets/img/mrtklib-rover-setup.png)
 
@@ -34,7 +35,7 @@ lang: ja
 ここで設定する `Path` は、バッチファイル実行時に `[OK] SBF stream detected on /dev/ttyACM*` と表示された方のパスを記載します（Docker コンテナの起動 参照）。
 :::
 
-### 測位処理の実行
+### 測位処理の実行 {#sec-run-ppp-start}
 
 `Start` をクリックして測位処理を開始します。
 初回実行時は、航法データの取得が必要なため測位がはじまるまで少し時間がかかります。
