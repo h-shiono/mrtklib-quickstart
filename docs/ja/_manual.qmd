@@ -51,6 +51,10 @@ lang: ja
 
 {{< include 50-using-ui.qmd >}}
 
+# 終了処理（Windows）
+
+{{< include 60-stop-windows.qmd >}}
+
 # 付録：受信機の手動設定
 
 {{< include 80-appendix-receiver-setup.qmd >}}

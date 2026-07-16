@@ -45,7 +45,8 @@ lang: ja
 
 ## 以上で MADOCA-PPP の体験は完了です 🎉 {.unnumbered}
 
-以上で本ガイドの説明は終了です。
+体験を終えるときは、[終了処理（Windows）](60-stop-windows.qmd) を行いコンテナの停止と USB のデタッチを行ってください。
+
 さらに学びたい方は、以下のリンクを参考にしてください。
 
 - [みちびき Web](https://qzss.go.jp/index.html)

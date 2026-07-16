@@ -3,45 +3,73 @@ title: "コンセプト"
 lang: ja
 ---
 
-<!-- The roles of MADOCA-PPP / raw / CON (OS-independent, the thick chapter). -->
+<!-- What MADOCA-PPP is, where it sits among positioning methods, and why it
+     converges the way it does. Assumes a positioning-literate reader. -->
+
 
 ## MADOCA-PPP とは
 
-MADOCA-PPP (Multi-GNSS Advanced Orbit and Clock Augmentation - Precise Point Positioning) は、準天頂衛星システム（QZSS）の L6 信号から配信される補正情報の一つです。
+**MADOCA-PPP (Multi-GNSS Advanced Orbit and Clock Augmentation - Precise Point Positioning)**は、準天頂衛星システム（QZSS）の L6 信号から配信される補正情報の一つです。
 仰角10度以上の QZS が1機以上、仰角10度以上の補強対象衛星が20機以上見える範囲で利用可能です。
 
-![](../assets/img/madoca-ppp-service-area.jpg)
-**MADOCA-PPP サービス範囲[^1]**
+![MADOCA-PPP サービス範囲[^1]](../assets/img/madoca-ppp-service-area.jpg){#fig-madoca-ppp-service-area}
 
 [^1]: 高精度測位補強サービス（MADOCA-PPP）, QSS, https://qzss.go.jp/technical/system/madoca.html, 2026-07-15 アクセス 
 
-MADOCA-PPP の補正情報を用いることで、精密単独測位（Precise Point Positioning）を行うことができ、センチメーター級の測位精度が得られます。
-サービスは L6E 信号から配信され、衛星の軌道・クロック・バイアス補正が含まれています。
-補強対象となる GNSS は、GPS, GLONASS, Galileo, BeiDou, QZSS です。
+MADOCA-PPP の補正情報を用いることで、精密単独測位（Precise Point Positioning）を行うことができ、センチメータ級の測位精度が得られます。
+サービスは L6E 信号から配信され、衛星の軌道・クロック・バイアスの補正情報が含まれています。
+補強対象となる GNSS は GPS, GLONASS, Galileo, BeiDou, QZSS です。
 用いるアルゴリズムにもよりますが、数十センチ～センチメータ級の精度が得られるまで30分程度要します。
 
-2025年より、準天頂衛星の7機体制の整備がはじまりました。
-これに伴い、QZS6, QZS7 の L6D 信号から広域電離圏補正情報が配信されることになりました。
-従来の L6E 信号と併せて用いることで、収束時間を10分程度まで縮めることが可能になりました。
+2025年より、QZSS の7機体制の整備がはじまりました。
+これに伴い、**QZS6, QZS7 の L6D 信号から広域電離圏補正情報が配信**されることになりました。
+従来の L6E 信号と併せて用いることで、収束時間を**10分程度**まで縮めることが可能になりました。
 
-![](../assets/img/madoca-ppp-service-area-iono.jpg)
-**MADOCA-PPP 広域電離層情報 サービス範囲[^2]**
+![MADOCA-PPP 広域電離層補正 サービス範囲[^2]](../assets/img/madoca-ppp-service-area-iono.png){#fig-madoca-ppp-iono-service-area}
+
+[^2]: Coverage area of MADOCA-PPP ionospheric correction data, QSS, https://qzss.go.jp/en/technical/download/pdf/ps-is-qzss/Coverage%20area%20of%20MADOCA-PPP%20ionospheric%20correction%20data_20250714.pdf, 2026-07-16 アクセス
 
 本ガイドを通して、この MADOCA-PPP 広域電離圏補正サービスを体験していただきます。
 
-[^2]: MADOCA-PPP広域電離層情報カバーエリアの更新, 高橋賢, https://s-taka.org/madoca-ionosphere-update/, 2026-07-15 アクセス
+## QZSS が配信する補正情報とその位置づけ
 
-## 観測量と補正情報
+QZSS の L6 信号からは2種類の補正情報が配信されています。
+一つはセンチメータ級測位補強サービス（CLAS）で、日本全土をカバレッジとし、約 1 分でセンチメータ級の精度が得られるのが特徴です。
+そしてもう一つが MADOCA-PPP で、QZSS 可視域（アジア・オセアニア）をカバレッジとし、数十分でセンチメータ級の精度が得られるのが特徴です。
+2つに共通するのは、補正情報を**通信回線ではなく QZSS からの衛星配信で受け取る**点にあります。
+基準局や携帯回線を用意しなくても、受信機単体で精密測位を始められます。
 
-PPP は 2 種類のデータを突き合わせて計算します。
+| 測位手法 | 補正の配信 | カバレッジ | 収束（目安） | 通信インフラ |
+| --- | --- | --- | --- | --- |
+| RTK | 基準局との通信 | 基線 ~10 km | 数秒 | 要 |
+| ネットワーク RTK (VRS) | 基準局ネットワークとの通信 | 地域（ネットワークの範囲） | 数秒 | 要 |
+| CLAS (PPP-RTK) | QZSS 衛星配信 (L6D) | 日本国内 | 約 1 分 | 不要 |
+| **MADOCA-PPP** | QZSS 衛星配信 (L6E) | QZSS 可視域（@fig-madoca-ppp-service-area） | 約 30 分 | 不要 |
+| **MADOCA-PPP + 広域電離圏補正** | QZSS 衛星配信 (L6E + L6D) | 広域（@fig-madoca-ppp-iono-service-area） | **約 10 分** | 不要 |
+: 高精度測位手法の比較 {#tbl-comp-pos-algorithm}
 
-- **観測量 (Raw measurement)** — 受信機が測定した擬似距離・搬送波位相などのデータ。各 GNSS 衛星からの信号を観測した生の値で、誤差が含まれる。
-- **補正量** — QZSS L6 から届く軌道・クロック・電離圏などの補正情報。各 GNSS 衛星が持つ誤差を補正するためのデータ。
+RTK / ネットワーク RTK は瞬時にセンチメータ級の精度が得られますが、基準局との距離に制約があり、かつ補正情報を受信するための通信回線が別途必要です。
+CLAS (PPP-RTK) は RTK と PPP の中間に位置する技術で、PPP ほどの広域はカバーしないものの、RTK より広いエリアで RTK 並みの収束性が得られるのが特徴です。
 
-コンテナ内の MRTKLIB エンジンは、この 2 つを突き合わせて精密測位を行います。
+MADOCA-PPP は衛星配信のみで広域をカバーできる代わりに収束に時間がかかる、というトレードオフです。
+本ガイドで体験するのは、その収束を広域電離圏補正で短縮した **MADOCA-PPP + 広域電離圏補正** です。
+
+## Float PPP と PPP-AR/Iono
+
+PPP の収束時間は、搬送波位相の**整数値不定性（アンビギュイティ）**をどう扱うかで大きく変わります。
+
+- **Float PPP** — アンビギュイティを実数のまま推定する方式で、収束に数十分かかります。
+- **PPP-AR (Ambiguity Resolution)** — 位相バイアス補正を用いてアンビギュイティを解く方式で、精度・収束性が向上します。MADOCA-PPP は L6E でこのバイアス補正を配信しており、PPP-AR を利用することができます。
+- **PPP-AR/Iono** — さらに広域電離圏補正（L6D）を適用することでアンビギュイティ決定を後押しし、収束時間が約 10 分まで短縮されます。
+
+本ガイドではこの **PPP-AR/Iono** を動かし、UI 上で収束の様子を観察します。
+
+## 受信機が出力するデータ
+
+PPP エンジンは、受信機自身が測った**観測量**（擬似距離・搬送波位相）に対して QZSS L6 から届く**補正情報**を適用し、計算を行います。
 本ガイドの構成では、両方を 1 本の SBF ストリーム（`Support` メッセージ群）にまとめ、受信機の `USB1` ポートから出力します。
-受信機を USB で接続すると WSL 側に 2 つのシリアルポート（`/dev/ttyACM0` / `/dev/ttyACM1`）が現れますが、SBF が流れているのはそのうち一方です。起動スクリプトは中身を見て自動で判別します。
 
+受信機を USB で接続すると WSL 側に 2 つのシリアルポート（`/dev/ttyACM0` / `/dev/ttyACM1`）が現れますが、SBF が流れているのは一方だけで、起動スクリプトが中身を見て自動判別します。
 受信機側の具体的な設定は「[付録：受信機の手動設定](80-appendix-receiver-setup.qmd)」を参照してください（通常は `start.bat` が自動で行います）。
 
 ## 次のステップ

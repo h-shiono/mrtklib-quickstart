@@ -52,6 +52,10 @@ lang: en
 
 {{< include 50-using-ui.qmd >}}
 
+# Shutdown (Windows)
+
+{{< include 60-stop-windows.qmd >}}
+
 # Appendix: Receiver Setup
 
 {{< include 80-appendix-receiver-setup.qmd >}}

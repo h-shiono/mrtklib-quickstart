@@ -17,7 +17,7 @@ website:
     # assets/lang-switch.html (see format.html.include-after-body).
     right:
       - icon: github
-        href: https://github.com/h-shiono/mrtklib-docker-ui
+        href: https://github.com/h-shiono/mrtklib-quickstart
   sidebar:
     - id: en
       title: "English"
@@ -31,6 +31,7 @@ website:
         - en/31-run-macos.qmd
         - en/32-run-linux.qmd
         - en/50-using-ui.qmd
+        - en/60-stop-windows.qmd
         - en/80-appendix-receiver-setup.qmd
         - en/90-troubleshooting.qmd
     - id: ja
@@ -45,6 +46,7 @@ website:
         - ja/31-run-macos.qmd
         - ja/32-run-linux.qmd
         - ja/50-using-ui.qmd
+        - ja/60-stop-windows.qmd
         - ja/80-appendix-receiver-setup.qmd
         - ja/90-troubleshooting.qmd
 

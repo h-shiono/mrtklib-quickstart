@@ -1,0 +1,9 @@
+---
+title: "Shutdown (Windows)"
+lang: en
+---
+
+<!-- TODO: translate from ja/60-stop-windows.qmd.
+     Windows teardown: run stop.bat (stop the container + detach USB). -->
+
+TBD
