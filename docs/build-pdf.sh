@@ -7,10 +7,24 @@
 #  every chapter). The website (HTML) build is unaffected: the aggregators are
 #  excluded from it by their leading underscore.
 #
-#  Requirements (usually provided by CI):
-#    - Quarto
-#    - A LaTeX toolchain with lualatex (Japanese output needs CJK fonts)
-#    - Chromium for the Mermaid diagrams:  quarto tools install chromium
+#  Requirements (usually provided by CI). Verified on Ubuntu 24.04:
+#    - Quarto.
+#    - A CJK font, or every Japanese glyph is silently dropped:
+#        sudo apt-get install -y fonts-noto-cjk
+#    - Chromium, to rasterise the Mermaid diagrams:
+#        quarto tools install chromium
+#      plus the shared libraries its bundled build needs, which a minimal
+#      Ubuntu/WSL lacks (it fails with "libnss3.so: cannot open shared object"):
+#        sudo apt-get install -y libnss3 libnspr4 libasound2t64
+#    - A LaTeX toolchain with lualatex. TinyTeX auto-installs most packages, but
+#      NOT luatexja's default Japanese fonts (it cannot map the .otf to a
+#      package), so install them explicitly or lualatex aborts on
+#      "HaranoAjiMincho-Regular.otf ... not loadable":
+#        tlmgr install haranoaji
+#
+#  The PDF settings (documentclass / pdf-engine / CJKmainfont) live in each
+#  _manual.qmd, NOT in _quarto.yml: a `_`-prefixed file is outside the Quarto
+#  project and does not inherit project formats.
 #
 #  The title is overridden with -M so the aggregator title wins over the
 #  child chapters' front matter (which otherwise clobbers it, last-wins).

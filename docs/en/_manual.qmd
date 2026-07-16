@@ -1,6 +1,17 @@
 ---
 title: "mrtklib-quickstart (English)"
 lang: en
+format:
+  pdf:
+    documentclass: scrreprt
+    toc: true
+    number-sections: true
+    # A `_`-prefixed file sits outside the Quarto project, so it does NOT
+    # inherit format.pdf from _quarto.yml — the PDF settings must live here or
+    # the build silently falls back to xelatex/scrartcl. CJKmainfont is kept so
+    # any Japanese quoted in the English text still renders.
+    pdf-engine: lualatex
+    CJKmainfont: "Noto Sans CJK JP"
 ---
 
 <!--

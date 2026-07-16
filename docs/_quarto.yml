@@ -65,7 +65,9 @@ format:
     documentclass: scrreprt
     toc: true
     number-sections: true
-    # Engine for Japanese PDF. The CI must provide a TeX environment.
+    # Engine for Japanese PDF. The CI must provide a TeX environment,
+    # a CJK font (fonts-noto-cjk), and Chromium (for the Mermaid diagrams).
     pdf-engine: lualatex
+    CJKmainfont: "Noto Sans CJK JP"
 
 lang: en
