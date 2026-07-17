@@ -25,7 +25,16 @@ $ContainerPort = 8000
 $UiUrl         = "http://localhost:$HostPort"
 
 # Host directories for the container volumes (created if missing).
-$DataRoot  = Join-Path $env:USERPROFILE 'mrtklib-quickstart'
+# NOTE: start.bat self-elevates via UAC, so $env:USERPROFILE would resolve to
+# the *elevating admin* account, not the interactive user. On machines where the
+# admin account differs (e.g. a standard user elevating with a separate admin),
+# that path lives under another profile the logged-in user (and Docker Desktop)
+# cannot access -> "Access is denied" on the bind mount. Anchor the volumes to
+# the extracted project folder instead: the user always has access there and
+# Docker Desktop can mount it. ($PSScriptRoot = scripts\windows\lib -> repo root
+# is three levels up.)
+$RepoRoot  = Split-Path (Split-Path (Split-Path $PSScriptRoot -Parent) -Parent) -Parent
+$DataRoot  = Join-Path $RepoRoot 'mrtklib-quickstart-data'
 $Workspace = Join-Path $DataRoot 'workspace'
 $DataDir   = Join-Path $DataRoot 'data'
 

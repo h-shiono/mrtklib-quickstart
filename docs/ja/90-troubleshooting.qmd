@@ -38,17 +38,66 @@ SBF の `Support` 群は測位できていなくても出力されます。両�
 - **「開いているファイル - セキュリティの警告」** — 「実行」をクリックします。
 - **「WindowsによってPCが保護されました」（SmartScreen）** — 「詳細情報」をクリックすると「実行」が現れるので、これをクリックします。詳細は[起動（Windows）](30-run-windows.qmd)をご参照ください。
 
+## usbipd-win を winget でインストールできない {#sec-troubleshooting-winget}
+
+`winget install ... dorssel.usbipd-win` の実行時に、以下のようなエラーで先に進めない場合。
+
+```
+ソースの検索中に失敗しました: winget
+0x8a15000f : ソースに必要なデータがありません
+作業ソースの中にパッケージが見つかりませんでした
+```
+
+winget のパッケージ ソース（パッケージ一覧のインデックス）が未初期化、または現在のユーザープロファイルに登録されていない場合に発生します。次の順で対処します。
+
+1. ソースをリセットして再取得します。
+
+   ```ps
+   winget source reset --force
+   winget source update
+   ```
+
+2. 利用規約を自動承諾してインストールを再実行します。
+
+   ```ps
+   winget install --interactive --exact dorssel.usbipd-win --accept-source-agreements --accept-package-agreements
+   ```
+
+上記で解消しない場合は、winget を使わず手動でインストールします。[usbipd-win の GitHub Releases](https://github.com/dorssel/usbipd-win/releases/latest) から最新の `usbipd-win_x.x.x.msi` をダウンロードし、ダブルクリックしてインストールしてください。
+
+::: {.callout-note}
+標準ユーザーで作業し、管理者が別アカウントという環境では、昇格時に winget が管理者アカウント側で動作し、そのアカウントに winget ソースが登録されていないと本エラーになることがあります。この場合も、上記の手動インストール（`.msi`）が確実です。
+:::
+
 ## 管理者権限のエラー（usbipd bind failed） {#sec-troubleshooting-permission-error}
 
 `usbipd bind failed` や「管理者権限が必要」と表示される場合。
 
 - `start.bat` は実行時に管理者権限を求めます。「このアプリがデバイスに変更を加えることを許可しますか？」で**「はい」**を選んでください。誤って「いいえ」を選んだ場合は、もう一度 `start.bat` を実行してください。
 
+## usbipd attach に失敗する（WSL ディストリビューションがない） {#sec-troubleshooting-usbipd-attach}
+
+`usbipd attach failed` や、次のメッセージが表示される場合。
+
+```
+usbipd: error: There is no WSL 2 distribution running; ...
+```
+
+`usbipd attach --wsl` には、実体のある WSL2 ディストリビューション（本ガイドでは Ubuntu）が必要です。Docker Desktop の内部ディストリビューション（`docker-desktop`）はアタッチ先として認識されません。
+
+- **Ubuntu をインストールする** — 未導入の場合は、[インストール（Windows）](20-install-windows.qmd#sec-win-wsl2-install) の手順に従って `wsl --install -d Ubuntu` を実行し、初回セットアップ（ユーザー名・パスワード）を完了します。
+- **WSL2 で動作しているか確認する** — 次のコマンドで `Ubuntu` が表示され、`VERSION` が `2` であることを確認します。
+
+  ```ps
+  wsl -l -v
+  ```
+
 ## コンテナが起動しない {#sec-troubleshooting-container-not-starting}
 
 `docker run failed` や `docker command not found`、あるいは起動が進まない場合。
 
 - **Docker Desktop が起動しているか** — タスクバーの隠れているインジケーターで 🐋 にカーソルを重ね、`Docker Desktop running` を確認します。起動していなければ Docker Desktop を起動してから再実行してください。
+- **`... workspace: Access is denied` と表示される** — コンテナのデータ保存先にアクセスできない場合に発生します。最新のスクリプトでは、保存先をプロジェクトフォルダ配下（`mrtklib-quickstart-data`）に変更済みです。古いスクリプトを使っている場合は `scripts` フォルダを再取得してください。標準ユーザーで作業し、管理者が別アカウントの環境（昇格すると別プロファイルになる環境）で発生しやすい症状です。
 - **`docker command not found`** — Docker Desktop 自体が未インストールです。[インストール（Windows）](20-install-windows.qmd)をご参照ください。
 - **ポート 8080 が使用中** — 既存コンテナや他アプリが 8080 番を使っていると起動に失敗します。次のコマンドで既存コンテナを削除してから再実行します。
 

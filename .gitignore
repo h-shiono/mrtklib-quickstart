@@ -25,3 +25,6 @@ desktop.ini
 # Logs / temp
 *.log
 tmp/
+
+# Runtime data created by scripts/windows (container volumes)
+/mrtklib-quickstart-data/
