@@ -3,40 +3,10 @@ title: "トラブルシューティング"
 lang: ja
 ---
 
-<!-- Organized by symptom. Windows-first; macOS/Linux specifics are TODO. -->
+<!-- Organized by symptom, roughly in the order a user reaches them during setup.
+     Windows-first; macOS/Linux specifics are TODO. -->
 
 うまく動かないときは、まず表示されたエラーメッセージ（`[ERROR]` の行と `Next step:` のヒント）を確認してください。以下は症状別の対処です。
-
-## 受信機（COM ポート）が見つからない {#sec-troubleshooting-com-not-found}
-
-`No Septentrio COM port found` や `mosaic-G5 ... is not connected` と表示される場合。
-
-- **受信機が USB 接続されているか** — ケーブルを挿し直し、受信機の `PWR` LED が赤色に点灯していることを確認します。
-- **RxTools がインストールされているか** — 受信機を USB シリアルとして認識させるドライバは RxTools が提供します。インストールしていない場合は[インストール（Windows）](20-install-windows.qmd)を参照してください。
-- **RxControl など、他のアプリケーションが COM ポートを掴んでいないか** — RxControl を開いていると COM ポートを占有します。閉じてから再実行してください。
-- **既に WSL へアタッチ済みでないか** — 一度 WSL にアタッチすると Windows からは COM ポートが見えません。`scripts\windows\detach.bat` でデタッチしてから再実行します。
-
-::: {.callout-tip}
-デバイスマネージャーの「ポート (COM と LPT)」に `Septentrio Virtual USB COM Port` が2つ表示されていれば、Windows は受信機を認識できています。
-
-![デバイスマネージャーを使った COM ポートの確認](../assets/img/windows/device-manager-com.png){#fig-device-manager}
-:::
-
-## SBF ストリームが検出されない {#sec-troubleshooting-sbf-not-detected}
-
-`No SBF stream detected on the receiver's ports`、または検出時に両ポートが `0 bytes` と表示される場合。
-
-- **SBF の出力先が `USB1` になっているか** — `COM1`（物理シリアル）に出力していると USB 側には届きません。通常は `start.bat` が自動設定しますが、手動設定で上書きしている場合は[付録：受信機の手動設定](80-appendix-receiver-setup.qmd)を確認してください。
-- **`QZSL6` の Tracking が有効か** — 補正情報（`QZSRawL6D/E`）が出力されているか、同じく付録をご参照ください。
-
-::: {.callout-note}
-SBF の `Support` 群は測位できていなくても出力されます。両ポートが `0 bytes` の場合は「衛星が見えない」ではなく「出力先ポートの設定」を疑ってください。
-:::
-
-## セキュリティ警告で実行できない {#sec-troubleshooting-security-warning}
-
-- **「開いているファイル - セキュリティの警告」** — 「実行」をクリックします。
-- **「WindowsによってPCが保護されました」（SmartScreen）** — 「詳細情報」をクリックすると「実行」が現れるので、これをクリックします。詳細は[起動（Windows）](30-run-windows.qmd)をご参照ください。
 
 ## usbipd-win を winget でインストールできない {#sec-troubleshooting-winget}
 
@@ -66,14 +36,8 @@ winget のパッケージ ソース（パッケージ一覧のインデックス
 上記で解消しない場合は、winget を使わず手動でインストールします。[usbipd-win の GitHub Releases](https://github.com/dorssel/usbipd-win/releases/latest) から最新の `usbipd-win_x.x.x.msi` をダウンロードし、ダブルクリックしてインストールしてください。
 
 ::: {.callout-note}
-標準ユーザーで作業し、管理者が別アカウントという環境では、昇格時に winget が管理者アカウント側で動作し、そのアカウントに winget ソースが登録されていないと本エラーになることがあります。この場合も、上記の手動インストール（`.msi`）が確実です。
+winget を実行したユーザープロファイルに winget ソースが登録されていない場合にも、本エラーが発生します。この場合も、上記の手動インストール（`.msi`）が確実です。
 :::
-
-## 管理者権限のエラー（usbipd bind failed） {#sec-troubleshooting-permission-error}
-
-`usbipd bind failed` や「管理者権限が必要」と表示される場合。
-
-- `start.bat` は実行時に管理者権限を求めます。「このアプリがデバイスに変更を加えることを許可しますか？」で**「はい」**を選んでください。誤って「いいえ」を選んだ場合は、もう一度 `start.bat` を実行してください。
 
 ## usbipd attach に失敗する（WSL ディストリビューションがない） {#sec-troubleshooting-usbipd-attach}
 
@@ -92,12 +56,81 @@ usbipd: error: There is no WSL 2 distribution running; ...
   wsl -l -v
   ```
 
+## セキュリティ警告で実行できない {#sec-troubleshooting-security-warning}
+
+- **「開いているファイル - セキュリティの警告」** — 「実行」をクリックします。
+- **「WindowsによってPCが保護されました」（SmartScreen）** — 「詳細情報」をクリックすると「実行」が現れるので、これをクリックします。詳細は[起動（Windows）](30-run-windows.qmd)をご参照ください。
+
+## 管理者権限のエラー（usbipd bind failed） {#sec-troubleshooting-permission-error}
+
+`usbipd bind failed` や「管理者権限が必要」と表示される場合。
+
+- `start.bat` は実行時に管理者権限を求めます。「このアプリがデバイスに変更を加えることを許可しますか？」で**「はい」**を選んでください。誤って「いいえ」を選んだ場合は、もう一度 `start.bat` を実行してください。
+
+## 受信機（COM ポート）が見つからない {#sec-troubleshooting-com-not-found}
+
+`No Septentrio COM port found` や `mosaic-G5 ... is not connected` と表示される場合。
+
+- **受信機が USB 接続されているか** — ケーブルを挿し直し、受信機の `PWR` LED が赤色に点灯していることを確認します。
+- **RxTools がインストールされているか** — 受信機を USB シリアルとして認識させるドライバは RxTools が提供します。インストールしていない場合は[インストール（Windows）](20-install-windows.qmd)を参照してください。
+- **RxControl など、他のアプリケーションが COM ポートを掴んでいないか** — RxControl を開いていると COM ポートを占有します。閉じてから再実行してください。
+- **既に WSL へアタッチ済みでないか** — 一度 WSL にアタッチすると Windows からは COM ポートが見えません。`scripts\windows\detach.bat` でデタッチしてから再実行します。
+
+::: {.callout-tip}
+デバイスマネージャーの「ポート (COM と LPT)」に `Septentrio Virtual USB COM Port` が2つ表示されていれば、Windows は受信機を認識できています。
+
+![デバイスマネージャーを使った COM ポートの確認](../assets/img/windows/device-manager-com.png){#fig-device-manager}
+:::
+
+## SBF ストリームが検出されない {#sec-troubleshooting-sbf-not-detected}
+
+`No SBF stream detected on the receiver's ports`、または検出時に両ポートが `0 bytes` と表示される場合。
+
+- **SBF の出力先が `USB1` になっているか** — `COM1`（物理シリアル）に出力していると USB 側には届きません。通常は `start.bat` が自動設定しますが、手動設定で上書きしている場合は[付録：受信機の手動設定](80-appendix-receiver-setup.qmd)を確認してください。
+- **`QZSL6` の Tracking が有効か** — 補正情報（`QZSRawL6D/E`）が出力されているか、同じく付録をご参照ください。
+
+::: {.callout-note}
+SBF の `Support` 群は測位できていなくても出力されます。両ポートが `0 bytes` の場合は「衛星が見えない」ではなく「出力先ポートの設定」を疑ってください。
+:::
+
+## Docker Desktop が WSL2 バックエンドで動作していない {#sec-troubleshooting-backend}
+
+`docker run` の実行時に、次のいずれかのエラーが表示される場合。
+
+```
+docker: Error response from daemon: error gathering device information while adding custom device "/dev/ttyACM0": no such file or directory
+```
+
+```
+docker: Error response from daemon: ... workspace: Access is denied.
+```
+
+Docker Desktop が **Hyper-V バックエンド**で動作していると、コンテナは WSL2 とは別の仮想マシン上で実行されます。このため、WSL（Ubuntu）へアタッチした受信機のデバイスを参照できず（`no such file or directory`）、Windows のフォルダをマウントする際にもアクセスが拒否される（`Access is denied`）ことがあります。
+
+まず、次のコマンドで `docker-desktop` が登録されているかを確認します。
+
+```ps
+wsl -l -v
+```
+
+`docker-desktop` が表示されない場合は Hyper-V バックエンドで動作しています。
+[インストール（Windows）](20-install-windows.qmd#sec-win-docker-backend) の手順に従って `Use the WSL 2 based engine` を有効化し、`WSL Integration` で `Ubuntu` をオンにしてから、`start.bat` を再実行してください。
+
+::: {.callout-note}
+usbipd によるアタッチ自体が成功しているかは、次のコマンドで確認できます。
+`/dev/ttyACM0` `/dev/ttyACM1` が表示されていれば、WSL 側までは正常に届いています。
+
+```ps
+wsl ls /dev/ttyACM*
+```
+:::
+
 ## コンテナが起動しない {#sec-troubleshooting-container-not-starting}
 
 `docker run failed` や `docker command not found`、あるいは起動が進まない場合。
 
 - **Docker Desktop が起動しているか** — タスクバーの隠れているインジケーターで 🐋 にカーソルを重ね、`Docker Desktop running` を確認します。起動していなければ Docker Desktop を起動してから再実行してください。
-- **`... workspace: Access is denied` と表示される** — コンテナのデータ保存先にアクセスできない場合に発生します。最新のスクリプトでは、保存先をプロジェクトフォルダ配下（`mrtklib-quickstart-data`）に変更済みです。古いスクリプトを使っている場合は `scripts` フォルダを再取得してください。標準ユーザーで作業し、管理者が別アカウントの環境（昇格すると別プロファイルになる環境）で発生しやすい症状です。
+- **`... workspace: Access is denied` や `... no such file or directory` と表示される** — Docker Desktop が WSL2 バックエンドで動作していない場合に多く発生します。[Docker Desktop が WSL2 バックエンドで動作していない](#sec-troubleshooting-backend) を参照してください。
 - **`docker command not found`** — Docker Desktop 自体が未インストールです。[インストール（Windows）](20-install-windows.qmd)をご参照ください。
 - **ポート 8080 が使用中** — 既存コンテナや他アプリが 8080 番を使っていると起動に失敗します。次のコマンドで既存コンテナを削除してから再実行します。
 

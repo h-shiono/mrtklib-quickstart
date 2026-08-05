@@ -56,7 +56,9 @@ format:
       - cosmo
       - assets/theme.scss
     toc: true
+    toc-depth: 4
     number-sections: true
+    number-depth: 4
     # Loads the web fonts used by the refined theme (HTML only).
     include-in-header: assets/head.html
     # Injects the navbar language switcher (HTML only).

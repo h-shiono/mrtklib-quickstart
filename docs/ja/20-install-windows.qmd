@@ -5,7 +5,46 @@ lang: ja
 
 <!-- Installing Docker Desktop and prerequisites on Windows. -->
 
+## WSL2 {#sec-win-wsl2}
+
+Windows Subsystem for Linux 2 (WSL2) を有効化し、Ubuntu ディストリビューションをインストールします。
+
+### PowerShell を管理者権限で起動 {#sec-win-wsl2-powershell}
+
+Windows のスタートメニューから `PowerShell` を検索し、右クリックして「管理者として実行」をクリックします。
+
+![](../assets/img/windows/power-shell-run-as-admin.png)
+
+画面に「このアプリがデバイスに変更を加えることを許可しますか？」と表示されるので、「はい」を選択します。
+
+### WSL2 と Ubuntu のインストール {#sec-win-wsl2-install}
+
+以下のコマンドを入力して、WSL2 と Ubuntu ディストリビューションをインストールします。
+
+```ps
+wsl --install -d Ubuntu
+```
+
+インストールが完了したら、コンピューターを再起動します。
+
+再起動後、スタートメニューから `Ubuntu` を起動し、初回セットアップ（UNIX ユーザー名とパスワードの設定）を完了します。これにより、Ubuntu が既定のディストリビューションとして起動した状態になります。
+
+::: {.callout-note}
+本ガイドでは、受信機の USB を WSL へアタッチするために usbipd-win を使用します。
+`usbipd attach --wsl` は実体のある WSL2 ディストリビューションを必要とするため、後述の Docker Desktop のバックエンド（`docker-desktop`）とは別に、Ubuntu のインストールが必要です。
+:::
+
+Ubuntu が WSL2 で動作していることは、以下のコマンドで確認できます。`VERSION` が `2` になっていることを確認してください。
+
+```ps
+wsl -l -v
+```
+
+以上にて、WSL2 と Ubuntu のインストールは完了です。
+
 ## Docker Desktop {#sec-win-docker-desktop}
+
+Docker Desktop のインストールおよびバックエンド設定を行います。
 
 ### Docker Desktop のダウンロード {#sec-win-docker-desktop-download}
 
@@ -41,43 +80,54 @@ Docker Desktop が起動すると、`Welcome to Docker` 画面が表示されま
 
 ![](../assets/img/windows/welcome-to-docker.png)
 
-以上にて、Docker Desktop のインストールは完了です。
+### Docker Desktop のバックエンド設定 {#sec-win-docker-backend}
 
-## WSL2 {#sec-win-wsl2}
+Docker Desktop が WSL2 をバックエンドとして使用するように設定します。
 
-次に、Windows Subsystem for Linux 2 (WSL2) を有効化し、Ubuntu ディストリビューションをインストールします。
-
-### PowerShell を管理者権限で起動 {#sec-win-wsl2-powershell}
-
-Windows のスタートメニューから `PowerShell` を検索し、右クリックして「管理者として実行」をクリックします。
-
-![](../assets/img/windows/power-shell-run-as-admin.png)
-
-画面に「このアプリがデバイスに変更を加えることを許可しますか？」と表示されるので、「はい」を選択します。
-
-### WSL2 と Ubuntu のインストール {#sec-win-wsl2-install}
-
-以下のコマンドを入力して、WSL2 と Ubuntu ディストリビューションをインストールします。
-
-```ps
-wsl --install -d Ubuntu
-```
-
-インストールが完了したら、コンピューターを再起動します。
-
-再起動後、スタートメニューから `Ubuntu` を起動し、初回セットアップ（UNIX ユーザー名とパスワードの設定）を完了します。これにより、Ubuntu が既定のディストリビューションとして起動した状態になります。
-
-::: {.callout-note}
-本ガイドでは、受信機の USB を WSL へアタッチするために usbipd-win を使用します。`usbipd attach --wsl` は実体のある WSL2 ディストリビューションを必要とするため、Docker Desktop のバックエンド（`docker-desktop`）とは別に、Ubuntu のインストールが必要です。
+::: {.callout-important}
+本ガイドでは、usbipd-win で受信機の USB を WSL2 へアタッチし、そのデバイスをコンテナから読み取ります。Docker Desktop が Hyper-V バックエンドで動作していると、コンテナは WSL2 とは別の仮想マシン上で動作するためデバイスを参照できず、`docker run` が失敗します。**この設定は必須です。**
 :::
 
-Ubuntu が WSL2 で動作していることは、以下のコマンドで確認できます。`VERSION` が `2` になっていることを確認してください。
+#### WSL2 バックエンドの有効化 {#sec-win-docker-backend-engine}
+
+Docker Desktop を起動し、右上の歯車アイコンから `Settings` を開きます。
+`General` を選択し、`Use the WSL 2 based engine` にチェックを入れます。
+
+![](../assets/img/windows/docker-desktop-wsl2-engine.png)
+
+設定を変更した場合は、右下の `Apply & restart` をクリックして Docker Desktop を再起動します。
+
+#### WSL Integration の有効化 {#sec-win-docker-backend-integration}
+
+続いて `Settings` の `Resources` > `WSL Integration` を開きます。
+`Enable integration with my default WSL distro` が有効であることを確認し、一覧の `Ubuntu` をオンにします。
+
+![](../assets/img/windows/docker-desktop-wsl-integration.png)
+
+`Apply & restart` をクリックして Docker Desktop を再起動します。
+
+#### 設定の確認 {#sec-win-docker-backend-verify}
+
+PowerShell で以下のコマンドを実行します。
 
 ```ps
 wsl -l -v
 ```
 
-以上にて、WSL2 と Ubuntu のインストールは完了です。
+以下のように、`Ubuntu` と `docker-desktop` がいずれも `VERSION` `2` で表示されていれば、正しく設定されています。
+
+```ps
+  NAME              STATE           VERSION
+* Ubuntu            Running         2
+  docker-desktop    Running         2
+```
+
+::: {.callout-note}
+`docker-desktop` が表示されない場合、Docker Desktop はまだ Hyper-V バックエンドで動作しています。
+`Use the WSL 2 based engine` の設定を再確認してください。
+:::
+
+以上にて、Docker Desktop のインストールおよびバックエンド設定は完了です。
 
 ## usbipd-win のインストール {#sec-win-usbipd-install}
 
