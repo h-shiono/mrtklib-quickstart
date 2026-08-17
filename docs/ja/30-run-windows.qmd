@@ -60,6 +60,15 @@ Docker Desktop が起動しているかを確認するには、タスクバー�
 
 続いて画面に「このアプリがデバイスに変更を加えることを許可しますか？」と表示されるので、「はい」を選択します。
 
+### 前提条件の確認 {#sec-win-mrtklib-run-precheck}
+
+`[OK]` が表示されていることを確認します。
+
+```ps
+==> Starting prerequisite checks
+[OK] Prerequisite checks (skeleton) passed
+```
+
 ### 受信機の設定 {#sec-win-mrtklib-run-receiver}
 
 `[OK]` が表示されていることを確認します。
