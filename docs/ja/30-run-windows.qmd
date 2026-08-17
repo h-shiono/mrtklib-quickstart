@@ -64,7 +64,7 @@ Docker Desktop が起動しているかを確認するには、タスクバー�
 
 `[OK]` が表示されていることを確認します。
 
-```ps
+```powershell
 ==> Starting prerequisite checks
 [OK] Prerequisite checks (skeleton) passed
 ```
@@ -73,7 +73,7 @@ Docker Desktop が起動しているかを確認するには、タスクバー�
 
 `[OK]` が表示されていることを確認します。
 
-```ps
+```powershell
 ==> Configuring the receiver over COM
 [OK] Using receiver COM port COM9
 [OK]   setSignalTracking,+QZSL6
@@ -88,7 +88,7 @@ Docker Desktop が起動しているかを確認するには、タスクバー�
 
 `[OK]` が表示されていることを確認します。
 
-```ps
+```powershell
 ==> Attaching the USB device (mosaic-G5) to WSL
 [OK] Found mosaic-G5 at BusId 1-4
 ==> Binding BusId 1-4 (usbipd bind)
@@ -104,7 +104,7 @@ usbipd: info: Using IP address 172.24.80.1 to reach the host.
 
 `[OK]` が表示されていることを確認します。
 
-```ps
+```powershell
 ==> Starting the mrtklib-docker-ui container
 ==> Detecting the SBF serial port in WSL
   /dev/ttyACM0: 4096 bytes, SBF sync '$@' x24
@@ -121,7 +121,7 @@ usbipd: info: Using IP address 172.24.80.1 to reach the host.
 
 `[OK]` が表示されていることを確認します。
 
-```ps
+```powershell
 ==> docker run (hatognss/mrtklib-docker-ui:0.3.0-alpha)
 ==> Waiting for the web UI at http://localhost:8080
 [OK] Web UI is up; opening http://localhost:8080

@@ -134,6 +134,17 @@ pre.sourceCode {
   padding: 1rem 1.15rem;
   code, code span { color: $code-fg; line-height: 1.75; }
 }
+// Quarto tints inline code inside p/li/td (`li code.sourceCode { background }`),
+// and that selector also catches the <code> of a highlighted *block* fenced
+// inside a list item or paragraph. On the stock light theme the tint matches the
+// block surface and is invisible; over the dark surface it paints a light slab
+// at content width — the code turns illegible and spills past the rounded box
+// when the line is long. Repaint it transparent (0,1,3 beats Quarto's 0,1,2).
+p pre code.sourceCode,
+li pre code.sourceCode,
+td pre code.sourceCode {
+  background: transparent;
+}
 // Plain <pre> (unhighlighted output) scrolls on itself, so it keeps its own
 // surface rather than delegating to a wrapper.
 pre:not(.sourceCode) {

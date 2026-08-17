@@ -18,5 +18,5 @@ TODO: Diagram of the flow — receiver (mosaic-G5) → USB → container → UI.
 
 - Concepts → [Concepts](10-concepts.qmd)
 - Just run it → Install for your OS
-  ([Windows](20-install-windows.qmd) / [macOS](20-install-macos.qmd) / [Linux](20-install-linux.qmd)),
+  ([Windows](20-install-windows.qmd) / [macOS](21-install-macos.qmd) / [Linux](22-install-linux.qmd)),
   then your OS's Run chapter.

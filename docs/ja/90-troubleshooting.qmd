@@ -22,14 +22,14 @@ winget のパッケージ ソース（パッケージ一覧のインデックス
 
 1. ソースをリセットして再取得します。
 
-   ```ps
+   ```powershell
    winget source reset --force
    winget source update
    ```
 
 2. 利用規約を自動承諾してインストールを再実行します。
 
-   ```ps
+   ```powershell
    winget install --interactive --exact dorssel.usbipd-win --accept-source-agreements --accept-package-agreements
    ```
 
@@ -52,7 +52,7 @@ usbipd: error: There is no WSL 2 distribution running; ...
 - **Ubuntu をインストールする** — 未導入の場合は、[インストール（Windows）](20-install-windows.qmd#sec-win-wsl2-install) の手順に従って `wsl --install -d Ubuntu` を実行し、初回セットアップ（ユーザー名・パスワード）を完了します。
 - **WSL2 で動作しているか確認する** — 次のコマンドで `Ubuntu` が表示され、`VERSION` が `2` であることを確認します。
 
-  ```ps
+  ```powershell
   wsl -l -v
   ```
 
@@ -109,7 +109,7 @@ Docker Desktop が **Hyper-V バックエンド**で動作していると、コ�
 
 まず、次のコマンドで `docker-desktop` が登録されているかを確認します。
 
-```ps
+```powershell
 wsl -l -v
 ```
 
@@ -120,7 +120,7 @@ wsl -l -v
 usbipd によるアタッチ自体が成功しているかは、次のコマンドで確認できます。
 `/dev/ttyACM0` `/dev/ttyACM1` が表示されていれば、WSL 側までは正常に届いています。
 
-```ps
+```powershell
 wsl ls /dev/ttyACM*
 ```
 :::
@@ -134,14 +134,14 @@ wsl ls /dev/ttyACM*
 - **`docker command not found`** — Docker Desktop 自体が未インストールです。[インストール（Windows）](20-install-windows.qmd)をご参照ください。
 - **ポート 8080 が使用中** — 既存コンテナや他アプリが 8080 番を使っていると起動に失敗します。次のコマンドで既存コンテナを削除してから再実行します。
 
-  ```ps
+  ```powershell
   docker rm -f mrtklib-web-ui
   ```
 
 - **イメージの取得（pull）が遅い / 失敗する** — 初回はイメージのダウンロードに数分かかります。ネットワークを確認し、時間をおいて再実行してください。
 - **起動直後に落ちる** — 次のコマンドでログを確認します。
 
-  ```ps
+  ```powershell
   docker logs mrtklib-web-ui
   ```
 
@@ -150,18 +150,18 @@ wsl ls /dev/ttyACM*
 - **初回はイメージ取得に時間がかかる** — 起動待ちがタイムアウトしても、コンテナは動いている場合があります。少し待ってから手動で [http://localhost:8080](http://localhost:8080) を開いてください。
 - **コンテナが動いているか確認** — 次のコマンドで `mrtklib-web-ui` が `Up` かを確認します。無ければ `start.bat` を再実行します。
 
-  ```ps
+  ```powershell
   docker ps
   ```
 
   動作している場合
-  ```ps
+  ```powershell
   CONTAINER ID   IMAGE                                    COMMAND                   CREATED          STATUS                    PORTS                                         NAMES
   afa58c127340   hatognss/mrtklib-docker-ui:0.3.0-alpha   "uvicorn mrtklib_web…"   47 seconds ago   Up 46 seconds (healthy)   0.0.0.0:8080->8000/tcp, [::]:8080->8000/tcp   mrtklib-web-ui
   ```
 
   動作していない場合
-  ```ps
+  ```powershell
   CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
   ```
 

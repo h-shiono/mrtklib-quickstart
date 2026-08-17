@@ -19,7 +19,7 @@ lang: ja
 
 実行すると、以下のように `[OK]` が表示されれば完了です。
 
-```ps
+```powershell
 ==> Stopping the mrtklib-docker-ui container
 [OK] Container 'mrtklib-web-ui' stopped and removed
 ==> Detaching the USB device (mosaic-G5) from WSL

@@ -21,7 +21,7 @@ Windows のスタートメニューから `PowerShell` を検索し、右クリ�
 
 以下のコマンドを入力して、WSL2 と Ubuntu ディストリビューションをインストールします。
 
-```ps
+```powershell
 wsl --install -d Ubuntu
 ```
 
@@ -36,7 +36,7 @@ wsl --install -d Ubuntu
 
 Ubuntu が WSL2 で動作していることは、以下のコマンドで確認できます。`VERSION` が `2` になっていることを確認してください。
 
-```ps
+```powershell
 wsl -l -v
 ```
 
@@ -110,13 +110,13 @@ Docker Desktop を起動し、右上の歯車アイコンから `Settings` を�
 
 PowerShell で以下のコマンドを実行します。
 
-```ps
+```powershell
 wsl -l -v
 ```
 
 以下のように、`Ubuntu` と `docker-desktop` がいずれも `VERSION` `2` で表示されていれば、正しく設定されています。
 
-```ps
+```powershell
   NAME              STATE           VERSION
 * Ubuntu            Running         2
   docker-desktop    Running         2
@@ -133,7 +133,7 @@ wsl -l -v
 
 Windows パッケージ マネージャー (winget) を使用して usbipd-win をインストールします。
 
-```ps
+```powershell
 winget install --interactive --exact dorssel.usbipd-win
 ```
 
