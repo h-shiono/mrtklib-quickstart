@@ -129,7 +129,8 @@ wsl ls /dev/ttyACM*
 
 `docker run failed` や `docker command not found`、あるいは起動が進まない場合。
 
-- **Docker Desktop が起動しているか** — タスクバーの隠れているインジケーターで 🐋 にカーソルを重ね、`Docker Desktop running` を確認します。起動していなければ Docker Desktop を起動してから再実行してください。
+- **Docker Desktop が起動しているか** — タスクバーの隠れているインジケーターで 🐳 にカーソルを重ね、`Docker Desktop running` を確認します。起動していなければ Docker Desktop を起動してから再実行してください。
+    - ログインユーザと管理者ユーザが異なる場合 → [Docker Desktop を管理者権限で起動する](#sec-troubleshooting-docker-admin)
 - **`... workspace: Access is denied` や `... no such file or directory` と表示される** — Docker Desktop が WSL2 バックエンドで動作していない場合に多く発生します。[Docker Desktop が WSL2 バックエンドで動作していない](#sec-troubleshooting-backend) を参照してください。
 - **`docker command not found`** — Docker Desktop 自体が未インストールです。[インストール（Windows）](20-install-windows.qmd)をご参照ください。
 - **ポート 8080 が使用中** — 既存コンテナや他アプリが 8080 番を使っていると起動に失敗します。次のコマンドで既存コンテナを削除してから再実行します。
@@ -144,6 +145,21 @@ wsl ls /dev/ttyACM*
   ```powershell
   docker logs mrtklib-web-ui
   ```
+
+## Docker Desktop を管理者権限で起動する {#sec-troubleshooting-docker-admin}
+
+ログインユーザと管理者ユーザが異なる場合、**Docker Desktop を管理者権限で起動する必要があります。**
+すでに Docker Desktop が起動している場合には、先に[以下の手順](#sec-troubleshooting-docker-admin-stop)で Docker Desktop を停止します。
+
+### Docker Desktop の停止 {#sec-troubleshooting-docker-admin-stop}
+
+タスクバーの `^` から隠れているインジケーターを表示します。
+🐳のアイコンにカーソルを重ね、右クリックで `Quit Docker Desktop` をクリックし、終了します。
+
+### Docker Desktop の起動 {#sec-troubleshooting-docker-admin-start}
+
+Windows のスタートメニューから `Docker Desktop` を検索し、右クリックして「管理者として実行」をクリックします。
+管理者権限で起動し直した場合、Docker Desktop の設定はユーザごとに保存されるため、**[Docker Desktop のバックエンド設定](20-install-windows.qmd#sec-win-docker-backend)** をあらためて確認してください。
 
 ## ブラウザで UI が開かない {#sec-troubleshooting-browser-not-opening}
 

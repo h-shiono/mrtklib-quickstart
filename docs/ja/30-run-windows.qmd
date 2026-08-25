@@ -26,10 +26,11 @@ git clone git@github.com:h-shiono/mrtklib-quickstart.git
 1. **受信機とアンテナを接続**
 2. **受信機を USB 接続**
 3. **Docker Desktop の起動**
+    - ログインユーザと管理者ユーザが異なる場合 → [Docker Desktop を管理者権限で起動する](90-troubleshooting.qmd#sec-troubleshooting-docker-admin)
 
 ::: {.callout-note}
 Docker Desktop が起動しているかを確認するには、タスクバーの `^` から隠れているインジケーターを表示します。
-🐋のアイコンにカーソルを重ね、`Docker Desktop Running` と表示されれば Docker Desktop は起動中です。
+🐳のアイコンにカーソルを重ね、`Docker Desktop Running` と表示されれば Docker Desktop は起動中です。
 :::
 
 ### バッチファイルの実行 {#sec-win-mrtklib-run-batch}
@@ -60,7 +61,7 @@ Docker Desktop が起動しているかを確認するには、タスクバー�
 
 続いて画面に「このアプリがデバイスに変更を加えることを許可しますか？」と表示されるので、「はい」を選択します。
 
-### 前提条件の確認 {#sec-win-mrtklib-run-precheck}
+### 前提条件の確認 {#sec-win-mrtklib-run-prereq-check}
 
 `[OK]` が表示されていることを確認します。
 
