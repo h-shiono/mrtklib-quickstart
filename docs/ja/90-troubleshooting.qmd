@@ -133,18 +133,92 @@ wsl ls /dev/ttyACM*
     - ログインユーザと管理者ユーザが異なる場合 → [Docker Desktop を管理者権限で起動する](#sec-troubleshooting-docker-admin)
 - **`... workspace: Access is denied` や `... no such file or directory` と表示される** — Docker Desktop が WSL2 バックエンドで動作していない場合に多く発生します。[Docker Desktop が WSL2 バックエンドで動作していない](#sec-troubleshooting-backend) を参照してください。
 - **`docker command not found`** — Docker Desktop 自体が未インストールです。[インストール（Windows）](20-install-windows.qmd)をご参照ください。
-- **ポート 8080 が使用中** — 既存コンテナや他アプリが 8080 番を使っていると起動に失敗します。次のコマンドで既存コンテナを削除してから再実行します。
-
-  ```powershell
-  docker rm -f mrtklib-web-ui
-  ```
-
+- **ポート 8080 / 2101 が使用中** — 既存コンテナや他アプリがこれらのポートを使っていると起動に失敗します。詳しくは [ポートが使用中で起動できない](#sec-troubleshooting-port-in-use) を参照してください。
 - **イメージの取得（pull）が遅い / 失敗する** — 初回はイメージのダウンロードに数分かかります。ネットワークを確認し、時間をおいて再実行してください。
 - **起動直後に落ちる** — 次のコマンドでログを確認します。
 
   ```powershell
   docker logs mrtklib-web-ui
   ```
+
+## ポートが使用中で起動できない {#sec-troubleshooting-port-in-use}
+
+コンテナは 2 つのポートを使用します。どちらか一方でも埋まっていると `docker run` が失敗し、コンテナは起動しません。
+
+| ポート | 用途 |
+| --- | --- |
+| `8080` | Web UI（MRTKLIB Console） |
+| `2101` | 測位結果の TCP/IP 出力（[付録：測位結果の出力設定](81-appendix-output.qmd)） |
+
+::: {.callout-note}
+`2101` は TCP/IP 出力を使わない場合でも起動時に確保されます。出力機能を使う予定がなくても、このポートが埋まっていると起動に失敗します。
+:::
+
+次のようなエラーが表示されます。
+
+```
+docker: Error response from daemon: Ports are not available: exposing port TCP 0.0.0.0:2101 -> 127.0.0.1:0: listen tcp 0.0.0.0:2101: bind: Only one usage of each socket address ... is normally permitted.
+```
+
+### 前回のコンテナが残っている場合 {#sec-troubleshooting-port-stale-container}
+
+最も多い原因です。次のコマンドで削除してから `start.bat` を再実行します。
+
+```powershell
+docker rm -f mrtklib-web-ui
+```
+
+### 他のアプリがポートを使用している場合 {#sec-troubleshooting-port-other-app}
+
+次のコマンドで、ポートを使用しているプロセスの PID を調べます。
+
+```powershell
+netstat -ano | findstr :2101
+```
+
+表示された行の右端が PID です。プロセス名は次のコマンドで確認できます。
+
+```powershell
+tasklist /FI "PID eq 1234"
+```
+
+そのアプリを終了できない場合は、[使用するポートを変更する](#sec-troubleshooting-port-change) を参照してください。
+
+### Windows がポートを予約している場合 {#sec-troubleshooting-port-reserved}
+
+`netstat` に何も表示されないのに起動に失敗し、次のようなエラーが出る場合は、Windows（Hyper-V / WinNAT）がポート範囲を予約している可能性があります。
+
+```
+bind: An attempt was made to access a socket in a way forbidden by its access permissions.
+```
+
+予約されている範囲は次のコマンドで確認できます。管理者権限の PowerShell で実行してください（[PowerShell を管理者権限で起動](20-install-windows.qmd#sec-win-wsl2-powershell)）。
+
+```powershell
+netsh int ipv4 show excludedportrange protocol=tcp
+```
+
+表示された範囲に `8080` または `2101` が含まれていた場合、WinNAT を再起動すると予約が解放されることがあります。
+
+```powershell
+net stop winnat
+net start winnat
+```
+
+解放されない場合は、[使用するポートを変更する](#sec-troubleshooting-port-change) を参照してください。
+
+### 使用するポートを変更する {#sec-troubleshooting-port-change}
+
+`scripts\windows\lib\run-container.ps1` の冒頭にある次の値を、空いているポート番号に書き換えます。
+
+```powershell
+$HostPort      = 8080
+$OutPort       = 2101   # for TCP/IP output
+```
+
+::: {.callout-important}
+`$OutPort` を変更した場合は、UI の `Output & Log Streams` で設定する TCP Server のポート番号も同じ値に合わせてください。数字が一致していないと外部から接続できません。
+:::
 
 ## Docker Desktop を管理者権限で起動する {#sec-troubleshooting-docker-admin}
 
@@ -183,7 +257,7 @@ Windows のスタートメニューから `Docker Desktop` を検索し、右ク
 
 ## 測位が始まらない / FIX しない {#sec-troubleshooting-no-fix}
 
-- **UI の `Path` が正しいか** — バッチ実行時に `[OK] SBF stream detected on /dev/ttyACM*` と表示された方のパスを設定します（[UI の使い方](50-using-ui.qmd)）。
+- **UI の `Path` が正しいか** — `ttyACM0` を設定します（先頭の `/dev/` は不要）。起動スクリプトが SBF の出ているポートをコンテナ内で `/dev/ttyACM0` に固定して渡すため、環境によらずこの値です（[UI の使い方](50-using-ui.qmd)）。
 - **アンテナが遮蔽されていないか** — 屋内や上空が遮られる場所では衛星を捕捉できません。空の開けた場所にアンテナを設置してください。
 - **初回は航法データの取得に時間がかかる** — 測位が始まるまで数分待ちます。
 - **QZSS L6 が受信できているか** — MADOCA-PPP は QZSS L6 の補正情報が必要です。QZS の可視状況（仰角）を確認してください（[GNSS View](https://app.qzss.go.jp/GNSSView/gnssview.html)）。

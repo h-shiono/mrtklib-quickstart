@@ -33,6 +33,7 @@ website:
         - en/50-using-ui.qmd
         - en/60-stop-windows.qmd
         - en/80-appendix-receiver-setup.qmd
+        - en/81-appendix-output.qmd
         - en/90-troubleshooting.qmd
     - id: ja
       title: "日本語"
@@ -48,6 +49,7 @@ website:
         - ja/50-using-ui.qmd
         - ja/60-stop-windows.qmd
         - ja/80-appendix-receiver-setup.qmd
+        - ja/81-appendix-output.qmd
         - ja/90-troubleshooting.qmd
 
 format:

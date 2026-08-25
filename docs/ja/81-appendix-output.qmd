@@ -1,0 +1,125 @@
+---
+title: "付録：測位結果の出力設定"
+lang: ja
+---
+
+<!-- Appendix: feeding the MRTKLIB solution to an external consumer.
+
+     Structure rationale:
+       - File      : zero setup (the /workspace volume is already mounted rw)
+       - TCP Server: the OS-independent primary route; needs a published port
+       - Serial    : Windows(WSL) / Linux only. Docker Desktop for Mac has no
+                     serial/--device passthrough (see scripts/macos/README.md)
+       - NTRIP / TCP Client: outbound, so no port publishing is needed
+
+     Settled:
+       - The published TCP port is 2101 (run-container.ps1 $OutPort), matching
+         the UI's tcpsvr placeholder. Port conflicts are covered by
+         90-troubleshooting.qmd#sec-troubleshooting-port-in-use.
+       - run-container.ps1 passes only the SBF node, pinned to /dev/ttyACM0 in
+         the container. The receiver's CON node stays in WSL, unused.
+
+     TODO(open decision):
+       - Serial: attaching additional USB devices is not implemented yet
+         (an opt-in VID:PID list was proposed). Until then this section
+         documents the manual usbipd procedure only.
+
+     CAUTION for the macOS / Linux implementations:
+       「UI の Path は常に ttyACM0」is now asserted OS-independently in
+       10-concepts.qmd, 50-using-ui.qmd and 90-troubleshooting.qmd. When
+       scripts/macos/lib and the Linux equivalent are written, they MUST
+       reproduce the same `--device <detected>:/dev/ttyACM0` renaming, or
+       those three statements become wrong.
+-->
+
+## 概要 {#sec-output-overview}
+
+MRTKLIB の測位結果は様々な形で外部出力し、利活用することができます。
+本章では出力方法に応じた設定方法を説明します。
+
+出力の設定は、UI の `Output & Log Streams` にある `Output 1 (Solution)` / `Output 2` の 2 系統で行います。
+
+| 出力方法 | 主な用途 | 対応 OS | 事前準備 |
+| --- | --- | --- | --- |
+| [File](#sec-output-file) | ログとして保存し、後から解析する | Windows / macOS / Linux | 不要 |
+| [TCP/IP Server](#sec-output-tcpsvr) | 別アプリ・別端末からリアルタイムに受け取る | Windows / macOS / Linux | 不要 |
+| [Serial（USB）](#sec-output-serial) | 外部機器へリアルタイムに流し込む | Windows / Linux のみ | 必要（手動） |
+| [NTRIP / TCP Client](#sec-output-client) | 外部サーバへ送信する | Windows / macOS / Linux | 不要 |
+
+::: {.callout-note}
+`Output 1` と `Output 2` には別々の出力方法を設定できます。たとえば「`Output 1` で TCP/IP Server に流しつつ、`Output 2` でファイルにも残す」といった併用が可能です。
+:::
+
+## 出力フォーマットの選択 {#sec-output-format}
+
+<!-- TODO: OUTPUT_FORMATS の実際の選択肢を UI で確認して表にする。
+     NMEA / 解ファイル形式など。スクリーンショットも1枚。 -->
+
+## File 出力 {#sec-output-file}
+
+<!-- TODO:
+     - Type=File, Path=/workspace/out_%Y%m%d.pos の設定手順 + スクリーンショット
+     - /workspace はホストの mrtklib-quickstart-data/workspace に出る旨
+       （run-container.ps1 の -v "${Workspace}:/workspace:rw"）
+     - %Y%m%d などの時刻置換と ::S=1 のスワップ指定に触れる -->
+
+## TCP/IP Server 出力 {#sec-output-tcpsvr}
+
+<!-- TODO:
+     - Type=TCP Server, Path=:2101 の設定手順 + スクリーンショット
+     - 受け取り側の例（別端末から nc / str2str で接続して確認） -->
+
+::: {.callout-important}
+測位結果の出力用に公開されているポートは **`2101` のみ**です。UI で別のポート番号を指定しても外部からは接続できません。
+公開ポート自体を変更したい場合は [使用するポートを変更する](90-troubleshooting.qmd#sec-troubleshooting-port-change) を参照してください。
+:::
+
+<!-- TODO(security callout): 公開範囲の注意
+     - 既定では 0.0.0.0 で公開されるため LAN 上の全端末から到達する
+     - MRTKLIB の TCP Server は無認証
+     - 同一 PC 内でのみ使うなら 127.0.0.1 バインドに変更する案内
+     - LAN 越しに使う場合の Windows Firewall の許可 -->
+
+## Serial（USB）出力 {#sec-output-serial}
+
+::: {.callout-warning}
+Serial 出力は **Windows（WSL 経由）と Linux でのみ**利用できます。Docker Desktop for Mac はシリアルデバイスのパススルーに対応していないため、macOS では利用できません。macOS では [TCP/IP Server 出力](#sec-output-tcpsvr) をご利用ください。
+:::
+
+<!-- TODO(pending decision): 手順の確定待ち。確定後に埋める。
+     現時点で確定している制約:
+       - --device は docker run 時にしか渡せないため「先に USB を挿してから
+         起動」の順序が必須。稼働中コンテナへの後付けは不可
+       - 手順は「usbipd attach → start.bat を再実行」で完結する
+         （run-container.ps1 がコンテナを作り直すため）
+       - UI の serial パス書式は `ttyUSB0:115200`（/dev/ プレフィックス不要）
+       - stop.bat は mosaic-G5 の VID:PID しかデタッチしないので、
+         追加したデバイスは `usbipd detach --busid X-Y` で手動デタッチが必要
+       - 出力先が CDC-ACM 機器の場合、detect-sbf-port.sh が起動時に
+         約3秒間そのポートを読みにいく
+       - run-container.ps1 が --device で渡すのは SBF ノード1本のみなので、
+         追加した出力先デバイスを渡すにはスクリプト側の対応が別途必要 -->
+
+### 出力先デバイスの接続 {#sec-output-serial-attach}
+
+<!-- TODO -->
+
+### UI の設定 {#sec-output-serial-config}
+
+<!-- TODO -->
+
+### 終了時のデタッチ {#sec-output-serial-detach}
+
+<!-- TODO -->
+
+## NTRIP / TCP Client 出力 {#sec-output-client}
+
+<!-- TODO:
+     - 外向き接続なのでポート公開は不要である旨
+     - Type=NTRIP Client / TCP Client のパス書式
+       ntrip: [user[:passwd]@]addr[:port][/mntpnt]
+       tcpcli: addr[:port] -->
+
+## うまくいかない場合 {.unnumbered}
+
+- [トラブルシューティング](90-troubleshooting.qmd)

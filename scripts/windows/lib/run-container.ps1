@@ -4,8 +4,8 @@
 #  Role:
 #   1. Detect which WSL serial node carries the receiver's SBF stream
 #      (fail fast if none is flowing).
-#   2. docker run the container, passing the receiver's COM node(s) and the
-#      workspace/data volumes, publishing the web UI port.
+#   2. docker run the container, passing that node under a fixed path and the
+#      workspace/data volumes, publishing the web UI and solution-output ports.
 #   3. Wait for the UI to answer, then open the browser.
 #
 #  Image / ports / volumes come from the mrtklib-docker-ui README:
@@ -22,7 +22,12 @@ $Image         = 'hatognss/mrtklib-docker-ui:0.3.0-alpha'   # alt: ghcr.io/h-shi
 $ContainerName = 'mrtklib-web-ui'
 $HostPort      = 8080
 $ContainerPort = 8000
+$OutPort       = 2101   # for TCP/IP output
 $UiUrl         = "http://localhost:$HostPort"
+
+# Fixed path the receiver's SBF node gets inside the container (see step 1).
+# The docs and the bundled preset refer to this name, so keep them in sync.
+$ContainerDevice = '/dev/ttyACM0'
 
 # Host directories for the container volumes (created if missing).
 # NOTE: start.bat self-elevates via UAC, so $env:USERPROFILE would resolve to
@@ -79,12 +84,18 @@ if ($LASTEXITCODE -ne 0 -or -not $sbfDevice) {
 }
 Write-Ok "SBF stream detected on $sbfDevice"
 
-# Pass every receiver COM node (both raw / CON) so the container can pick.
-$nodes = ((wsl bash -c "ls /dev/ttyACM* 2>/dev/null" | Out-String).Trim() -split "\s+") |
-         Where-Object { $_ }
-$deviceArgs = @()
-foreach ($n in $nodes) { $deviceArgs += @('--device', "${n}:${n}") }
-Write-Ok "Passing device(s): $($nodes -join ', ')"
+# Pass ONLY the node carrying SBF, pinned to a fixed path in the container.
+# Which host node carries SBF varies (ttyACM0 / ttyACM1) with the receiver's
+# USB1/USB2 assignment and the WSL enumeration order, so the participant used to
+# have to read the detected path out of the log above and retype it in the UI.
+# docker's `--device host:container` renaming removes that step: whatever the
+# host node is, the container always sees it at $ContainerDevice, so the UI's
+# rover path is a constant.
+# The receiver's other node (the CON / command port) is deliberately NOT passed:
+# configure-receiver.ps1 talks to the receiver over COM on the Windows side
+# *before* the attach, so nothing in the container needs it. It stays in WSL.
+$deviceArgs = @('--device', "${sbfDevice}:${ContainerDevice}")
+Write-Ok "Passing device: $sbfDevice -> $ContainerDevice (as seen in the container)"
 
 # --- 2. Prepare host volume directories -------------------------------------
 New-Item -ItemType Directory -Force -Path $Workspace, $DataDir | Out-Null
@@ -99,7 +110,8 @@ if ($existing) {
 Write-Step "docker run ($Image)"
 $runArgs = @(
     'run', '-d', '--name', $ContainerName,
-    '-p', "${HostPort}:${ContainerPort}"
+    '-p', "${HostPort}:${ContainerPort}",
+    '-p', "${OutPort}:${OutPort}"
 ) + $deviceArgs + @(
     '-v', "${Workspace}:/workspace:rw",
     '-v', "${DataDir}:/data:ro",

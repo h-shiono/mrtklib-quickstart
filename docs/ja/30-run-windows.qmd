@@ -111,11 +111,13 @@ usbipd: info: Using IP address 172.24.80.1 to reach the host.
   /dev/ttyACM0: 4096 bytes, SBF sync '$@' x24
   /dev/ttyACM1: 0 bytes, SBF sync '$@' x0
 [OK] SBF stream detected on /dev/ttyACM0
-[OK] Passing device(s): /dev/ttyACM0, /dev/ttyACM1
+[OK] Passing device: /dev/ttyACM0 -> /dev/ttyACM0 (as seen in the container)
 ```
 
 ::: {.callout-note}
-`[OK] SBF stream detected on /dev/ttyACM*` で書かれたパス（`ttyACM0` もしくは `ttyACM1`）は後ほど UI 設定時に使用します。
+受信機は2つの仮想 COM ポートを持ち、SBF が出ている方は環境によって `ttyACM0` にも `ttyACM1` にもなります。
+バッチファイルは検出した方のポートだけを、**コンテナ内では必ず `/dev/ttyACM0`** として渡します。
+そのため、後ほど UI で設定するパスは常に `ttyACM0` です。
 :::
 
 ### Web ブラウザの起動 {#sec-win-mrtklib-run-browser}

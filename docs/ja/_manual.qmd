@@ -70,6 +70,10 @@ format:
 
 {{< include 80-appendix-receiver-setup.qmd >}}
 
+# 付録：測位結果の出力設定
+
+{{< include 81-appendix-output.qmd >}}
+
 # トラブルシューティング
 
 {{< include 90-troubleshooting.qmd >}}
