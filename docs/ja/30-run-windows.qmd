@@ -67,8 +67,28 @@ Docker Desktop が起動しているかを確認するには、タスクバー�
 
 ```powershell
 ==> Starting prerequisite checks
-[OK] Prerequisite checks (skeleton) passed
+[OK] Administrator privileges
+[OK] WSL2 distribution: Ubuntu
+[OK] Docker Desktop is running
+[OK] Docker Desktop is using the WSL2 backend
+[OK] usbipd-win 4.4.0
+[OK] mosaic-G5 found at BusId 1-4
+[OK] Ports 8080, 2101 are free
+[OK] Prerequisite checks passed
 ```
+
+::: {.callout-note}
+`[OK]` にならなかった項目がある場合は、次のように**不足しているものがまとめて**表示され、処理は中断されます。
+表示された `Next step` に従って対処し、`start.bat` を実行し直してください。
+
+```powershell
+[ERROR] Prerequisite checks failed (2 problem(s))
+  1. Cannot reach the Docker daemon
+     Next step: Start Docker Desktop and wait for 'Docker Desktop running'. ...
+  2. mosaic-G5 (VID_152A&PID_8231) is not connected
+     Next step: Connect the receiver by USB and confirm its driver (RxTools) ...
+```
+:::
 
 ### 受信機の設定 {#sec-win-mrtklib-run-receiver}
 

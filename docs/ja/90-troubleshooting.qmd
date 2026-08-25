@@ -209,12 +209,16 @@ net start winnat
 
 ### 使用するポートを変更する {#sec-troubleshooting-port-change}
 
-`scripts\windows\lib\run-container.ps1` の冒頭にある次の値を、空いているポート番号に書き換えます。
+`scripts\windows\lib\common.ps1` の冒頭にある次の値を、空いているポート番号に書き換えます。
 
 ```powershell
-$HostPort      = 8080
-$OutPort       = 2101   # for TCP/IP output
+$HostPort      = 8080   # web UI (MRTKLIB Console)
+$OutPort       = 2101   # TCP/IP output of the solution
 ```
+
+::: {.callout-note}
+この2つの値は `common.ps1` の1箇所で定義され、前提条件の確認とコンテナ起動の両方から参照されます。他のファイルを書き換える必要はありません。
+:::
 
 ::: {.callout-important}
 `$OutPort` を変更した場合は、UI の `Output & Log Streams` で設定する TCP Server のポート番号も同じ値に合わせてください。数字が一致していないと外部から接続できません。

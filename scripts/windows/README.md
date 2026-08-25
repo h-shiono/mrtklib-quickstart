@@ -10,7 +10,7 @@ This file is for **people who edit the scripts**.
 | `start.bat` | Entry point participants run. UAC self-elevation, then orchestrates the setup `lib\*.ps1` |
 | `stop.bat` | Teardown counterpart: stop the container + detach USB (no elevation) |
 | `detach.bat` | Detach the receiver's USB from WSL (`/unbind` also releases the share) |
-| `lib/common.ps1` | Shared utilities, prerequisite checks, `Fail-With-Hint` (symptom + next step) |
+| `lib/common.ps1` | Shared constants (VID:PID, container name, ports), utilities, `Fail-With-Hint` (symptom + next step), and the standalone prerequisite checks |
 | `lib/configure-receiver.ps1` | Send ASCII config commands to the receiver over COM, **before** attach |
 | `lib/usb-attach.ps1` | Find the mosaic-G5 by VID:PID (`152A:8231`), then bind + attach to WSL |
 | `lib/usb-detach.ps1` | Detach (and optionally unbind) the mosaic-G5 from WSL |
@@ -37,9 +37,20 @@ filesystem.
 - **Idempotent**: repeated runs do not accumulate side effects; detect existing state and skip.
 - **Disposable**: a failed run can recover by re-running.
 - **Errors carry a next step**: use `Fail-With-Hint` to always print symptom + remedy.
+- **Constants live in `common.ps1` only**: the receiver's VID:PID, the container
+  name and the published ports are defined once and dot-sourced. Do not
+  re-declare them in a sibling script.
+- **Prerequisite checks mirror the troubleshooting doc**: each check in
+  `common.ps1` corresponds to a section of `docs/ja/90-troubleshooting.qmd` and
+  its "next step" points there. Add a check and add the section, or neither.
+- **The prerequisite checks collect, they do not fail fast**: a participant
+  missing three things should learn all three in one run.
 
 ## TODO
 
-- [ ] Flesh out the prerequisite checks in `common.ps1` (Docker **daemon** running,
-      usbipd-win present, WSL2 enabled) — currently only checks that `docker` exists.
-- [ ] macOS / Linux equivalents.
+- [ ] macOS / Linux equivalents. Note that `run-container.ps1` pins the SBF node
+      to `/dev/ttyACM0` inside the container via `--device host:container`; the
+      docs state that path OS-independently, so the other platforms must do the
+      same renaming.
+- [ ] Optional opt-in attach of additional USB devices (serial output targets),
+      see `docs/ja/81-appendix-output.qmd`.

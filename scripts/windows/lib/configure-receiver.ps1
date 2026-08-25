@@ -24,11 +24,6 @@
 $ErrorActionPreference = 'Stop'
 . "$PSScriptRoot\common.ps1"
 
-# --- mosaic-G5 USB identifier (must match usb-attach.ps1) --------------------
-$VendorId  = '152A'
-$ProductId = '8231'
-$IdPattern = "VID_${VendorId}&PID_${ProductId}"
-
 # --- Command sequence -------------------------------------------------------
 $Commands = @(
     'setSignalTracking,+QZSL6'
@@ -46,7 +41,7 @@ Write-Step "Configuring the receiver over COM"
 # to WSL (detach first) or simply not connected.
 function Find-ReceiverComPort {
     $entities = Get-CimInstance Win32_PnPEntity -ErrorAction SilentlyContinue |
-        Where-Object { $_.PNPDeviceID -match $IdPattern -and $_.Name -match '\(COM\d+\)' }
+        Where-Object { $_.PNPDeviceID -match $ReceiverIdPattern -and $_.Name -match '\(COM\d+\)' }
     foreach ($e in $entities) {
         if ($e.Name -match '\((COM\d+)\)') { return $matches[1] }
     }

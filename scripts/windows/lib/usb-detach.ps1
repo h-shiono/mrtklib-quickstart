@@ -21,11 +21,6 @@ param(
 $ErrorActionPreference = 'Stop'
 . "$PSScriptRoot\common.ps1"
 
-# --- mosaic-G5 USB identifier (must match usb-attach.ps1) --------------------
-$VendorId  = '152A'
-$ProductId = '8231'
-$IdPattern = "VID_${VendorId}&PID_${ProductId}"
-
 Write-Step "Detaching the USB device (mosaic-G5) from WSL"
 
 if (-not (Test-Command 'usbipd')) {
@@ -41,7 +36,7 @@ try {
                    "Run 'usbipd list' manually to check"
 }
 
-$devices = @($state.Devices | Where-Object { $_.InstanceId -match $IdPattern -and $_.BusId })
+$devices = @($state.Devices | Where-Object { $_.InstanceId -match $ReceiverIdPattern -and $_.BusId })
 
 if ($devices.Count -eq 0) {
     Write-Ok "mosaic-G5 is not connected; nothing to detach"

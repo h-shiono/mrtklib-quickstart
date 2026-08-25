@@ -3,7 +3,8 @@
 #
 #  Role: use usbipd-win (v4+/v5) to find the mosaic-G5 among the *currently
 #        connected* USB devices by VID:PID, then bind and attach it to WSL so
-#        the container can read the two virtual COM ports (raw / CON).
+#        its two virtual COM ports (raw / CON) appear there. run-container.ps1
+#        then passes only the one carrying SBF into the container.
 #
 #  Idempotency: if the device is already attached, do nothing.
 # ============================================================================
@@ -11,14 +12,9 @@
 $ErrorActionPreference = 'Stop'
 . "$PSScriptRoot\common.ps1"
 
-# --- mosaic-G5 USB identifier -----------------------------------------------
 # The receiver enumerates as ONE composite USB device that exposes BOTH virtual
 # COM ports (Port 1 / Port 2), so attaching this single device hands both ports
-# to WSL at once.
-#   usbipd state -> InstanceId "USB\VID_152A&PID_8231\..."
-$VendorId  = '152A'
-$ProductId = '8231'
-$IdPattern = "VID_${VendorId}&PID_${ProductId}"
+# to WSL at once. $ReceiverIdPattern comes from common.ps1.
 
 Write-Step "Attaching the USB device (mosaic-G5) to WSL"
 
@@ -38,10 +34,10 @@ try {
                    "Reinstall usbipd-win, or run 'usbipd list' manually to check"
 }
 
-$devices = @($state.Devices | Where-Object { $_.InstanceId -match $IdPattern -and $_.BusId })
+$devices = @($state.Devices | Where-Object { $_.InstanceId -match $ReceiverIdPattern -and $_.BusId })
 
 if ($devices.Count -eq 0) {
-    Fail-With-Hint "mosaic-G5 (VID_${VendorId}&PID_${ProductId}) is not connected" `
+    Fail-With-Hint "mosaic-G5 (VID_${ReceiverVendorId}&PID_${ReceiverProductId}) is not connected" `
                    "Reconnect the receiver by USB and confirm its driver (RxTools) is installed"
 }
 if ($devices.Count -gt 1) {

@@ -18,11 +18,10 @@ $ErrorActionPreference = 'Stop'
 . "$PSScriptRoot\common.ps1"
 
 # --- Configuration ----------------------------------------------------------
+# $ContainerName / $HostPort / $OutPort come from common.ps1, so the
+# prerequisite check and this script always agree on them.
 $Image         = 'hatognss/mrtklib-docker-ui:0.3.0-alpha'   # alt: ghcr.io/h-shiono/mrtklib-docker-ui:0.3.0-alpha
-$ContainerName = 'mrtklib-web-ui'
-$HostPort      = 8080
 $ContainerPort = 8000
-$OutPort       = 2101   # for TCP/IP output
 $UiUrl         = "http://localhost:$HostPort"
 
 # Fixed path the receiver's SBF node gets inside the container (see step 1).
