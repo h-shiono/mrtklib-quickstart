@@ -73,7 +73,7 @@ Docker Desktop が起動しているかを確認するには、タスクバー�
 [OK] WSL2 distribution: Ubuntu
 [OK] Docker Desktop is running
 [OK] Docker Desktop is using the WSL2 backend
-[OK] usbipd-win 4.4.0
+[OK] usbipd-win 5.3.0
 [OK] mosaic-G5 found at BusId 1-4
 [OK] Ports 8080, 2101 are free
 [OK] Prerequisite checks passed

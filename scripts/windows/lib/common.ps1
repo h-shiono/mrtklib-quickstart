@@ -34,12 +34,20 @@ function Write-Ok    { param([string]$Msg) Write-Host "[OK] $Msg" -ForegroundCol
 function Write-Warn  { param([string]$Msg) Write-Host "[!!] $Msg" -ForegroundColor Yellow }
 
 # Print "symptom + next step" and stop.
+#
+# Exits rather than throwing. An uncaught `throw` makes PowerShell append its
+# own error record -- the exception message again, the maintainer's script path,
+# the offending line with a squiggly underline, CategoryInfo and
+# FullyQualifiedErrorId -- directly under the message a participant is meant to
+# read, where it looks like a second, worse failure. `exit 1` gives start.bat
+# the same non-zero exit code with none of that. Note that this exits the whole
+# script, so it must stay a last resort, never a recoverable error.
 function Fail-With-Hint {
     param([string]$Symptom, [string]$NextStep)
     Write-Host ""
     Write-Host "[ERROR] $Symptom" -ForegroundColor Red
     Write-Host "  Next step: $NextStep" -ForegroundColor Yellow
-    throw $Symptom
+    exit 1
 }
 
 # Whether a command exists (basic building block for idempotent checks).
@@ -187,8 +195,22 @@ if ($MyInvocation.InvocationName -ne '.') {
             Add-Problem "usbipd not found" `
                         "Install usbipd-win: see docs 20-install-windows (usbipd-win)"
         } else {
-            $ver = (usbipd --version 2>$null | Out-String).Trim()
-            if ($ver -match '^(\d+)\.' -and [int]$matches[1] -lt 4) {
+            # `usbipd --version` reports a git-describe string, e.g.
+            # "5.3.0-54+Branch.master.Sha.aa3db8b8...aa3db8b8..." -- long enough
+            # to wrap the console twice and swamp the surrounding [OK] lines.
+            # Show the X.Y.Z core; the major is all the version gate needs.
+            $rawVer = (usbipd --version 2>$null | Out-String).Trim()
+            $ver    = $rawVer
+            $major  = $null
+            if ($rawVer -match '^(\d+)(?:\.\d+){0,2}') {
+                $ver   = $matches[0]
+                $major = [int]$matches[1]
+            }
+            # An unrecognised (or empty) version is not treated as a failure:
+            # `usbipd state` below is the real capability test, and it fails
+            # with a better message than a version guess would.
+            if (-not $ver) { $ver = '(version unknown)' }
+            if ($null -ne $major -and $major -lt 4) {
                 Add-Problem "usbipd-win $ver is too old" `
                             "Upgrade to v4 or later: 'winget upgrade --interactive --exact dorssel.usbipd-win'"
             } else {
@@ -256,7 +278,7 @@ if ($MyInvocation.InvocationName -ne '.') {
             $n++
         }
         Write-Host ""
-        throw "Prerequisite checks failed"
+        exit 1   # not `throw`, for the reason given on Fail-With-Hint
     }
 
     Write-Ok "Prerequisite checks passed"
