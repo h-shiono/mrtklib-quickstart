@@ -11,7 +11,7 @@ lang: ja
 
 栞のアイコンをクリックすると、Preset が開きます。
 
-`QZSS MADOCA (BUILT-IN)` と書かれた Preset をダウンロードします。
+`QZSS MADOCA (BUILT-IN)` と書かれた Preset を読み込みます。
 `Load preset will overwrite current settings. Continue?` と聞かれるので、`Load` をクリックして読み込みます。
 
 ![](../assets/img/mrtklib-preset.png)
@@ -60,6 +60,13 @@ lang: ja
 ## 以上で MADOCA-PPP の体験は完了です 🎉 {.unnumbered}
 
 体験を終えるときは、[終了処理（Windows）](60-stop-windows.qmd) を行いコンテナの停止と USB のデタッチを行ってください。
+
+::: {.callout-tip}
+日本国内で本チュートリアルを実行されているかたは、`QZSS CLAS (BUILT-IN)` と書かれた Preset を読み込むことで、CLAS (PPP-RTK) の測位もお試しいただくことができます。
+ぜひ、MADOCA-PPP との違いを体験してみてください。
+
+![](../assets/img/mrtklib-clas.png)
+:::
 
 さらに学びたい方は、以下のリンクを参考にしてください。
 

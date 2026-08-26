@@ -234,9 +234,14 @@ $OutPort       = 2101   # TCP/IP output of the solution
 タスクバーの `^` から隠れているインジケーターを表示します。
 🐳のアイコンにカーソルを重ね、右クリックで `Quit Docker Desktop` をクリックし、終了します。
 
+![](../assets/img/windows/docker-desktop-quit.png)
+
 ### Docker Desktop の起動 {#sec-troubleshooting-docker-admin-start}
 
 Windows のスタートメニューから `Docker Desktop` を検索し、右クリックして「管理者として実行」をクリックします。
+
+![](../assets/img/windows/docker-run-as-admin.png)
+
 管理者権限で起動し直した場合、Docker Desktop の設定はユーザごとに保存されるため、**[Docker Desktop のバックエンド設定](20-install-windows.qmd#sec-win-docker-backend)** をあらためて確認してください。
 
 ## ブラウザで UI が開かない {#sec-troubleshooting-browser-not-opening}

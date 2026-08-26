@@ -10,6 +10,8 @@ lang: ja
 [https://github.com/h-shiono/mrtklib-quickstart](https://github.com/h-shiono/mrtklib-quickstart) にアクセスし、`<> Code` > `Download ZIP` で `mrtklib-quickstart` をダウンロードしてください。
 ダウンロード後、`mrtklib-quickstart-main.zip` を任意のフォルダに解凍・展開してください。
 
+![](../assets/img/mrtklib-quickstart-download.png)
+
 ::: {.callout-note}
 git が使える方は、`git clone` でリポジトリをクローンする方法でも問題ありません。
 ```bash
@@ -80,6 +82,8 @@ Docker Desktop が起動しているかを確認するには、タスクバー�
 ::: {.callout-note}
 `[OK]` にならなかった項目がある場合は、次のように**不足しているものがまとめて**表示され、処理は中断されます。
 表示された `Next step` に従って対処し、`start.bat` を実行し直してください。
+
+![](../assets/img/windows/exec-batch-fail.png)
 
 ```powershell
 [ERROR] Prerequisite checks failed (2 problem(s))
