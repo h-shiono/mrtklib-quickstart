@@ -268,9 +268,13 @@ if ($MyInvocation.InvocationName -ne '.') {
         # docker run fails outright if either is taken, so a conflict blocks the
         # whole run even for participants who never use the output port.
         if (Test-Command 'Get-NetTCPConnection') {
+            # `ps -q`, not `ps -aq`: only a *running* container can be holding
+            # the port. A stopped one of ours must not excuse a listener that
+            # belongs to something else, or the conflict is downgraded to a
+            # warning here and only surfaces as a docker run failure later.
             $ours = ''
             if ($dockerUp) {
-                $ours = (docker ps -aq --filter "name=^$ContainerName$" 2>$null | Out-String).Trim()
+                $ours = (docker ps -q --filter "name=^$ContainerName$" 2>$null | Out-String).Trim()
             }
             $busy = @()
             foreach ($port in @($HostPort, $OutPort)) {

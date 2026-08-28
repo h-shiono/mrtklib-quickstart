@@ -146,8 +146,8 @@ MRTKLIB を TCP サーバとして動作させ、別のアプリケーション�
 `Path` は `:` に続けてポート番号を書きます。
 
 ::: {.callout-important}
-外部へ公開されているポートは **`2101` のみ**です。UI で別のポート番号を指定しても外部からは接続できません。
-公開ポート自体を変更したい場合は [使用するポートを変更する](90-troubleshooting.qmd#sec-troubleshooting-port-change) を参照してください。
+ここで指定する番号は、**起動スクリプトが公開しているポートと一致させる**必要があります。それ以外の番号を指定しても外部からは接続できません。
+公開されているのは `scripts\windows\lib\common.ps1` の `$OutPort`（既定では `2101`）だけです。変更したい場合は [使用するポートを変更する](90-troubleshooting.qmd#sec-troubleshooting-port-change) を参照してください。
 :::
 
 ### 接続の確認 {#sec-output-tcpsvr-verify}
