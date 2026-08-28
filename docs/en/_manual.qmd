@@ -71,6 +71,10 @@ format:
 
 {{< include 80-appendix-receiver-setup.qmd >}}
 
+# Appendix: Solution Output
+
+{{< include 81-appendix-output.qmd >}}
+
 # Troubleshooting
 
 {{< include 90-troubleshooting.qmd >}}

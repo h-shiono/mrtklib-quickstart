@@ -9,9 +9,6 @@
 $ErrorActionPreference = 'Stop'
 . "$PSScriptRoot\common.ps1"
 
-# Must match $ContainerName in run-container.ps1.
-$ContainerName = 'mrtklib-web-ui'
-
 Write-Step "Stopping the mrtklib-docker-ui container"
 
 if (-not (Test-Command 'docker')) {

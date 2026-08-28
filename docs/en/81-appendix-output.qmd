@@ -1,0 +1,10 @@
+---
+title: "Appendix: Solution Output"
+lang: en
+---
+
+<!-- TODO: translate from ja/81-appendix-output.qmd.
+     How to feed the MRTKLIB solution to an external consumer: file, TCP
+     server, serial. TCP server is the OS-independent primary route; serial
+     output is Windows(WSL)/Linux only because Docker Desktop for Mac has no
+     device passthrough. -->

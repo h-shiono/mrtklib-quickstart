@@ -11,7 +11,7 @@ lang: ja
 
 栞のアイコンをクリックすると、Preset が開きます。
 
-`QZSS MADOCA (BUILT-IN)` と書かれた Preset をダウンロードします。
+`QZSS MADOCA (BUILT-IN)` と書かれた Preset を読み込みます。
 `Load preset will overwrite current settings. Continue?` と聞かれるので、`Load` をクリックして読み込みます。
 
 ![](../assets/img/mrtklib-preset.png)
@@ -25,14 +25,15 @@ lang: ja
 | 項目 | 設定値 |
 | --- | --- |
 | Type | Serial |
-| Path | ttyACM*（※検出されたパス） |
+| Path | `ttyACM0` |
 | Format | Septentrio SBF |
 : ローバの設定 {#tbl-setup-rover}
 
 ![](../assets/img/mrtklib-rover-setup.png)
 
 ::: {.callout-note}
-ここで設定する `Path` は、バッチファイル実行時に `[OK] SBF stream detected on /dev/ttyACM*` と表示された方のパスを記載します（Docker コンテナの起動 参照）。
+`Path` は常に `ttyACM0` です。受信機のどちらの仮想 COM ポートから SBF が出ていても、起動スクリプトがコンテナ内では `/dev/ttyACM0` として見えるように渡すため、環境によって書き換える必要はありません。
+先頭の `/dev/` は不要です。
 :::
 
 ### 測位処理の実行 {#sec-run-ppp-start}
@@ -59,6 +60,13 @@ lang: ja
 ## 以上で MADOCA-PPP の体験は完了です 🎉 {.unnumbered}
 
 体験を終えるときは、[終了処理（Windows）](60-stop-windows.qmd) を行いコンテナの停止と USB のデタッチを行ってください。
+
+::: {.callout-tip}
+日本国内で本チュートリアルを実行されているかたは、`QZSS CLAS (BUILT-IN)` と書かれた Preset を読み込むことで、CLAS (PPP-RTK) の測位もお試しいただくことができます。
+ぜひ、MADOCA-PPP との違いを体験してみてください。
+
+![](../assets/img/mrtklib-clas.png)
+:::
 
 さらに学びたい方は、以下のリンクを参考にしてください。
 

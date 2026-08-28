@@ -10,6 +10,8 @@ lang: ja
 [https://github.com/h-shiono/mrtklib-quickstart](https://github.com/h-shiono/mrtklib-quickstart) にアクセスし、`<> Code` > `Download ZIP` で `mrtklib-quickstart` をダウンロードしてください。
 ダウンロード後、`mrtklib-quickstart-main.zip` を任意のフォルダに解凍・展開してください。
 
+![](../assets/img/mrtklib-quickstart-download.png)
+
 ::: {.callout-note}
 git が使える方は、`git clone` でリポジトリをクローンする方法でも問題ありません。
 ```bash
@@ -26,10 +28,11 @@ git clone git@github.com:h-shiono/mrtklib-quickstart.git
 1. **受信機とアンテナを接続**
 2. **受信機を USB 接続**
 3. **Docker Desktop の起動**
+    - ログインユーザと管理者ユーザが異なる場合 → [Docker Desktop を管理者権限で起動する](90-troubleshooting.qmd#sec-troubleshooting-docker-admin)
 
 ::: {.callout-note}
 Docker Desktop が起動しているかを確認するには、タスクバーの `^` から隠れているインジケーターを表示します。
-🐋のアイコンにカーソルを重ね、`Docker Desktop Running` と表示されれば Docker Desktop は起動中です。
+🐳のアイコンにカーソルを重ね、`Docker Desktop Running` と表示されれば Docker Desktop は起動中です。
 :::
 
 ### バッチファイルの実行 {#sec-win-mrtklib-run-batch}
@@ -60,14 +63,36 @@ Docker Desktop が起動しているかを確認するには、タスクバー�
 
 続いて画面に「このアプリがデバイスに変更を加えることを許可しますか？」と表示されるので、「はい」を選択します。
 
-### 前提条件の確認 {#sec-win-mrtklib-run-precheck}
+### 前提条件の確認 {#sec-win-mrtklib-run-prereq-check}
 
 `[OK]` が表示されていることを確認します。
 
 ```powershell
 ==> Starting prerequisite checks
-[OK] Prerequisite checks (skeleton) passed
+[OK] Administrator privileges
+[OK] WSL2 distribution: Ubuntu
+[OK] Docker Desktop is running
+[OK] Docker Desktop is using the WSL2 backend
+[OK] usbipd-win 5.3.0
+[OK] mosaic-G5 found at BusId 1-4
+[OK] Ports 8080, 2101 are free
+[OK] Prerequisite checks passed
 ```
+
+::: {.callout-note}
+`[OK]` にならなかった項目がある場合は、次のように**不足しているものがまとめて**表示され、処理は中断されます。
+表示された `Next step` に従って対処し、`start.bat` を実行し直してください。
+
+![](../assets/img/windows/exec-batch-fail.png)
+
+```powershell
+[ERROR] Prerequisite checks failed (2 problem(s))
+  1. Cannot reach the Docker daemon
+     Next step: Start Docker Desktop and wait for 'Docker Desktop running'. ...
+  2. mosaic-G5 (VID_152A&PID_8231) is not connected
+     Next step: Connect the receiver by USB and confirm its driver (RxTools) ...
+```
+:::
 
 ### 受信機の設定 {#sec-win-mrtklib-run-receiver}
 
@@ -110,11 +135,13 @@ usbipd: info: Using IP address 172.24.80.1 to reach the host.
   /dev/ttyACM0: 4096 bytes, SBF sync '$@' x24
   /dev/ttyACM1: 0 bytes, SBF sync '$@' x0
 [OK] SBF stream detected on /dev/ttyACM0
-[OK] Passing device(s): /dev/ttyACM0, /dev/ttyACM1
+[OK] Passing device: /dev/ttyACM0 -> /dev/ttyACM0 (as seen in the container)
 ```
 
 ::: {.callout-note}
-`[OK] SBF stream detected on /dev/ttyACM*` で書かれたパス（`ttyACM0` もしくは `ttyACM1`）は後ほど UI 設定時に使用します。
+受信機は2つの仮想 COM ポートを持ち、SBF が出ている方は環境によって `ttyACM0` にも `ttyACM1` にもなります。
+バッチファイルは検出した方のポートだけを、**コンテナ内では必ず `/dev/ttyACM0`** として渡します。
+そのため、後ほど UI で設定するパスは常に `ttyACM0` です。
 :::
 
 ### Web ブラウザの起動 {#sec-win-mrtklib-run-browser}

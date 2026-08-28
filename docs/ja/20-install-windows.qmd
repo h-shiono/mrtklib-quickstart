@@ -71,6 +71,12 @@ Desktop にショートカットを作成する場合は `Add shortcut to deskto
 ### Docker Desktop の初回起動 {#sec-win-docker-desktop-first-run}
 
 再起動後、Docker Desktop を起動します。
+
+::: {.callout-important}
+ログインユーザと管理者ユーザが異なる場合、Docker Desktop を管理者権限で起動する必要があります。
+[Docker Desktop を管理者権限で起動する](90-troubleshooting.qmd#sec-troubleshooting-docker-admin) をご参照ください。
+:::
+
 初回起動時にサービス利用規約の同意を求められるので、内容を確認して「Accept」をクリックします。
 
 ![](../assets/img/windows/docker-subscription-service-agreement.png)

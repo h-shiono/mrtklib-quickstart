@@ -4,8 +4,8 @@
 #  Role:
 #   1. Detect which WSL serial node carries the receiver's SBF stream
 #      (fail fast if none is flowing).
-#   2. docker run the container, passing the receiver's COM node(s) and the
-#      workspace/data volumes, publishing the web UI port.
+#   2. docker run the container, passing that node under a fixed path and the
+#      workspace/data volumes, publishing the web UI and solution-output ports.
 #   3. Wait for the UI to answer, then open the browser.
 #
 #  Image / ports / volumes come from the mrtklib-docker-ui README:
@@ -18,11 +18,15 @@ $ErrorActionPreference = 'Stop'
 . "$PSScriptRoot\common.ps1"
 
 # --- Configuration ----------------------------------------------------------
+# $ContainerName / $HostPort / $OutPort come from common.ps1, so the
+# prerequisite check and this script always agree on them.
 $Image         = 'hatognss/mrtklib-docker-ui:0.3.0-alpha'   # alt: ghcr.io/h-shiono/mrtklib-docker-ui:0.3.0-alpha
-$ContainerName = 'mrtklib-web-ui'
-$HostPort      = 8080
 $ContainerPort = 8000
 $UiUrl         = "http://localhost:$HostPort"
+
+# Fixed path the receiver's SBF node gets inside the container (see step 1).
+# The docs and the bundled preset refer to this name, so keep them in sync.
+$ContainerDevice = '/dev/ttyACM0'
 
 # Host directories for the container volumes (created if missing).
 # NOTE: start.bat self-elevates via UAC, so $env:USERPROFILE would resolve to
@@ -57,34 +61,49 @@ if (-not (Test-Path -LiteralPath $detectWin)) {
     Fail-With-Hint "detect-sbf-port.sh not found next to run-container.ps1" `
                    "Re-download the scripts folder"
 }
-# Pipe the script into WSL over stdin instead of translating its Windows path to
-# a WSL path: wslpath cannot handle a UNC path (\\wsl.localhost\...) when the
+# Hand the script to WSL by value instead of translating its Windows path to a
+# WSL path: wslpath cannot handle a UNC path (\\wsl.localhost\...) when the
 # scripts live on the WSL filesystem. Strip CRs so bash does not choke if the
-# file was checked out with CRLF.
+# file was checked out with CRLF, and drop a leading BOM if one is there.
 $detectText = (Get-Content -Raw -LiteralPath $detectWin) -replace "`r", ""
-$detectText = $detectText.TrimStart([char]0xFEFF)   # drop any leading BOM
-# Pipe to WSL as UTF-8 *without* a BOM. If $OutputEncoding is UTF-8-with-BOM
-# (common on some consoles), the BOM prepended to stdin stops '#' from starting
-# a comment, so bash tries to execute the script's first line (the shebang).
-$prevEncoding   = $OutputEncoding
-$OutputEncoding = New-Object System.Text.UTF8Encoding $false
-try {
-    $sbfDevice = ($detectText | wsl bash -s -- 3 | Out-String).Trim()
-} finally {
-    $OutputEncoding = $prevEncoding
+$detectText = $detectText.TrimStart([char]0xFEFF)
+
+# Pass it as a base64 *argument*, not on stdin. Windows PowerShell 5.1 fixes the
+# encoding it uses for a native command's stdin when the process starts: if the
+# console is already at code page 65001 -- which a native tool run earlier in
+# start.bat can leave behind -- it writes a UTF-8 BOM ahead of the text, and
+# assigning $OutputEncoding afterwards does not undo it. bash then reads
+# "<BOM>#!/usr/bin/env" as a command and prints "No such file or directory".
+# base64 is pure ASCII, so an argument is immune to whatever the code page is.
+$detectB64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($detectText))
+
+# Fail on the real cause rather than on its symptom: without the nodes, the
+# detector can only report "no SBF stream", which sends the participant off to
+# re-check the receiver's output configuration when nothing is attached at all.
+if (-not (Wait-WslSerialNode 15)) {
+    Fail-With-Hint "No /dev/ttyACM* in WSL: the receiver is not attached" `
+                   "Run start.bat (or usb-attach.ps1) so usbipd attaches the receiver to WSL"
 }
+
+$sbfDevice = (wsl bash -c "echo $detectB64 | base64 -d | bash -s -- 3" | Out-String).Trim()
 if ($LASTEXITCODE -ne 0 -or -not $sbfDevice) {
     Fail-With-Hint "No SBF stream detected on the receiver's ports" `
-                   "Run usb-attach, and set the receiver's SBF output to USB1 (see receiver setup)"
+                   "Set the receiver's SBF output to USB1 (see receiver setup)"
 }
 Write-Ok "SBF stream detected on $sbfDevice"
 
-# Pass every receiver COM node (both raw / CON) so the container can pick.
-$nodes = ((wsl bash -c "ls /dev/ttyACM* 2>/dev/null" | Out-String).Trim() -split "\s+") |
-         Where-Object { $_ }
-$deviceArgs = @()
-foreach ($n in $nodes) { $deviceArgs += @('--device', "${n}:${n}") }
-Write-Ok "Passing device(s): $($nodes -join ', ')"
+# Pass ONLY the node carrying SBF, pinned to a fixed path in the container.
+# Which host node carries SBF varies (ttyACM0 / ttyACM1) with the receiver's
+# USB1/USB2 assignment and the WSL enumeration order, so the participant used to
+# have to read the detected path out of the log above and retype it in the UI.
+# docker's `--device host:container` renaming removes that step: whatever the
+# host node is, the container always sees it at $ContainerDevice, so the UI's
+# rover path is a constant.
+# The receiver's other node (the CON / command port) is deliberately NOT passed:
+# configure-receiver.ps1 talks to the receiver over COM on the Windows side
+# *before* the attach, so nothing in the container needs it. It stays in WSL.
+$deviceArgs = @('--device', "${sbfDevice}:${ContainerDevice}")
+Write-Ok "Passing device: $sbfDevice -> $ContainerDevice (as seen in the container)"
 
 # --- 2. Prepare host volume directories -------------------------------------
 New-Item -ItemType Directory -Force -Path $Workspace, $DataDir | Out-Null
@@ -99,7 +118,8 @@ if ($existing) {
 Write-Step "docker run ($Image)"
 $runArgs = @(
     'run', '-d', '--name', $ContainerName,
-    '-p', "${HostPort}:${ContainerPort}"
+    '-p', "${HostPort}:${ContainerPort}",
+    '-p', "${OutPort}:${OutPort}"
 ) + $deviceArgs + @(
     '-v', "${Workspace}:/workspace:rw",
     '-v', "${DataDir}:/data:ro",
