@@ -32,7 +32,12 @@ fi
 for p in "${ports[@]}"; do
   # Best-effort raw mode; USB CDC ignores baud but raw avoids line munging.
   stty -F "$p" raw -echo 2>/dev/null || true
-  hex=$(timeout "$seconds" head -c "$max_bytes" "$p" 2>/dev/null | xxd -p | tr -d '\n')
+  # Read with `cat` and cap with `head`, rather than `timeout head -c`: when the
+  # port delivers fewer than max_bytes within the window, timeout SIGTERMs head
+  # before its stdout buffer is flushed and every byte read is discarded, so a
+  # live but slow SBF stream is reported as 0 bytes -- a false "no SBF stream".
+  # `cat` writes each chunk as it reads it, so whatever arrived still counts.
+  hex=$({ timeout "$seconds" cat "$p" 2>/dev/null; } | head -c "$max_bytes" | xxd -p | tr -d '\n')
   nbytes=$(( ${#hex} / 2 ))
   count=$(grep -o 2440 <<<"$hex" | wc -l)
   echo "  $p: ${nbytes} bytes, SBF sync '\$@' x${count}" >&2

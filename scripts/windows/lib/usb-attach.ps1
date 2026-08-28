@@ -48,26 +48,37 @@ $busid = $dev.BusId
 Write-Ok "Found mosaic-G5 at BusId $busid"
 
 # --- Idempotent: already attached? ------------------------------------------
+# Either way we fall through to the wait below: "attached" is a statement about
+# the usbip connection, not about the device nodes the next step needs.
 if ($dev.ClientIPAddress) {
-    Write-Ok "Already attached to WSL (client $($dev.ClientIPAddress)); nothing to do"
-    return
+    Write-Ok "Already attached to WSL (client $($dev.ClientIPAddress)); nothing to bind"
+} else {
+    # --- Bind (share). Requires administrator; start.bat self-elevates. ------
+    # Binding is idempotent: re-binding an already-shared device is a no-op.
+    Write-Step "Binding BusId $busid (usbipd bind)"
+    usbipd bind --busid $busid
+    if ($LASTEXITCODE -ne 0) {
+        Fail-With-Hint "usbipd bind failed (exit $LASTEXITCODE)" `
+                       "Run start.bat as administrator (bind requires elevation)"
+    }
+
+    # --- Attach to WSL ------------------------------------------------------
+    Write-Step "Attaching BusId $busid to WSL (usbipd attach --wsl)"
+    usbipd attach --wsl --busid $busid
+    if ($LASTEXITCODE -ne 0) {
+        Fail-With-Hint "usbipd attach failed (exit $LASTEXITCODE)" `
+                       "Make sure WSL2 is running and a WSL distribution is available"
+    }
 }
 
-# --- Bind (share). Requires administrator; start.bat self-elevates. ----------
-# Binding is idempotent: re-binding an already-shared device is a no-op.
-Write-Step "Binding BusId $busid (usbipd bind)"
-usbipd bind --busid $busid
-if ($LASTEXITCODE -ne 0) {
-    Fail-With-Hint "usbipd bind failed (exit $LASTEXITCODE)" `
-                   "Run start.bat as administrator (bind requires elevation)"
-}
-
-# --- Attach to WSL ----------------------------------------------------------
-Write-Step "Attaching BusId $busid to WSL (usbipd attach --wsl)"
-usbipd attach --wsl --busid $busid
-if ($LASTEXITCODE -ne 0) {
-    Fail-With-Hint "usbipd attach failed (exit $LASTEXITCODE)" `
-                   "Make sure WSL2 is running and a WSL distribution is available"
+# --- Wait for the nodes to actually appear ----------------------------------
+# usbipd returns before the WSL kernel has enumerated the device, so claiming
+# the ports are available right here would be a lie the next step pays for.
+# See Wait-WslSerialNode in common.ps1 for the timing this guards against.
+Write-Step "Waiting for the serial nodes to appear in WSL"
+if (-not (Wait-WslSerialNode 15)) {
+    Fail-With-Hint "The device was attached, but no /dev/ttyACM* appeared in WSL within 15 s" `
+                   "Run 'usbipd detach --busid $busid' then start.bat again; if it persists, run 'wsl --shutdown' first"
 }
 
 Write-Ok "mosaic-G5 attached to WSL (BusId $busid); both COM ports are now available in WSL"

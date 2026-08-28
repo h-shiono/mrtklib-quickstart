@@ -61,25 +61,34 @@ if (-not (Test-Path -LiteralPath $detectWin)) {
     Fail-With-Hint "detect-sbf-port.sh not found next to run-container.ps1" `
                    "Re-download the scripts folder"
 }
-# Pipe the script into WSL over stdin instead of translating its Windows path to
-# a WSL path: wslpath cannot handle a UNC path (\\wsl.localhost\...) when the
+# Hand the script to WSL by value instead of translating its Windows path to a
+# WSL path: wslpath cannot handle a UNC path (\\wsl.localhost\...) when the
 # scripts live on the WSL filesystem. Strip CRs so bash does not choke if the
-# file was checked out with CRLF.
+# file was checked out with CRLF, and drop a leading BOM if one is there.
 $detectText = (Get-Content -Raw -LiteralPath $detectWin) -replace "`r", ""
-$detectText = $detectText.TrimStart([char]0xFEFF)   # drop any leading BOM
-# Pipe to WSL as UTF-8 *without* a BOM. If $OutputEncoding is UTF-8-with-BOM
-# (common on some consoles), the BOM prepended to stdin stops '#' from starting
-# a comment, so bash tries to execute the script's first line (the shebang).
-$prevEncoding   = $OutputEncoding
-$OutputEncoding = New-Object System.Text.UTF8Encoding $false
-try {
-    $sbfDevice = ($detectText | wsl bash -s -- 3 | Out-String).Trim()
-} finally {
-    $OutputEncoding = $prevEncoding
+$detectText = $detectText.TrimStart([char]0xFEFF)
+
+# Pass it as a base64 *argument*, not on stdin. Windows PowerShell 5.1 fixes the
+# encoding it uses for a native command's stdin when the process starts: if the
+# console is already at code page 65001 -- which a native tool run earlier in
+# start.bat can leave behind -- it writes a UTF-8 BOM ahead of the text, and
+# assigning $OutputEncoding afterwards does not undo it. bash then reads
+# "<BOM>#!/usr/bin/env" as a command and prints "No such file or directory".
+# base64 is pure ASCII, so an argument is immune to whatever the code page is.
+$detectB64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($detectText))
+
+# Fail on the real cause rather than on its symptom: without the nodes, the
+# detector can only report "no SBF stream", which sends the participant off to
+# re-check the receiver's output configuration when nothing is attached at all.
+if (-not (Wait-WslSerialNode 15)) {
+    Fail-With-Hint "No /dev/ttyACM* in WSL: the receiver is not attached" `
+                   "Run start.bat (or usb-attach.ps1) so usbipd attaches the receiver to WSL"
 }
+
+$sbfDevice = (wsl bash -c "echo $detectB64 | base64 -d | bash -s -- 3" | Out-String).Trim()
 if ($LASTEXITCODE -ne 0 -or -not $sbfDevice) {
     Fail-With-Hint "No SBF stream detected on the receiver's ports" `
-                   "Run usb-attach, and set the receiver's SBF output to USB1 (see receiver setup)"
+                   "Set the receiver's SBF output to USB1 (see receiver setup)"
 }
 Write-Ok "SBF stream detected on $sbfDevice"
 

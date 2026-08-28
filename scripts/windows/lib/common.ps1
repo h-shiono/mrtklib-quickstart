@@ -100,6 +100,31 @@ function Get-WslDistro {
     return $distros
 }
 
+# Wait until the receiver's serial nodes are actually visible inside WSL.
+#
+# `usbipd attach` returns as soon as the usbip connection is up -- the WSL
+# kernel then still has to enumerate the device and bind cdc_acm, which is not
+# instant (measured ~0.5 s on the reference machine). start.bat runs each step
+# as its own powershell process, and a warm process start is faster than that,
+# so run-container.ps1 could glob /dev/ttyACM* before the nodes existed and
+# fail with "No /dev/ttyACM* found" on an attach that had in fact succeeded.
+# Poll for the nodes instead of trusting the attach, and instead of sleeping a
+# fixed amount that is either too short on a slow machine or wasted on a fast one.
+function Wait-WslSerialNode {
+    param([int]$TimeoutSeconds = 15)
+
+    $deadline = (Get-Date).AddSeconds($TimeoutSeconds)
+    do {
+        # `wc -l` prints a plain ASCII count, so this survives any console code
+        # page. stderr is discarded on both sides: no match is not an error here.
+        $count = (wsl bash -c 'ls /dev/ttyACM* 2>/dev/null | wc -l' 2>$null | Out-String).Trim()
+        if ($count -match '^[1-9]') { return $true }
+        Start-Sleep -Milliseconds 200
+    } while ((Get-Date) -lt $deadline)
+
+    return $false
+}
+
 # --- Standalone run only: run the prerequisite checks ------------------------
 if ($MyInvocation.InvocationName -ne '.') {
     Write-Step "Starting prerequisite checks"
