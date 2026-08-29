@@ -88,9 +88,24 @@ usbipd: error: There is no WSL 2 distribution running; ...
 
 - **SBF の出力先が `USB1` になっているか** — `COM1`（物理シリアル）に出力していると USB 側には届きません。通常は `start.bat` が自動設定しますが、手動設定で上書きしている場合は[付録：受信機の手動設定](80-appendix-receiver-setup.qmd)を確認してください。
 - **`QZSL6` の Tracking が有効か** — 補正情報（`QZSRawL6D/E`）が出力されているか、同じく付録をご参照ください。
+- **`permission denied for user ...` と表示される** — WSL 内のシリアルデバイス（`/dev/ttyACM*`）は root または `dialout` グループのユーザーしか読めず、`dialout` に入っているかどうかは Ubuntu のバージョンやセットアップ方法によって異なります。`start.bat` は検出を root 権限（`wsl -u root`）で実行するためこのエラーにはなりませんが、検出スクリプトを手動で実行した場合に表示されることがあります。恒久的に解消するには、Ubuntu のシェルで次を実行します。
+
+  ```bash
+  sudo usermod -aG dialout $USER
+  ```
+
+  実行後、PowerShell で `wsl --shutdown` を実行してグループ変更を反映してから再試行してください。
 
 ::: {.callout-note}
 SBF の `Support` 群は測位できていなくても出力されます。両ポートが `0 bytes` の場合は「衛星が見えない」ではなく「出力先ポートの設定」を疑ってください。
+:::
+
+::: {.callout-tip}
+受信機からデータが WSL まで届いているかは、次のコマンドで直接確認できます（両方の `ttyACM` ポートを順に読みます）。16進の `24 40` は SBF の同期バイト `$@` です。SBF がどちらのポートに出るかは環境によって変わるため、片方だけ確認して判断しないでください。また、コンテナが起動中の場合はコンテナ側が同じポートを読んでいてデータを取り合うため、`docker stop mrtklib-web-ui` で停止してから確認してください。
+
+```powershell
+wsl -u root bash -c 'for p in /dev/ttyACM*; do echo $p:; timeout 3 cat $p | head -c 64 | od -An -tx1; done'
+```
 :::
 
 ## Docker Desktop が WSL2 バックエンドで動作していない {#sec-troubleshooting-backend}

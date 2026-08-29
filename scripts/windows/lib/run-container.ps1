@@ -2,11 +2,13 @@
 #  run-container.ps1  -  start the mrtklib-docker-ui container -> open the UI
 #
 #  Role:
-#   1. Detect which WSL serial node carries the receiver's SBF stream
+#   1. Remove a leftover container from a previous run (it may still be
+#      reading the serial node the detector needs).
+#   2. Detect which WSL serial node carries the receiver's SBF stream
 #      (fail fast if none is flowing).
-#   2. docker run the container, passing that node under a fixed path and the
+#   3. docker run the container, passing that node under a fixed path and the
 #      workspace/data volumes, publishing the web UI and solution-output ports.
-#   3. Wait for the UI to answer, then open the browser.
+#   4. Wait for the UI to answer, then open the browser.
 #
 #  Image / ports / volumes come from the mrtklib-docker-ui README:
 #      https://github.com/h-shiono/mrtklib-docker-ui
@@ -52,7 +54,18 @@ if (-not (Test-Command 'docker')) {
                    "Install and start Docker Desktop (see docs: install)"
 }
 
-# --- 1. Detect the SBF serial node inside WSL -------------------------------
+# --- 1. Remove an existing container FIRST (idempotent) ----------------------
+# Before the detection below, not after: a leftover container from a previous
+# run may still hold the SBF node open and read from it. Two readers on one
+# tty split the bytes between them, so the detector can see (close to) nothing
+# on a port that is in fact streaming, and report a false "no SBF stream".
+$existing = (docker ps -aq --filter "name=^$ContainerName$" | Out-String).Trim()
+if ($existing) {
+    Write-Step "Removing existing container '$ContainerName'"
+    docker rm -f $ContainerName | Out-Null
+}
+
+# --- 2. Detect the SBF serial node inside WSL -------------------------------
 # The receiver's SBF stream is on one of /dev/ttyACM*; detect-sbf-port.sh reads
 # each and returns the one carrying SBF. It runs in WSL, where the device lives.
 Write-Step "Detecting the SBF serial port in WSL"
@@ -85,7 +98,14 @@ if (-not (Wait-WslSerialNode 15)) {
                    "Run start.bat (or usb-attach.ps1) so usbipd attaches the receiver to WSL"
 }
 
-$sbfDevice = (wsl bash -c "echo $detectB64 | base64 -d | bash -s -- 3" | Out-String).Trim()
+# Run the detector as root (`wsl -u root`). /dev/ttyACM* is root:dialout --
+# or root:root where udev has not run, which is common in WSL -- and whether
+# the default user is in dialout varies between Ubuntu images. A non-root
+# `cat` then fails EACCES instantly on every port and the detector reports
+# "0 bytes" everywhere, which reads as "no SBF stream" (observed in the
+# field). The container reads the node as root anyway, so root detection
+# tests exactly the access the container will have.
+$sbfDevice = (wsl -u root bash -c "echo $detectB64 | base64 -d | bash -s -- 3" | Out-String).Trim()
 if ($LASTEXITCODE -ne 0 -or -not $sbfDevice) {
     Fail-With-Hint "No SBF stream detected on the receiver's ports" `
                    "Set the receiver's SBF output to USB1 (see receiver setup)"
@@ -105,16 +125,10 @@ Write-Ok "SBF stream detected on $sbfDevice"
 $deviceArgs = @('--device', "${sbfDevice}:${ContainerDevice}")
 Write-Ok "Passing device: $sbfDevice -> $ContainerDevice (as seen in the container)"
 
-# --- 2. Prepare host volume directories -------------------------------------
+# --- 3. Prepare host volume directories -------------------------------------
 New-Item -ItemType Directory -Force -Path $Workspace, $DataDir | Out-Null
 
-# --- 3. (Re)create the container (idempotent) -------------------------------
-$existing = (docker ps -aq --filter "name=^$ContainerName$" | Out-String).Trim()
-if ($existing) {
-    Write-Step "Removing existing container '$ContainerName'"
-    docker rm -f $ContainerName | Out-Null
-}
-
+# --- 4. Run the container (any existing one was removed in step 1) -----------
 Write-Step "docker run ($Image)"
 $runArgs = @(
     'run', '-d', '--name', $ContainerName,
@@ -131,7 +145,7 @@ if ($LASTEXITCODE -ne 0) {
                    "Check 'docker logs $ContainerName' and that Docker Desktop is running"
 }
 
-# --- 4. Wait for the UI, then open the browser ------------------------------
+# --- 5. Wait for the UI, then open the browser ------------------------------
 Write-Step "Waiting for the web UI at $UiUrl"
 $ready = $false
 foreach ($i in 1..30) {

@@ -14,8 +14,8 @@ This file is for **people who edit the scripts**.
 | `lib/configure-receiver.ps1` | Send ASCII config commands to the receiver over COM, **before** attach |
 | `lib/usb-attach.ps1` | Find the mosaic-G5 by VID:PID (`152A:8231`), then bind + attach to WSL |
 | `lib/usb-detach.ps1` | Detach (and optionally unbind) the mosaic-G5 from WSL |
-| `lib/detect-sbf-port.sh` | Run in WSL: find which `/dev/ttyACM*` carries the SBF stream |
-| `lib/run-container.ps1` | Detect the SBF node, `docker run`, wait for the UI, open the browser |
+| `lib/detect-sbf-port.sh` | Run in WSL **as root**: find which `/dev/ttyACM*` carries the SBF stream |
+| `lib/run-container.ps1` | Remove a leftover container, detect the SBF node, `docker run`, wait for the UI, open the browser |
 | `lib/stop-container.ps1` | Stop and remove the container |
 
 ## Execution order (important)
@@ -28,9 +28,13 @@ stop.bat:   stop-container.ps1 -> usb-detach.ps1
 `configure-receiver` must run **before** `usb-attach`. Once attached, Windows can
 no longer see the COM port, so the chance to send config is lost.
 
-`run-container.ps1` pipes `detect-sbf-port.sh` into WSL over stdin (no path
-translation), so it works whether the repo lives on a drive letter or the WSL
-filesystem.
+`run-container.ps1` hands `detect-sbf-port.sh` to WSL by value as a base64
+argument (no path translation), so it works whether the repo lives on a drive
+letter or the WSL filesystem. It runs the detector as root (`wsl -u root`):
+`/dev/ttyACM*` permissions and `dialout` membership vary between Ubuntu images,
+and root matches the access the container itself will have. It also removes any
+leftover container *before* detecting, so a previous run's reader cannot starve
+the detector of bytes.
 
 ## Design principles
 
