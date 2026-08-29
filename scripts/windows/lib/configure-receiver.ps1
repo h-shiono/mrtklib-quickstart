@@ -120,6 +120,12 @@ function Send-RxCommand {
         Start-Sleep -Milliseconds 100
         try { $resp += $Port.ReadExisting() } catch {}
         if ($resp -match '\$R[:;]') {
+            # The marker leads the reply, so its tail (command echo, prompt)
+            # may still be in flight. Swallow it here rather than leave it to
+            # land after the next command's DiscardInBuffer, where it would
+            # muddy that command's reply window and failure diagnostics.
+            Start-Sleep -Milliseconds 100
+            try { [void]$Port.ReadExisting() } catch {}
             Write-Ok "  $Cmd"
             return
         }
