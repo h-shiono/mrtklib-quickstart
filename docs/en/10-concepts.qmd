@@ -33,7 +33,7 @@ Used together with the existing L6E signal, this has made it possible to shorten
 The wide-area ionospheric correction service is currently under technical demonstration.
 See the Service Level Information below for details.
 
-[Quasi-Zenith Satellite System Service Level Information for Multi-GNSS Advanced Orbit and Clock Augmentation – Precise Point Positioning Technology Demonstration (Ionospehric Correction) (SLI-MDC-ION, Draft)](https://qzss.go.jp/en/technical/download/pdf/ps-is-qzss/sli-mdc-ion-draft.pdf) (February 2022)
+[Quasi-Zenith Satellite System Service Level Information for Multi-GNSS Advanced Orbit and Clock Augmentation – Precise Point Positioning Technology Demonstration (Ionospheric Correction) (SLI-MDC-ION, Draft)](https://qzss.go.jp/en/technical/download/pdf/ps-is-qzss/sli-mdc-ion-draft.pdf) (February 2022)
 
 In addition, as of 2026-08-30, QZS7 (@tbl-qzs-has), which will deliver L6D covering Japan, is undergoing on-board equipment functional checks and **is not yet transmitting a signal**[^3].
 Since the wide-area ionospheric correction cannot be received within Japan, convergence remains about 30 minutes with MADOCA-PPP alone.
