@@ -106,18 +106,17 @@ MRTKLIB の測位結果は様々な形で外部出力し、利活用すること
 
 | 指定子 | 意味 |
 | --- | --- |
-| %Y | Year (yyyy) |
-| %y | Year (yy) |
-| %m | Month (mm) |
-| %d | Day of Month (dd) |
-| %n | Day of Year (ddd) |
-| %W | GPS Week No. (wwww) |
-| %D | Day of Week |
-| %h | Hour (00-23) |
-| %M | Minute (00-59) |
-| %S | Second (00-59) |
-| %H | Hour code (a,b,...,x) |
-| %t | 15 分単位の分 (00,15,30,45) |
+| `%Y` | Year (yyyy) |
+| `%y` | Year (yy) |
+| `%m` | Month (mm) |
+| `%d` | Day of Month (dd) |
+| `%n` | Day of Year (ddd) |
+| `%W` | GPS Week No. (wwww) |
+| `%D` | Day of Week |
+| `%h` | Hour (00-23) |
+| `%M` | Minute (00-59) |
+| `%S` | Second (00-59) |
+| `%H` | Hour code (a,b,...,x) |
 
 ### ファイルの分割 {#sec-output-file-swap}
 
