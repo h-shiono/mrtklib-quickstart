@@ -103,8 +103,8 @@ Docker Desktop が起動しているかを確認するには、タスクバー�
 [OK] Using receiver COM port COM9
 [OK]   setSignalTracking,+QZSL6
 [OK]   setSatelliteTracking,all
-[OK]   setDataInOut,USB1, ,+SBF
 [OK]   setSBFOutput,Stream1,USB1,Support,sec1
+[OK]   setDataInOut,USB1, ,+SBF
 [OK]   exeCopyConfigFile,Current,Boot
 [OK] Receiver configured and saved to boot configuration
 ```
