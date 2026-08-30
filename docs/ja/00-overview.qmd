@@ -23,9 +23,13 @@ lang: ja
 
 本ガイドでは、以下の受信機・アンテナ・ケーブルを使用することを前提としています。
 
-- 受信機: Septentrio mosaic-G5 P3 evaluation kit
+- 受信機: Septentrio mosaic-G5 P6 evaluation kit
 - アンテナ: フルバンド GNSS アンテナ (例: ヨコオ YOZ-52728)
 - USB ケーブル: 受信機をホスト PC に接続するための USB ケーブル
+
+::: {.callout-note}
+受信機は mosaic-G5 P3 あるいは P8 でも同様の手順にて体験いただけます。
+:::
 
 ## 全体像 {#sec-big-picture}
 
@@ -44,7 +48,7 @@ flowchart LR
   bds((BDS)) -.-> ant
   qzs((QZS)) -.-> ant
 
-  ant -- RF --> rcv(mosaic-G5 P3)
+  ant -- RF --> rcv(mosaic-G5 P6)
   rcv -- "USB Serial<br/>(SBF)" --> container["MRTKLIB Engine"]
 
   subgraph Host

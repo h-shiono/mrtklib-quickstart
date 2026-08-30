@@ -15,7 +15,7 @@ web UI.
 
 **Hardware**
 
-- Septentrio **mosaic-G5 P3** evaluation kit
+- Septentrio **mosaic-G5 P6** evaluation kit
 - A full-band GNSS antenna (e.g. Yokowo YOZ-52728), placed with a clear sky view
 - A USB cable to connect the receiver to the host PC
 
@@ -37,7 +37,7 @@ flowchart LR
   bds((BDS)) -.-> ant
   qzs((QZS)) -.-> ant
 
-  ant -- RF --> rcv(mosaic-G5 P3)
+  ant -- RF --> rcv(mosaic-G5 P6)
   rcv -- "USB Serial<br/>(SBF)" --> engine["MRTKLIB Engine"]
 
   subgraph Host
