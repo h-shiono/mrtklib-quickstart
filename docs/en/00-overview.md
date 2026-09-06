@@ -1,0 +1,64 @@
+# Overview
+
+<!-- What we do and the big picture (OS-independent). -->
+
+## Purpose of this guide {#sec-purpose}
+
+This guide is intended to let you experience real-time PPP positioning with MADOCA-PPP, using a Septentrio mosaic-G5 receiver and MRTKLIB.
+
+## Before you begin {#sec-prerequisites}
+
+### Checking your environment {#sec-prerequisites-environment}
+
+This guide has been verified to work in the following environments.
+
+- Windows 11 25H2 (AMD64)
+- macOS Tahoe 26.5.2 (Apple Silicon)
+- Ubuntu 24.04 (AMD64)
+
+### Preparing the receiver, antenna, and cable {#sec-prerequisites-hardware}
+
+This guide assumes you have the following receiver, antenna, and cable.
+
+- Receiver: Septentrio mosaic-G5 P6 evaluation kit
+- Antenna: full-band GNSS antenna (e.g., Yokowo YOZ-52728)
+- USB cable: a USB cable to connect the receiver to the host PC
+
+!!! note "Note"
+
+    You can also follow the same steps with a mosaic-G5 P3 or P8 receiver.
+
+## The big picture {#sec-big-picture}
+
+The figure below shows the big picture of this guide.
+The full-band GNSS antenna and the mosaic-G5 receive GPS, GLONASS, Galileo, BeiDou, and QZSS signals; the raw measurements are processed by MRTKLIB in Docker to produce a PPP solution, and the results are shown in the web UI.
+
+```mermaid
+flowchart LR
+
+  gps((GPS)) -.-> ant(GNSS Antenna)
+  glo((GLO)) -.-> ant
+  gal((GAL)) -.-> ant
+  bds((BDS)) -.-> ant
+  qzs((QZS)) -.-> ant
+
+  ant -- RF --> rcv(mosaic-G5 P6)
+  rcv -- "USB Serial<br/>(SBF)" --> container["MRTKLIB Engine"]
+
+  subgraph Host
+    subgraph Docker
+      container <--> ui[Web UI]
+    end
+  end
+
+  ui -.- user((User))
+```
+
+## Next steps
+
+- Understand how it works → [Concepts](10-concepts.md)
+- Just want to run it
+    - Starting for the first time → Install for your OS
+    ([Windows](20-install-windows.md) / [macOS](21-install-macos.md) / [Linux](22-install-linux.md))
+    - Second time onward → Run for your OS
+    ([Windows](30-run-windows.md) / [macOS](31-run-macos.md) / [Linux](32-run-linux.md))

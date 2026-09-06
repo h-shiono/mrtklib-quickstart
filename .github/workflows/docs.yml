@@ -1,11 +1,14 @@
 name: docs
 
-# Render docs/ with Quarto and publish the HTML to GitHub Pages.
+# Build docs/ with MkDocs (Material) and publish to GitHub Pages.
 on:
   push:
     branches: [main]
     paths:
       - "docs/**"
+      - "mkdocs.yml"
+      - "pyproject.toml"
+      - "uv.lock"
       - ".github/workflows/docs.yml"
   workflow_dispatch:
 
@@ -20,28 +23,40 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-deploy:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      # --locked fails rather than silently re-resolving, so the site is built
+      # from exactly the versions in uv.lock. Refresh them with `uv lock
+      # --upgrade`; the Python version comes from .python-version.
+      - name: Install the documentation toolchain
+        run: uv sync --locked
+
+      # --strict fails the build on a broken cross-reference: mkdocs.yml turns
+      # missing files, links and #anchors into warnings, and this promotes them
+      # to errors. The chapters cross-link heavily by {#sec-...}.
+      - name: Build
+        run: uv run mkdocs build --strict
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-
-      - name: Render (HTML)
-        uses: quarto-dev/quarto-actions/render@v2
-        with:
-          path: docs
-          to: html
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs/_site
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

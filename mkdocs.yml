@@ -1,0 +1,153 @@
+site_name: mrtklib-quickstart
+site_description: >-
+  MRTKLIB と Septentrio mosaic-G5 で MADOCA-PPP による Real-time PPP 測位を
+  体験するためのガイド / A guide to experiencing real-time MADOCA-PPP
+  positioning with MRTKLIB and the Septentrio mosaic-G5.
+site_url: https://h-shiono.github.io/mrtklib-quickstart/
+repo_url: https://github.com/h-shiono/mrtklib-quickstart
+repo_name: h-shiono/mrtklib-quickstart
+edit_uri: edit/main/docs/
+
+# The Quarto site published /ja/00-overview.html (not /ja/00-overview/), and
+# those links are already out in the wild. Keep the .html URLs byte-identical.
+use_directory_urls: false
+
+theme:
+  name: material
+  # One theme language for a bilingual site; javascripts/lang-switch.js sets
+  # <html lang> per page. The body font is Noto Sans JP so the Japanese pages
+  # get Japanese glyph shapes regardless of the reader's system locale.
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.path
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+    - content.action.edit
+    - toc.follow
+  font:
+    text: Noto Sans JP
+    code: JetBrains Mono
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/satellite-uplink
+
+validation:
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn
+  # Catches a stale {#sec-...} target, which is how the chapters cross-link.
+  anchors: warn
+
+plugins:
+  - search:
+      lang:
+        - en
+        - ja
+      separator: '[\s\-,:!=\[\]()"`/]+'
+  - minify:
+      minify_html: true
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      auto_title: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+# Page titles come from each file's h1, so they cannot drift from the content.
+nav:
+  - Home: index.md
+  - English:
+      - en/00-overview.md
+      - en/10-concepts.md
+      - en/20-install-windows.md
+      - en/21-install-macos.md
+      - en/22-install-linux.md
+      - en/30-run-windows.md
+      - en/31-run-macos.md
+      - en/32-run-linux.md
+      - en/50-using-ui.md
+      - en/60-stop-windows.md
+      - en/80-appendix-receiver-setup.md
+      - en/81-appendix-output.md
+      - en/90-troubleshooting.md
+  - 日本語:
+      - ja/00-overview.md
+      - ja/10-concepts.md
+      - ja/20-install-windows.md
+      - ja/21-install-macos.md
+      - ja/22-install-linux.md
+      - ja/30-run-windows.md
+      - ja/31-run-macos.md
+      - ja/32-run-linux.md
+      - ja/50-using-ui.md
+      - ja/60-stop-windows.md
+      - ja/80-appendix-receiver-setup.md
+      - ja/81-appendix-output.md
+      - ja/90-troubleshooting.md
+
+extra:
+  # Renders material's language selector in the header. The links point at each
+  # language's entry point; lang-switch.js retargets them at the mirrored page.
+  alternate:
+    - name: 日本語
+      link: ja/00-overview.html
+      lang: ja
+    - name: English
+      link: en/00-overview.html
+      lang: en
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/h-shiono/mrtklib-quickstart
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/lang-switch.js
+
+copyright: Copyright &copy; 2026 MRTKLIB Contributors

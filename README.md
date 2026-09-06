@@ -4,6 +4,9 @@
 mosaic-G5 receiver and [MRTKLIB](https://github.com/h-shiono/MRTKLIB) — packaged
 so it runs even if you are not comfortable with Docker.
 
+📖 **Documentation site**: <https://h-shiono.github.io/mrtklib-quickstart/>
+(日本語 / English)
+
 This repository wraps
 [mrtklib-docker-ui](https://github.com/h-shiono/mrtklib-docker-ui) with
 OS-specific launch / first-run scripts (Windows / macOS / Linux) and the
@@ -63,20 +66,23 @@ Run the script for your OS. See the docs for detailed steps.
 
 | OS | File to run | Steps |
 |----|-------------|-------|
-| Windows | [`scripts/windows/start.bat`](scripts/windows/start.bat) | [Windows guide](docs/en/30-run-windows.qmd) |
-| macOS | [`scripts/macos/start.command`](scripts/macos/start.command) | [macOS guide](docs/en/31-run-macos.qmd) |
+| Windows | [`scripts/windows/start.bat`](scripts/windows/start.bat) | [Windows guide](docs/en/30-run-windows.md) |
+| macOS | [`scripts/macos/start.command`](scripts/macos/start.command) | [macOS guide](docs/en/31-run-macos.md) |
 | Linux | (coming soon) | — |
 
 ### 2. Learner — "I want to understand how it works"
 
-📖 **Documentation site** (built with Quarto, published to GitHub Pages)
+📖 **[Documentation site](https://h-shiono.github.io/mrtklib-quickstart/)**
+(MkDocs + Material, published to GitHub Pages)
 
-- Overview / big picture → [`docs/en/00-overview.qmd`](docs/en/00-overview.qmd)
-- MADOCA-PPP: where it sits and why it converges → [`docs/en/10-concepts.qmd`](docs/en/10-concepts.qmd)
-- How to read the UI (convergence) → [`docs/en/50-using-ui.qmd`](docs/en/50-using-ui.qmd)
+- Overview / big picture → [`docs/en/00-overview.md`](docs/en/00-overview.md)
+- MADOCA-PPP: where it sits and why it converges → [`docs/en/10-concepts.md`](docs/en/10-concepts.md)
+- How to read the UI (convergence) → [`docs/en/50-using-ui.md`](docs/en/50-using-ui.md)
 
-> The docs are bilingual (`docs/en/` / `docs/ja/`), generated as HTML and PDF
-> from a single Quarto source.
+> The docs are bilingual (`docs/en/` / `docs/ja/`) and served from one site;
+> use the language selector in the header to switch.
+>
+> To preview locally: `uv sync && uv run mkdocs serve`
 
 ### 3. Maintainer — "I want to fix the scripts"
 
@@ -95,8 +101,10 @@ mrtklib-quickstart/
 ├─ scripts/               # OS-specific launch/setup scripts (the shell)
 │  ├─ windows/
 │  └─ macos/
-├─ docs/                  # OS-independent body text (the substance); bilingual, Quarto single source
-├─ .github/workflows/     # CI for docs publishing / PDF release
+├─ docs/                  # OS-independent body text (the substance); bilingual (en/ ja/)
+├─ mkdocs.yml             # documentation site config (MkDocs + Material)
+├─ pyproject.toml         # docs toolchain, locked in uv.lock
+├─ .github/workflows/     # CI for building and publishing the docs
 └─ .gitignore
 ```
 

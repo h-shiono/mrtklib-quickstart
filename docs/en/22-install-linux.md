@@ -1,0 +1,11 @@
+# Install (Linux)
+
+<!-- Installing Docker Engine and prerequisites on Linux. -->
+
+## Docker Engine
+
+TODO: Docker Engine install steps (or "coming soon").
+
+## Device access
+
+TODO: notes on serial/USB device access and permissions (e.g. dialout group).
