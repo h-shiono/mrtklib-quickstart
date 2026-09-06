@@ -35,9 +35,7 @@ Before running, be sure to check the following.
 ### Running the batch file {#sec-win-mrtklib-run-batch}
 
 Double-click `scripts/windows/start.bat` to run it.
-When you run it, a security warning like the one below appears; click **Run** to continue.
-
-![](../assets/img/windows/exec-batch-warning.png)
+An **Open File - Security Warning** dialog appears, asking **The publisher could not be verified. Are you sure you want to run this software?** Click **Run** to continue.
 
 !!! note "Note"
 
