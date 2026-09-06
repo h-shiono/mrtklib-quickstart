@@ -14,6 +14,9 @@ use_directory_urls: false
 
 theme:
   name: material
+  # overrides/partials/alternate.html turns the language dropdown into a
+  # one-click toggle, since there are only ever two languages.
+  custom_dir: overrides
   # One theme language for a bilingual site; javascripts/lang-switch.js sets
   # <html lang> per page. The body font is Noto Sans JP so the Japanese pages
   # get Japanese glyph shapes regardless of the reader's system locale.
@@ -131,8 +134,9 @@ nav:
       - ja/90-troubleshooting.md
 
 extra:
-  # Renders material's language selector in the header. The links point at each
-  # language's entry point; lang-switch.js retargets them at the mirrored page.
+  # Declares the languages the site carries. The header control is rendered by
+  # overrides/partials/alternate.html; these links are the fallback it uses on
+  # the top page, which has no single counterpart to toggle to.
   alternate:
     - name: 日本語
       link: ja/00-overview.html

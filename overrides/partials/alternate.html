@@ -1,0 +1,66 @@
+{#-
+  One-click language toggle, replacing Material's language dropdown.
+
+  The site carries exactly two languages side by side (docs/en, docs/ja), so a
+  menu whose only choice is "the other one" costs a click for nothing. When the
+  page being read has a counterpart, this renders a single link straight to it.
+
+  Server-rendered on purpose: the result is a real <a href>, so it needs no
+  JavaScript, middle-clicks into a new tab, and never flashes a menu open.
+
+  Anything other than exactly one counterpart falls back to Material's stock
+  dropdown, which covers both cases that matter:
+    - the bilingual top page, which is not under en/ or ja/ and therefore has
+      no counterpart -- the menu still offers both entry points, as before
+    - a third language, should one ever be added
+-#}
+{% set icon = config.theme.icon.alternate or "material/translate" %}
+{% set ns = namespace(count=0, alt=none, file=none) %}
+
+{% if page and "/" in page.file.src_uri %}
+  {% set cur = page.file.src_uri.split("/", 1)[0] %}
+  {% set stem = page.file.src_uri.split("/", 1)[1] %}
+  {% for alt in config.extra.alternate %}
+    {% if alt.lang != cur %}
+      {% set match = pages
+        | selectattr("src_uri", "equalto", alt.lang ~ "/" ~ stem)
+        | first %}
+      {% if match %}
+        {% set ns.count = ns.count + 1 %}
+        {% set ns.alt = alt %}
+        {% set ns.file = match %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+<div class="md-header__option">
+  {% if ns.count == 1 %}
+    <a
+      href="{{ ns.file.url | url }}"
+      hreflang="{{ ns.alt.lang }}"
+      class="md-header__button md-icon"
+      title="{{ ns.alt.name }}"
+      aria-label="{{ ns.alt.name }}"
+    >
+      {% include ".icons/" ~ icon ~ ".svg" %}
+    </a>
+  {% else %}
+    <div class="md-select">
+      <button class="md-header__button md-icon" aria-label="{{ lang.t('select.language') }}">
+        {% include ".icons/" ~ icon ~ ".svg" %}
+      </button>
+      <div class="md-select__inner">
+        <ul class="md-select__list">
+          {% for alt in config.extra.alternate %}
+            <li class="md-select__item">
+              <a href="{{ alt.link | url }}" hreflang="{{ alt.lang }}" class="md-select__link">
+                {{ alt.name }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endif %}
+</div>
