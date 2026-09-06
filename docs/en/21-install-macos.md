@@ -10,3 +10,8 @@ TODO: Docker Desktop for Mac install steps (Apple Silicon / Intel notes).
 
 TODO: notes on how USB / serial devices reach the container on macOS
 (differs from Windows; no usbipd).
+
+## Next steps
+
+- Go to [Run (macOS)](31-run-macos.md)
+- If it doesn't work → [Troubleshooting](90-troubleshooting.md)
