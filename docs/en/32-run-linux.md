@@ -1,15 +1,21 @@
 # Run (Linux)
 
-<!-- macOS: how to run start.command. -->
+<!-- Linux: how to run start.sh. -->
 
-## Run `start.command`
+## Run `start.sh`
 
-TODO: Double-click `scripts/macos/start.command`.
+TODO: Run `scripts/linux/start.sh`.
 
-## Execute permission & Gatekeeper
+## Execute permission & device access
 
-TODO: `chmod +x`, right-click → Open, or removing the quarantine attribute.
+TODO: `chmod +x`, and the permissions needed to reach the serial device
+(`/dev/ttyACM*`, e.g. the dialout group).
 
 ## What happens
 
 TODO: Describe the steps the script performs and expected output.
+
+## Next steps
+
+- Go to [Using the UI](50-using-ui.md)
+- If it doesn't work → [Troubleshooting](90-troubleshooting.md)

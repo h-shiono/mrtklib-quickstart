@@ -13,3 +13,8 @@ TODO: `chmod +x`, right-click → Open, or removing the quarantine attribute.
 ## What happens
 
 TODO: Describe the steps the script performs and expected output.
+
+## Next steps
+
+- Go to [Using the UI](50-using-ui.md)
+- If it doesn't work → [Troubleshooting](90-troubleshooting.md)

@@ -6,9 +6,9 @@
 
 TODO: `scripts/linux/start.sh` を実行する。
 
-## 実行権限と Gatekeeper
+## 実行権限とデバイスアクセス
 
-TODO: `chmod +x`、右クリック→開く、または検疫属性の削除。
+TODO: `chmod +x`、およびシリアルデバイス（`/dev/ttyACM*`）へのアクセス権限（dialout グループ等）。
 
 ## 何が起きるか
 
