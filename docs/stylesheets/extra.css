@@ -1,0 +1,82 @@
+/* mrtklib-quickstart — custom styles on top of mkdocs-material.
+   Carried over from the previous Quarto theme: the teal accent and the
+   screenshot sizing. Everything else is stock Material, so the site reads as
+   part of the same family as the MRTKLIB documentation. */
+
+/* ---- Teal accent (theme.palette uses primary/accent: custom) ------------- */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color:        #0f766e;
+  --md-primary-fg-color--light: #0d9488;
+  --md-primary-fg-color--dark:  #0b5d56;
+  --md-accent-fg-color:         #0d9488;
+  --md-typeset-a-color:         #0f766e;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color:        #0f766e;
+  --md-primary-fg-color--light: #14b8a6;
+  --md-primary-fg-color--dark:  #0b5d56;
+  --md-accent-fg-color:         #2dd4bf;
+  --md-typeset-a-color:         #5eead4;
+}
+
+/* ---- Screenshots --------------------------------------------------------- */
+/* Most images here are UI screenshots; at full column width they dominate the
+   page. Opt an image out with ![](x.png){ .full-width }. */
+.md-typeset p > img:not(.twemoji),
+.md-typeset figure > img:not(.twemoji) {
+  max-width: 70%;
+  height: auto;
+  display: block;
+  margin-inline: auto;
+}
+
+.md-typeset img.full-width {
+  max-width: 100%;
+}
+
+/* Caption for a figure that cannot use <figure>: md_in_html does not process
+   raw HTML nested inside an admonition, so images there caption themselves
+   with *text*{ .figure-caption } instead. */
+.md-typeset .figure-caption {
+  display: block;
+  text-align: center;
+  font-size: 0.75rem;
+  font-style: normal;
+  color: var(--md-default-fg-color--light);
+}
+
+/* ---- Captioned tables ---------------------------------------------------- */
+/* Tables wrapped in <figure class="md-table-figure"> to carry a caption and an
+   id (Markdown tables have neither). Material centres figures and their
+   contents, so undo that: the table stays in the normal left-aligned flow and
+   keeps scrolling on itself (Material's `table:not([class])` rule). */
+.md-typeset .md-table-figure {
+  display: block;
+  margin: 1em 0;
+  text-align: initial;
+}
+
+.md-typeset .md-table-figure > figcaption {
+  margin-bottom: 0.4em;
+  font-size: 0.75rem;
+  font-style: normal;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset .md-table-figure > table {
+  margin-top: 0;
+}
+
+/* ---- Landing-page cards -------------------------------------------------- */
+/* Matches the MRTKLIB documentation's card grid. */
+.md-typeset .grid.cards > ul > li {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.4rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.md-typeset .grid.cards > ul > li:hover {
+  border-color: var(--md-accent-fg-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}

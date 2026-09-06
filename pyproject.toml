@@ -1,0 +1,22 @@
+[project]
+# This repository ships batch scripts and documentation, not a Python package.
+# The project table exists so uv can lock the documentation toolchain; the
+# `docs` dependency group is where those tools live.
+name = "mrtklib-quickstart"
+version = "0"
+description = "Documentation toolchain for the mrtklib-quickstart guide"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+docs = [
+    "mkdocs-material>=9.5",
+    "mkdocs-minify-plugin>=0.8",
+    "pymdown-extensions>=10.9",
+]
+
+[tool.uv]
+# Nothing to build or install from this tree.
+package = false
+# So `uv sync` / `uv run mkdocs serve` need no extra flags.
+default-groups = ["docs"]
